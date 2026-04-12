@@ -44896,7 +44896,1485 @@ window.addEventListener('DOMContentLoaded',()=>{
 
             </xmp>
 
-        <xmp id="tool-44-code">
+        <xmp id="tool-44-code"><!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রশ্ন-উত্তর নোট তৈরি করুন</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* সকল CSS স্টাইল একই আছে */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .editor-panel, .preview-panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 5px;
+            padding: 0 10px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar button, .toolbar select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .toolbar button:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .toolbar button.active {
+            background: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .subject-input {
+            margin-bottom: 20px;
+        }
+
+        .subject-input input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group textarea {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 16px;
+            line-height: 1.6;
+            transition: border 0.3s;
+        }
+
+        #questionInput {
+            min-height: 120px;
+        }
+
+        #answerInput {
+            min-height: 100px;
+        }
+
+        .input-group textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .download-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .a4-preview {
+            flex: 1;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .page {
+            width: 100%;
+            min-height: auto;
+            padding: 15px 20px 40px 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .subject-header {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .qa-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #ecf0f1;
+        }
+
+        .question {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        .answer {
+            margin-left: 35px;
+            color: #555;
+            text-align: justify;
+            font-size: 0.95rem;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .template-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .custom-color-picker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .custom-color-picker label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .a4-preview, .a4-preview * {
+                visibility: visible;
+            }
+            .a4-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+            }
+            .qa-actions {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .font-size-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .font-size-btn {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .serial-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            margin-right: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .qa-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .qa-item:hover .qa-actions {
+            opacity: 1;
+        }
+
+        .qa-actions button {
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.active {
+            border-color: #333;
+        }
+        
+        .font-option {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .font-option:hover {
+            background: #e9ecef;
+        }
+        
+        .font-option.active {
+            background: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+        
+        .font-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .gap-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .gap-control input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .page-controls {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .page-color-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .page-color-input {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .page-color-input input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .line-gap-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .line-gap-control input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .compact-mode {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .subject-style-controls {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .style-control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+        
+        .page-number-controls {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .toggle-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #3498db;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>প্রশ্ন-উত্তর নোট তৈরি করুন</h1>
+            <p class="subtitle">পেশাদার ফরম্যাটে আপনার প্রশ্ন ও উত্তর তৈরি করুন, সংগঠিত করুন এবং এক্সপোর্ট করুন</p>
+        </header>
+        
+        <!-- Editor Panel -->
+        <section class="editor-panel">
+            <h2 class="panel-title"><i class="fas fa-edit"></i> কনটেন্ট তৈরি করুন</h2>
+            
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <div class="font-selector">
+                        <div class="font-option active" data-font="'SolaimanLipi', 'Kalpurush', 'Siyam Rupali', Arial, sans-serif">সোলাইমান লিপি</div>
+                        <div class="font-option" data-font="'Kalpurush', 'SolaimanLipi', Arial, sans-serif">কল্পরুশ</div>
+                        <div class="font-option" data-font="Arial, Helvetica, sans-serif">Arial</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <div class="font-size-controls">
+                        <button class="font-size-btn" data-size="1">ছোট</button>
+                        <button class="font-size-btn active" data-size="2">মাধ্যম</button>
+                        <button class="font-size-btn" data-size="3">বড়</button>
+                    </div>
+                </div>
+                
+                <div class="toolbar-group">
+                    <input type="color" id="fontColor" class="color-picker" value="#000000">
+                </div>
+                
+                <div class="toolbar-group">
+                    <button id="boldBtn" title="বোল্ড"><i class="fas fa-bold"></i></button>
+                    <button id="italicBtn" title="ইটালিক"><i class="fas fa-italic"></i></button>
+                </div>
+            </div>
+            
+            <div class="subject-input">
+                <input type="text" id="subjectInput" placeholder="বিষয়ের নাম লিখুন...">
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="addSubjectBtn">
+                        <i class="fas fa-plus"></i> নতুন বিষয় যোগ করুন
+                    </button>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="questionInput">
+                    <span class="serial-badge">১</span> প্রশ্ন:
+                </label>
+                <textarea id="questionInput" placeholder="আপনার প্রশ্ন এখানে লিখুন..."></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="answerInput">
+                    <span class="serial-badge">২</span> উত্তর:
+                </label>
+                <textarea id="answerInput" placeholder="উত্তর এখানে লিখুন..."></textarea>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-success" id="addBtn">
+                    <i class="fas fa-plus-circle"></i> প্রশ্ন-উত্তর যোগ করুন
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <i class="fas fa-broom"></i> পরিষ্কার করুন
+                </button>
+                <button class="btn btn-primary" id="saveEditBtn" style="display:none;">
+                    <i class="fas fa-save"></i> পরিবর্তন সংরক্ষণ করুন
+                </button>
+            </div>
+        </section>
+        
+        <!-- Preview Panel -->
+        <section class="preview-panel">
+            <div class="preview-header">
+                <h2 class="panel-title"><i class="fas fa-eye"></i> প্রিভিউ</h2>
+                <div class="download-options">
+                    <button class="btn btn-primary" id="printBtn">
+                        <i class="fas fa-print"></i> প্রিন্ট করুন
+                    </button>
+                    <button class="btn btn-success" id="pdfBtn">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                    <button class="btn btn-secondary" id="textBtn">
+                        <i class="fas fa-file-alt"></i> টেক্সট
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-selector">
+                <span>ব্যাকগ্রাউন্ড:</span>
+                <div class="custom-color-picker">
+                    <input type="color" id="bgColorPicker" class="color-picker" value="#ffffff">
+                    <button class="btn btn-primary" id="applyBgColor">
+                        <i class="fas fa-check"></i> OK
+                    </button>
+                </div>
+                
+                <div class="gap-control">
+                    <label for="gapControl">প্রশ্নের গ্যাপ:</label>
+                    <input type="number" id="gapControl" min="5" max="30" value="10">
+                    <button class="btn btn-primary" id="applyGap">
+                        <i class="fas fa-check"></i> OK
+                    </button>
+                </div>
+            </div>
+            
+            <div class="line-gap-control">
+                <label for="lineGapControl">লাইনের গ্যাপ:</label>
+                <input type="number" id="lineGapControl" min="1.2" max="2" step="0.1" value="1.4">
+                <button class="btn btn-primary" id="applyLineGap">
+                    <i class="fas fa-check"></i> OK
+                    </button>
+            </div>
+            
+            <div class="compact-mode">
+                <label for="compactMode">কমপ্যাক্ট মোড:</label>
+                <input type="checkbox" id="compactMode" checked>
+                <span>ছোট ফন্ট এবং কম গ্যাপ</span>
+            </div>
+            
+            <!-- Subject Style Controls -->
+            <div class="subject-style-controls">
+                <h3 style="margin-bottom: 15px;">বিষয় হেডার স্টাইল</h3>
+                <div class="style-control-group">
+                    <label for="subjectFontSize">ফন্ট সাইজ:</label>
+                    <select id="subjectFontSize">
+                        <option value="1.2rem">ছোট</option>
+                        <option value="1.4rem" selected>মাধ্যম</option>
+                        <option value="1.6rem">বড়</option>
+                        <option value="1.8rem">অতিবড়</option>
+                    </select>
+                </div>
+                <div class="style-control-group">
+                    <label for="subjectFontColor">ফন্ট কালার:</label>
+                    <input type="color" id="subjectFontColor" value="#2c3e50">
+                </div>
+                <div class="style-control-group">
+                    <label for="subjectBold">বোল্ড:</label>
+                    <input type="checkbox" id="subjectBold" checked>
+                    <label for="subjectItalic">ইটালিক:</label>
+                    <input type="checkbox" id="subjectItalic">
+                </div>
+                <div class="style-control-group">
+                    <button class="btn btn-primary" id="applySubjectStyle">
+                        <i class="fas fa-check"></i> স্টাইল প্রয়োগ করুন
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Page Number Color Controls -->
+            <div class="page-number-controls">
+                <h3 style="margin-bottom: 15px;">পেজ নাম্বার স্টাইল</h3>
+                <div class="toggle-control">
+                    <label for="autoPageNumberColor">অটো পেজ নাম্বার কালার:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoPageNumberColor" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="autoPageNumberStatus">চালু</span>
+                </div>
+                <div class="style-control-group">
+                    <label for="pageNumberColor">পেজ নাম্বার কালার:</label>
+                    <input type="color" id="pageNumberColor" value="#7f8c8d">
+                    <button class="btn btn-primary" id="applyPageNumberColor">
+                        <i class="fas fa-check"></i> প্রয়োগ করুন
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Page Color Controls -->
+            <div class="page-controls">
+                <span>নির্দিষ্ট পেজের ব্যাকগ্রাউন্ড:</span>
+                <div class="page-color-control">
+                    <div class="page-color-input">
+                        <label>পেজ নাম্বার:</label>
+                        <input type="number" id="pageNumberInput" min="1" max="10" value="1">
+                    </div>
+                    <input type="color" id="pageBgColor" value="#ffffff">
+                    <button class="btn btn-primary" id="applyPageColor">
+                        <i class="fas fa-check"></i> প্রয়োগ করুন
+                    </button>
+                </div>
+            </div>
+            
+            <div class="color-palette">
+                <div class="color-option active" style="background-color: #ffffff;" data-color="#ffffff"></div>
+                <div class="color-option" style="background-color: #f8f9fa;" data-color="#f8f9fa"></div>
+                <div class="color-option" style="background-color: #e3f2fd;" data-color="#e3f2fd"></div>
+                <div class="color-option" style="background-color: #e8f5e8;" data-color="#e8f5e8"></div>
+                <div class="color-option" style="background-color: #fff3e0;" data-color="#fff3e0"></div>
+            </div>
+            
+            <div class="a4-preview" id="previewArea">
+                <!-- Pages will be dynamically added here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Element references
+            const subjectInput = document.getElementById('subjectInput');
+            const questionInput = document.getElementById('questionInput');
+            const answerInput = document.getElementById('answerInput');
+            const addBtn = document.getElementById('addBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const saveEditBtn = document.getElementById('saveEditBtn');
+            const addSubjectBtn = document.getElementById('addSubjectBtn');
+            const previewArea = document.getElementById('previewArea');
+            const printBtn = document.getElementById('printBtn');
+            const pdfBtn = document.getElementById('pdfBtn');
+            const textBtn = document.getElementById('textBtn');
+            const bgColorPicker = document.getElementById('bgColorPicker');
+            const applyBgColor = document.getElementById('applyBgColor');
+            const gapControl = document.getElementById('gapControl');
+            const applyGap = document.getElementById('applyGap');
+            const lineGapControl = document.getElementById('lineGapControl');
+            const applyLineGap = document.getElementById('applyLineGap');
+            const compactMode = document.getElementById('compactMode');
+            
+            // Subject style controls
+            const subjectFontSize = document.getElementById('subjectFontSize');
+            const subjectFontColor = document.getElementById('subjectFontColor');
+            const subjectBold = document.getElementById('subjectBold');
+            const subjectItalic = document.getElementById('subjectItalic');
+            const applySubjectStyle = document.getElementById('applySubjectStyle');
+            
+            // Page number controls
+            const autoPageNumberColor = document.getElementById('autoPageNumberColor');
+            const pageNumberColor = document.getElementById('pageNumberColor');
+            const applyPageNumberColor = document.getElementById('applyPageNumberColor');
+            const autoPageNumberStatus = document.getElementById('autoPageNumberStatus');
+            
+            // Page color controls
+            const pageNumberInput = document.getElementById('pageNumberInput');
+            const pageBgColor = document.getElementById('pageBgColor');
+            const applyPageColor = document.getElementById('applyPageColor');
+            
+            const colorOptions = document.querySelectorAll('.color-option');
+            const fontOptions = document.querySelectorAll('.font-option');
+            
+            // Toolbar elements
+            const fontColor = document.getElementById('fontColor');
+            const boldBtn = document.getElementById('boldBtn');
+            const italicBtn = document.getElementById('italicBtn');
+            const fontSizeBtns = document.querySelectorAll('.font-size-btn');
+            
+            // Variables
+            let qaList = [];
+            let subjects = [];
+            let currentSubject = null;
+            let editIndex = -1;
+            let currentBgColor = "#ffffff";
+            let currentFont = "'SolaimanLipi', 'Kalpurush', 'Siyam Rupali', Arial, sans-serif";
+            let currentFontSize = "14px";
+            let currentTextColor = "#000000";
+            let isBold = false;
+            let isItalic = false;
+            let gapSize = 10;
+            let lineGap = 1.4;
+            let isCompactMode = true;
+            
+            // Subject style variables
+            let subjectStyle = {
+                fontSize: "1.4rem",
+                color: "#2c3e50",
+                bold: true,
+                italic: false
+            };
+            
+            // Page number style variables
+            let pageNumberStyle = {
+                autoColor: true,
+                color: "#7f8c8d"
+            };
+            
+            // Page background colors
+            let pageBgColorsMap = {};
+            
+            // Bengali numbers from 1 to 100
+            const bengaliNumbers = [
+                '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '১০',
+                '১১', '১২', '১৩', '১৪', '১৫', '১৬', '১৭', '১৮', '১৯', '২০',
+                '২১', '২২', '২৩', '২৪', '২৫', '২৬', '২৭', '২৮', '২৯', '৩০',
+                '৩১', '৩২', '৩৩', '৩৪', '৩৫', '৩৬', '৩৭', '৩৮', '৩৯', '৪০',
+                '৪১', '৪২', '৪৩', '৪৪', '৪৫', '৪৬', '৪৭', '৪৮', '৪৯', '৫০',
+                '৫১', '৫২', '৫৩', '৫৪', '৫৫', '৫৬', '৫৭', '৫৮', '৫৯', '৬০',
+                '৬১', '৬২', '৬৩', '৬৪', '৬৫', '৬৬', '৬৭', '৬৮', '৬৯', '৭০',
+                '৭১', '৭২', '৭৩', '৭৪', '৭৫', '৭৬', '৭৭', '৭৮', '৭৯', '৮০',
+                '৮১', '৮২', '৮৩', '৮৪', '৮৫', '৮৬', '৮৭', '৮৮', '৮৯', '৯০',
+                '৯১', '৯২', '৯৩', '৯৪', '৯৫', '৯৬', '৯৭', '৯৮', '৯৯', '১০০'
+            ];
+            
+            // Event listeners
+            addBtn.addEventListener('click', addQA);
+            clearBtn.addEventListener('click', clearInputs);
+            saveEditBtn.addEventListener('click', saveEdit);
+            addSubjectBtn.addEventListener('click', addSubject);
+            printBtn.addEventListener('click', printPreview);
+            pdfBtn.addEventListener('click', downloadPDF);
+            textBtn.addEventListener('click', downloadText);
+            applyBgColor.addEventListener('click', applyBackgroundColor);
+            applyGap.addEventListener('click', applyGapSize);
+            applyLineGap.addEventListener('click', applyLineGapSize);
+            compactMode.addEventListener('change', toggleCompactMode);
+            applySubjectStyle.addEventListener('click', applySubjectStyles);
+            applyPageNumberColor.addEventListener('click', applyPageNumberStyles);
+            applyPageColor.addEventListener('click', applyPageBackgroundColor);
+            autoPageNumberColor.addEventListener('change', toggleAutoPageNumberColor);
+            
+            // Color palette options
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const color = this.getAttribute('data-color');
+                    currentBgColor = color;
+                    bgColorPicker.value = color;
+                    
+                    // Update active state
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    updatePreview();
+                });
+            });
+            
+            // Font options
+            fontOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const font = this.getAttribute('data-font');
+                    currentFont = font;
+                    
+                    // Update active state
+                    fontOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    updatePreview();
+                });
+            });
+            
+            // Text formatting functions
+            boldBtn.addEventListener('click', function() {
+                isBold = !isBold;
+                this.classList.toggle('active', isBold);
+                updatePreview();
+            });
+            
+            italicBtn.addEventListener('click', function() {
+                isItalic = !isItalic;
+                this.classList.toggle('active', isItalic);
+                updatePreview();
+            });
+            
+            fontColor.addEventListener('input', function() {
+                currentTextColor = this.value;
+                updatePreview();
+            });
+            
+            // Font size buttons
+            fontSizeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const size = this.getAttribute('data-size');
+                    currentFontSize = size === '1' ? '12px' : 
+                                     size === '2' ? '14px' : '16px';
+                    
+                    // Update active state
+                    fontSizeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    updatePreview();
+                });
+            });
+            
+            // Add subject function
+            function addSubject() {
+                const subject = subjectInput.value.trim();
+                if (subject) {
+                    if (!subjects.includes(subject)) {
+                        subjects.push(subject);
+                    }
+                    currentSubject = subject;
+                    updatePreview();
+                    subjectInput.value = '';
+                } else {
+                    alert('দয়া করে একটি বিষয়ের নাম লিখুন');
+                }
+            }
+            
+            // Add Q&A function
+            function addQA() {
+                const question = questionInput.value;
+                const answer = answerInput.value;
+                
+                if (!question.trim() || !answer.trim()) {
+                    alert('দয়া করে প্রশ্ন এবং উত্তর উভয়ই লিখুন।');
+                    return;
+                }
+                
+                if (!currentSubject) {
+                    alert('দয়া করে প্রথমে একটি বিষয় যোগ করুন');
+                    return;
+                }
+                
+                if (editIndex === -1) {
+                    // Add new Q&A
+                    qaList.push({
+                        subject: currentSubject,
+                        question: question,
+                        answer: answer
+                    });
+                } else {
+                    // Edit existing Q&A
+                    qaList[editIndex] = {
+                        subject: currentSubject,
+                        question: question,
+                        answer: answer
+                    };
+                    
+                    editIndex = -1;
+                    addBtn.style.display = 'flex';
+                    saveEditBtn.style.display = 'none';
+                }
+                
+                updatePreview();
+                clearInputs();
+            }
+            
+            // Clear inputs function
+            function clearInputs() {
+                questionInput.value = '';
+                answerInput.value = '';
+                
+                editIndex = -1;
+                addBtn.style.display = 'flex';
+                saveEditBtn.style.display = 'none';
+            }
+            
+            // Save edit function
+            function saveEdit() {
+                addQA();
+            }
+            
+            // Edit Q&A function
+            function editQA(index) {
+                const qa = qaList[index];
+                questionInput.value = qa.question;
+                answerInput.value = qa.answer;
+                currentSubject = qa.subject;
+                
+                editIndex = index;
+                addBtn.style.display = 'none';
+                saveEditBtn.style.display = 'flex';
+                
+                questionInput.focus();
+            }
+            
+            // Delete Q&A function
+            function deleteQA(index) {
+                if (confirm('আপনি কি নিশ্চিত যে আপনি এই প্রশ্ন-উত্তরটি মুছতে চান?')) {
+                    qaList.splice(index, 1);
+                    updatePreview();
+                }
+            }
+            
+            // Apply background color function
+            function applyBackgroundColor() {
+                currentBgColor = bgColorPicker.value;
+                updatePreview();
+            }
+            
+            // Apply gap size function
+            function applyGapSize() {
+                gapSize = parseInt(gapControl.value);
+                updatePreview();
+            }
+            
+            // Apply line gap size function
+            function applyLineGapSize() {
+                lineGap = parseFloat(lineGapControl.value);
+                updatePreview();
+            }
+            
+            // Apply subject styles
+            function applySubjectStyles() {
+                subjectStyle = {
+                    fontSize: subjectFontSize.value,
+                    color: subjectFontColor.value,
+                    bold: subjectBold.checked,
+                    italic: subjectItalic.checked
+                };
+                updatePreview();
+            }
+            
+            // Apply page number styles
+            function applyPageNumberStyles() {
+                pageNumberStyle.color = pageNumberColor.value;
+                updatePreview();
+            }
+            
+            // Toggle auto page number color
+            function toggleAutoPageNumberColor() {
+                pageNumberStyle.autoColor = autoPageNumberColor.checked;
+                autoPageNumberStatus.textContent = pageNumberStyle.autoColor ? 'চালু' : 'বন্ধ';
+                updatePreview();
+            }
+            
+            // Apply page background color
+            function applyPageBackgroundColor() {
+                const pageNum = parseInt(pageNumberInput.value);
+                const color = pageBgColor.value;
+                
+                if (pageNum < 1) {
+                    alert('পেজ নাম্বার ১ বা তার বেশি হতে হবে');
+                    return;
+                }
+                
+                pageBgColorsMap[pageNum] = color;
+                updatePreview();
+            }
+            
+            // Toggle compact mode
+            function toggleCompactMode() {
+                isCompactMode = compactMode.checked;
+                if (isCompactMode) {
+                    currentFontSize = "12px";
+                    gapSize = 8;
+                    lineGap = 1.2;
+                    gapControl.value = gapSize;
+                    lineGapControl.value = lineGap;
+                    
+                    // Update active font size button
+                    fontSizeBtns.forEach(b => b.classList.remove('active'));
+                    fontSizeBtns[0].classList.add('active');
+                }
+                updatePreview();
+            }
+            
+            // Get Bengali serial number
+            function getBengaliSerialNumber(index) {
+                // Use the full list of Bengali numbers, if beyond 100, use regular numbers
+                if (index < bengaliNumbers.length) {
+                    return bengaliNumbers[index];
+                } else {
+                    return (index + 1).toString();
+                }
+            }
+            
+            // Update preview function - FIXED: প্রতিটি বিষয়ের জন্য আলাদা সিরিয়াল
+            function updatePreview() {
+                previewArea.innerHTML = '';
+                
+                if (qaList.length === 0) {
+                    const emptyMsg = document.createElement('div');
+                    emptyMsg.className = 'page';
+                    emptyMsg.style.backgroundColor = currentBgColor;
+                    emptyMsg.style.fontFamily = currentFont;
+                    emptyMsg.style.color = currentTextColor;
+                    emptyMsg.style.fontSize = currentFontSize;
+                    emptyMsg.style.fontWeight = isBold ? 'bold' : 'normal';
+                    emptyMsg.style.fontStyle = isItalic ? 'italic' : 'normal';
+                    emptyMsg.style.lineHeight = lineGap;
+                    
+                    emptyMsg.innerHTML = `
+                        <div style="text-align: center; padding: 50px; color: #7f8c8d;">
+                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                            <p>কোনো প্রশ্ন-উত্তর যোগ করা হয়নি।</p>
+                        </div>
+                        <div class="page-number">পৃষ্ঠা ১</div>
+                    `;
+                    applyPageNumberStylesToElement(emptyMsg.querySelector('.page-number'));
+                    previewArea.appendChild(emptyMsg);
+                    return;
+                }
+                
+                // Create pages
+                let pageNumber = 1;
+                let currentPage = createNewPage(pageNumber);
+                let itemsOnPage = 0;
+                const maxItemsPerPage = isCompactMode ? 15 : 10;
+                
+                // Group Q&A by subject
+                const subjectGroups = {};
+                qaList.forEach((qa, index) => {
+                    if (!subjectGroups[qa.subject]) {
+                        subjectGroups[qa.subject] = [];
+                    }
+                    subjectGroups[qa.subject].push({...qa, originalIndex: index});
+                });
+                
+                // Add content by subject
+                Object.keys(subjectGroups).forEach(subject => {
+                    const subjectQAs = subjectGroups[subject];
+                    
+                    // Add subject header
+                    const subjectHeader = document.createElement('div');
+                    subjectHeader.className = 'subject-header';
+                    subjectHeader.textContent = subject;
+                    applySubjectHeaderStyles(subjectHeader);
+                    currentPage.appendChild(subjectHeader);
+                    itemsOnPage++;
+                    
+                    // প্রতিটি বিষয়ের জন্য আলাদা সিরিয়াল কাউন্টার
+                    let subjectQuestionCount = 0;
+                    
+                    // Add Q&A items for this subject
+                    subjectQAs.forEach((qa, qaIndex) => {
+                        // Create new page if current page is full
+                        if (itemsOnPage >= maxItemsPerPage) {
+                            pageNumber++;
+                            currentPage = createNewPage(pageNumber);
+                            itemsOnPage = 0;
+                            
+                            // Add subject header again on new page
+                            const newSubjectHeader = document.createElement('div');
+                            newSubjectHeader.className = 'subject-header';
+                            newSubjectHeader.textContent = subject + ' (চলমান)';
+                            applySubjectHeaderStyles(newSubjectHeader);
+                            currentPage.appendChild(newSubjectHeader);
+                            itemsOnPage++;
+                        }
+                        
+                        const qaItem = document.createElement('div');
+                        qaItem.className = 'qa-item';
+                        qaItem.style.marginBottom = gapSize + 'px';
+                        
+                        // Use subject-specific question count for serial number
+                        const serialNumber = getBengaliSerialNumber(subjectQuestionCount);
+                        
+                        const questionDiv = document.createElement('div');
+                        questionDiv.className = 'question';
+                        questionDiv.innerHTML = `<span class="serial-badge">${serialNumber}</span> প্রশ্ন: ${qa.question}`;
+                        applyTextStyles(questionDiv);
+                        
+                        const answerDiv = document.createElement('div');
+                        answerDiv.className = 'answer';
+                        answerDiv.innerHTML = `উত্তর: ${qa.answer}`;
+                        applyTextStyles(answerDiv);
+                        
+                        const actionsDiv = document.createElement('div');
+                        actionsDiv.className = 'qa-actions';
+                        
+                        const editButton = document.createElement('button');
+                        editButton.className = 'btn-edit-qa';
+                        editButton.innerHTML = '<i class="fas fa-edit"></i> এডিট';
+                        editButton.addEventListener('click', () => editQA(qa.originalIndex));
+                        
+                        const deleteButton = document.createElement('button');
+                        deleteButton.className = 'btn-delete';
+                        deleteButton.innerHTML = '<i class="fas fa-trash"></i> মুছুন';
+                        deleteButton.addEventListener('click', () => deleteQA(qa.originalIndex));
+                        
+                        actionsDiv.appendChild(editButton);
+                        actionsDiv.appendChild(deleteButton);
+                        
+                        qaItem.appendChild(questionDiv);
+                        qaItem.appendChild(answerDiv);
+                        qaItem.appendChild(actionsDiv);
+                        
+                        currentPage.appendChild(qaItem);
+                        itemsOnPage++;
+                        
+                        // Increment subject-specific counter
+                        subjectQuestionCount++;
+                    });
+                });
+            }
+            
+            // Apply text styles to element
+            function applyTextStyles(element) {
+                element.style.fontFamily = currentFont;
+                element.style.color = currentTextColor;
+                element.style.fontSize = currentFontSize;
+                element.style.fontWeight = isBold ? 'bold' : 'normal';
+                element.style.fontStyle = isItalic ? 'italic' : 'normal';
+                element.style.lineHeight = lineGap;
+            }
+            
+            // Apply subject header styles
+            function applySubjectHeaderStyles(element) {
+                element.style.fontFamily = currentFont;
+                element.style.color = subjectStyle.color;
+                element.style.fontSize = subjectStyle.fontSize;
+                element.style.fontWeight = subjectStyle.bold ? 'bold' : 'normal';
+                element.style.fontStyle = subjectStyle.italic ? 'italic' : 'normal';
+            }
+            
+            // Apply page number styles to element
+            function applyPageNumberStylesToElement(element) {
+                if (pageNumberStyle.autoColor) {
+                    // Auto color based on background brightness
+                    const bgColor = element.parentElement.style.backgroundColor || currentBgColor;
+                    const isLight = isColorLight(bgColor);
+                    element.style.color = isLight ? '#7f8c8d' : '#ffffff';
+                } else {
+                    element.style.color = pageNumberStyle.color;
+                }
+            }
+            
+            // Check if color is light
+            function isColorLight(color) {
+                // Convert hex to RGB
+                let r, g, b;
+                if (color.startsWith('#')) {
+                    r = parseInt(color.substr(1, 2), 16);
+                    g = parseInt(color.substr(3, 2), 16);
+                    b = parseInt(color.substr(5, 2), 16);
+                } else if (color.startsWith('rgb')) {
+                    const rgb = color.match(/\d+/g);
+                    r = parseInt(rgb[0]);
+                    g = parseInt(rgb[1]);
+                    b = parseInt(rgb[2]);
+                } else {
+                    return true; // Default to light
+                }
+                
+                // Calculate luminance
+                const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                return luminance > 0.5;
+            }
+            
+            // Create new page function
+            function createNewPage(pageNumber) {
+                const page = document.createElement('div');
+                page.className = 'page';
+                
+                // Use page-specific background color if set, otherwise use global
+                const pageBgColor = pageBgColorsMap[pageNumber] || currentBgColor;
+                page.style.backgroundColor = pageBgColor;
+                page.style.fontFamily = currentFont;
+                page.style.color = currentTextColor;
+                page.style.lineHeight = lineGap;
+                
+                const pageNum = document.createElement('div');
+                pageNum.className = 'page-number';
+                pageNum.textContent = `পৃষ্ঠা ${pageNumber}`;
+                applyTextStyles(pageNum);
+                applyPageNumberStylesToElement(pageNum);
+                
+                page.appendChild(pageNum);
+                previewArea.appendChild(page);
+                
+                return page;
+            }
+            
+            // Print function
+            function printPreview() {
+                window.print();
+            }
+            
+            // PDF download function
+            function downloadPDF() {
+                // Show loading message
+                const originalText = pdfBtn.innerHTML;
+                pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PDF তৈরি হচ্ছে...';
+                pdfBtn.disabled = true;
+                
+                // Create a new jsPDF instance
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                
+                // Get all pages
+                const pages = document.querySelectorAll('.page');
+                
+                let currentPageIndex = 0;
+                
+                const processNextPage = () => {
+                    if (currentPageIndex >= pages.length) {
+                        // Save the PDF when all pages are processed
+                        doc.save('প্রশ্ন-উত্তর-নোট.pdf');
+                        
+                        // Restore button state
+                        pdfBtn.innerHTML = originalText;
+                        pdfBtn.disabled = false;
+                        return;
+                    }
+                    
+                    const pageElement = pages[currentPageIndex];
+                    
+                    // Create a temporary container for better PDF rendering
+                    const tempContainer = document.createElement('div');
+                    tempContainer.style.width = '210mm';
+                    tempContainer.style.minHeight = '297mm';
+                    tempContainer.style.padding = '15mm 20mm 40mm 20mm';
+                    tempContainer.style.backgroundColor = pageElement.style.backgroundColor;
+                    tempContainer.style.position = 'fixed';
+                    tempContainer.style.left = '-9999px';
+                    tempContainer.style.top = '0';
+                    tempContainer.style.boxSizing = 'border-box';
+                    tempContainer.style.fontFamily = currentFont;
+                    
+                    // Clone the page content
+                    const contentClone = pageElement.cloneNode(true);
+                    
+                    // Remove action buttons for PDF
+                    const actionButtons = contentClone.querySelectorAll('.qa-actions');
+                    actionButtons.forEach(btn => btn.remove());
+                    
+                    tempContainer.appendChild(contentClone);
+                    document.body.appendChild(tempContainer);
+                    
+                    // Use higher scale for better quality
+                    html2canvas(tempContainer, {
+                        scale: 3, // Increased scale for better quality
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: pageElement.style.backgroundColor || '#ffffff',
+                        width: 794, // 210mm * 3.78
+                        height: 1123, // 297mm * 3.78
+                        windowWidth: 794,
+                        windowHeight: 1123,
+                        allowTaint: true,
+                        useCORS: true
+                    }).then(canvas => {
+                        const imgData = canvas.toDataURL('image/jpeg', 1.0); // Use JPEG for better quality
+                        
+                        if (currentPageIndex > 0) {
+                            doc.addPage();
+                        }
+                        
+                        // Add image to PDF with proper dimensions
+                        const imgWidth = 210;
+                        const imgHeight = 297;
+                        doc.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight, '', 'FAST');
+                        
+                        // Clean up
+                        document.body.removeChild(tempContainer);
+                        
+                        // Process next page
+                        currentPageIndex++;
+                        setTimeout(processNextPage, 100);
+                    }).catch(error => {
+                        console.error('PDF generation error:', error);
+                        // Clean up even if there's an error
+                        document.body.removeChild(tempContainer);
+                        currentPageIndex++;
+                        setTimeout(processNextPage, 100);
+                    });
+                };
+                
+                // Start processing pages
+                processNextPage();
+            }
+            
+            // Text download function
+            function downloadText() {
+                let textContent = 'প্রশ্ন-উত্তর নোট\n\n';
+                
+                // Group by subject
+                const subjectGroups = {};
+                qaList.forEach(qa => {
+                    if (!subjectGroups[qa.subject]) {
+                        subjectGroups[qa.subject] = [];
+                    }
+                    subjectGroups[qa.subject].push(qa);
+                });
+                
+                Object.keys(subjectGroups).forEach(subject => {
+                    textContent += `বিষয়: ${subject}\n\n`;
+                    
+                    let subjectQuestionCount = 0;
+                    
+                    subjectGroups[subject].forEach((qa, index) => {
+                        const serialNumber = getBengaliSerialNumber(subjectQuestionCount);
+                        subjectQuestionCount++;
+                        textContent += `${serialNumber}) প্রশ্ন: ${qa.question}\n`;
+                        textContent += `   উত্তর: ${qa.answer}\n\n`;
+                    });
+                    
+                    textContent += '----------------------------\n\n';
+                });
+                
+                const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'প্রশ্ন_উত্তর_নোট.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+            
+            // Initialize the preview
+            updatePreview();
+        });
+    </script>
+</body>
+</html>
+
             </xmp>
 
         <xmp id="tool-45-code">
