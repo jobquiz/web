@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My HTML Tools Hub</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0f172a; color: white; padding: 40px; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .card { background-color: #1e293b; border-radius: 10px; cursor: pointer; overflow: hidden; }
+        .preview-box { height: 200px; background: white; overflow: hidden; }
+        .preview-box iframe { width: 800px; height: 600px; transform: scale(0.4); transform-origin: top left; border: none; pointer-events: none; }
+        .card-content { padding: 15px; }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">My Web Tools Hub</h2>
+    <div id="tool-grid" class="grid-container"></div>
+
+    <div style="display: none;">
+
+        <textarea id="tool-1-code">
+           
+           এখানে আপনার "Fee Receipt Generator" এর সম্পূর্ণ কোডটি পেস্ট করবেন।
+           
+        </textarea>
+
+        <textarea id="tool-2-code">
+           
+           এখানে আপনার "Advanced Student ID Card" এর সম্পূর্ণ কোডটি পেস্ট করবেন।
+           
+        </textarea>
+
+        <textarea id="tool-3-code">
+           
+           এখানে আপনার "আরেকটি নতুন টুলের" কোড পেস্ট করবেন।
+           
+        </textarea>
+        
+        <textarea id="tool-4-code">
+           
+           এখানে আপনার "আরেকটি নতুন টুলের" কোড পেস্ট করবেন।
+           
+        </textarea>
+        
+    </div>
+
+    <script>
+        const toolsDataFromBackend = [
+            {
+                title: "University Fee Receipt Generator",
+                domain: "LOCAL HTML TOOL",
+                codeId: "tool-1-code" // ওপরের textarea এর ID
+            },
+            {
+                title: "Advanced Student ID Card Generator",
+                domain: "LOCAL HTML TOOL",
+                codeId: "tool-2-code" // ওপরের textarea এর ID
+            },
+            {
+                title: "My Third New Tool",
+                domain: "LOCAL HTML TOOL",
+                codeId: "tool-3-code" // ওপরের textarea এর ID
+           },
+            {
+                title: "My Third New Tool",
+                domain: "LOCAL HTML TOOL",
+                codeId: "tool-3-code" // ওপরের textarea এর ID
+                },  
+             {
+                title: "My Third New Tool",
+                domain: "LOCAL HTML TOOL",
+                codeId: "tool-3-code" // ওপরের textarea এর ID
+           },
+        ];
+
+        // কার্ড রেন্ডার করা এবং নতুন ট্যাবে খোলার কোড
+        function openToolInNewTab(index) {
+            const toolCode = document.getElementById(toolsDataFromBackend[index].codeId).value;
+            const newWindow = window.open();
+            newWindow.document.write(toolCode);
+            newWindow.document.close();
+        }
+
+        window.onload = function() {
+            const grid = document.getElementById('tool-grid');
+            toolsDataFromBackend.forEach((tool, index) => {
+                const rawCode = document.getElementById(tool.codeId).value;
+                const cardHTML = `
+                    <div class="card" onclick="openToolInNewTab(${index})">
+                        <div class="preview-box">
+                            <iframe srcdoc="${rawCode.replace(/"/g, '&quot;')}"></iframe>
+                        </div>
+                        <div class="card-content">
+                            <div style="font-size:12px; color:#94a3b8;">${tool.domain}</div>
+                            <h3 style="margin:5px 0 0;">${tool.title}</h3>
+                        </div>
+                    </div>`;
+                grid.innerHTML += cardHTML;
+            });
+        };
+    </script>
+</body>
+</html>
