@@ -46377,7 +46377,635 @@ window.addEventListener('DOMContentLoaded',()=>{
 
             </xmp>
 
-        <xmp id="tool-45-code">
+        <xmp id="tool-45-code"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student ID Card Generator Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Oswald:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Nunito:wght@400;700&family=Raleway:wght@400;700&family=Ubuntu:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;overflow-x:hidden}
+.app-header{text-align:center;padding:30px 20px 10px}
+.app-header h1{font-size:2.2rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5,#00d2ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
+.app-header p{color:#aaa;font-size:.95rem;margin-top:5px}
+.container{display:flex;gap:25px;padding:20px 30px;max-width:1500px;margin:0 auto;flex-wrap:wrap}
+.panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:22px;backdrop-filter:blur(10px)}
+.left-panel{flex:1;min-width:340px;max-height:88vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#3a7bd5 transparent}
+.left-panel::-webkit-scrollbar{width:6px}
+.left-panel::-webkit-scrollbar-thumb{background:#3a7bd5;border-radius:3px}
+.right-panel{flex:1;min-width:400px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:sticky;top:20px}
+.section{margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:15px}
+.section:last-child{border-bottom:none}
+.section-title{font-size:1rem;font-weight:700;color:#00d2ff;margin-bottom:10px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.section-content{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+label{font-size:.8rem;color:#ccc;display:block;margin-bottom:3px}
+input[type="text"],input[type="number"],input[type="date"],input[type="color"],select,textarea{width:100%;padding:8px 10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#fff;font-size:.85rem;outline:none;transition:border .3s}
+input:focus,select:focus,textarea:focus{border-color:#3a7bd5}
+input[type="color"]{width:45px;height:35px;padding:2px;cursor:pointer;border-radius:6px}
+input[type="file"]{display:none}
+.file-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:linear-gradient(135deg,#3a7bd5,#00d2ff);border:none;border-radius:8px;color:#fff;font-size:.8rem;cursor:pointer;transition:transform .2s}
+.file-btn:hover{transform:scale(1.03)}
+select{cursor:pointer}
+.size-presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.preset-btn{padding:6px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#ccc;font-size:.75rem;cursor:pointer;transition:all .3s}
+.preset-btn:hover,.preset-btn.active{background:#3a7bd5;color:#fff;border-color:#3a7bd5}
+.texture-options{display:flex;gap:8px;flex-wrap:wrap}
+.texture-opt{width:50px;height:35px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:border .3s}
+.texture-opt:hover,.texture-opt.active{border-color:#00d2ff}
+.outline-options{display:flex;gap:8px;flex-wrap:wrap}
+.outline-opt{padding:6px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:#ccc;font-size:.75rem;cursor:pointer;transition:all .2s}
+.outline-opt:hover,.outline-opt.active{background:#3a7bd5;color:#fff;border-color:#3a7bd5}
+.bg-type-row{display:flex;gap:8px;margin-bottom:8px}
+.bg-type-btn{flex:1;padding:7px;text-align:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#ccc;font-size:.78rem;cursor:pointer;transition:all .2s}
+.bg-type-btn:hover,.bg-type-btn.active{background:#3a7bd5;color:#fff;border-color:#3a7bd5}
+.bg-settings{display:none}
+.bg-settings.active{display:block}
+.field-font-controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px;padding:6px;background:rgba(255,255,255,.03);border-radius:6px}
+.field-font-controls select,.field-font-controls input{width:auto;min-width:60px}
+.small-input{width:55px!important;min-width:55px!important}
+.bold-btn{padding:3px 8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:4px;color:#ccc;cursor:pointer;font-weight:bold;font-size:.8rem;line-height:1}
+.bold-btn.active{background:#3a7bd5;color:#fff;border-color:#3a7bd5}
+.remove-btn{background:rgba(255,50,50,.2);border:1px solid rgba(255,50,50,.4);color:#ff6b6b;padding:4px 10px;border-radius:6px;font-size:.7rem;cursor:pointer}
+.remove-btn:hover{background:rgba(255,50,50,.4)}
+.collapsible-content{max-height:2000px;overflow:hidden;transition:max-height .4s ease}
+.collapsible-content.collapsed{max-height:0;padding:0}
+.tip-box{background:rgba(0,210,255,.08);border:1px solid rgba(0,210,255,.2);border-radius:8px;padding:10px;margin-bottom:12px;font-size:.78rem;color:#8ecae6;line-height:1.4}
+
+#cardPreview{position:relative;overflow:hidden}
+
+.download-btn{margin-top:15px;padding:12px 35px;background:linear-gradient(135deg,#00b09b,#96c93d);border:none;border-radius:10px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:1px;transition:all .3s;box-shadow:0 4px 15px rgba(0,176,155,.4)}
+.download-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,176,155,.6)}
+.download-btn:disabled{opacity:.5;cursor:wait;transform:none}
+.download-status{font-size:.75rem;color:#ff6b6b;margin-top:6px;min-height:18px;text-align:center}
+.download-status.success{color:#96c93d}
+
+.premium-section{background:rgba(255,215,0,0.05); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:12px; margin-top:12px;}
+.checkbox-label{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.85rem;color:#e0e0e0}
+.checkbox-label input{width:16px;height:16px;accent-color:#3a7bd5}
+
+@media(max-width:860px){.container{flex-direction:column}.right-panel{position:relative;top:0}}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <h1>&#127891; Student ID Card Generator</h1>
+  <p>Design your professional student identity card &mdash; perfect for GitHub Student Developer Pack verification</p>
+</div>
+
+<div class="container">
+  <div class="panel left-panel">
+
+    <div class="tip-box">
+      &#128161; <strong>Tip:</strong> For GitHub Student Developer Pack approval, ensure your ID includes: <strong>full name</strong>, <strong>institution name</strong>, <strong>issue &amp; expiry dates</strong> covering the current academic period, and an <strong>institution logo</strong>.
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128207; Card Size</div>
+      <div class="section-content collapsible-content">
+        <label>Presets</label>
+        <div class="size-presets">
+          <button class="preset-btn active" onclick="setSize(340,215,this)">Standard</button>
+          <button class="preset-btn" onclick="setSize(320,200,this)">Compact</button>
+          <button class="preset-btn" onclick="setSize(400,250,this)">Large</button>
+          <button class="preset-btn" onclick="setSize(300,420,this)">Portrait</button>
+        </div>
+        <div class="row">
+          <div style="flex:1"><label>Width (px)</label><input type="number" id="cardWidth" value="340" min="200" max="600" onchange="updatePreview()"></div>
+          <div style="flex:1"><label>Height (px)</label><input type="number" id="cardHeight" value="215" min="150" max="500" onchange="updatePreview()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#127963; Institution Info</div>
+      <div class="section-content collapsible-content">
+        <label>Institution Logo</label>
+        <div class="row">
+          <label class="file-btn" for="logoUpload">&#128247; Upload Logo</label>
+          <input type="file" id="logoUpload" accept="image/*" onchange="handleFile(event,'logo')">
+          <button class="remove-btn" onclick="removeFile('logo')">Remove</button>
+        </div>
+        <div style="margin-top:8px">
+          <label>Institution Name</label>
+          <input type="text" id="instName" value="University of Technology" oninput="updatePreview()">
+          <div class="field-font-controls">
+            <select id="instNameFont" onchange="updatePreview()" style="min-width:100px"></select>
+            <input type="number" class="small-input" id="instNameSize" value="14" min="8" max="30" onchange="updatePreview()">
+            <input type="color" id="instNameColor" value="#1a1a2e" onchange="updatePreview()">
+            <button class="bold-btn" id="instNameBold" onclick="toggleBold(this)">B</button>
+          </div>
+        </div>
+        <div>
+          <label>Subtitle (centered below name)</label>
+          <input type="text" id="subtitle" value="Student Identity Card" oninput="updatePreview()">
+          <div class="field-font-controls">
+            <select id="subtitleFont" onchange="updatePreview()" style="min-width:100px"></select>
+            <input type="number" class="small-input" id="subtitleSize" value="9" min="6" max="20" onchange="updatePreview()">
+            <input type="color" id="subtitleColor" value="#444444" onchange="updatePreview()">
+            <button class="bold-btn" id="subtitleBold" onclick="toggleBold(this)">B</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128100; Student Photo</div>
+      <div class="section-content collapsible-content">
+        <div class="row">
+          <label class="file-btn" for="photoUpload">&#128247; Upload Photo</label>
+          <input type="file" id="photoUpload" accept="image/*" onchange="handleFile(event,'photo')">
+          <button class="remove-btn" onclick="removeFile('photo')">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128221; Student Details</div>
+      <div class="section-content collapsible-content">
+        <div>
+          <label>Full Name</label>
+          <input type="text" id="studentName" value="John Michael Doe" oninput="updatePreview()">
+          <div class="field-font-controls">
+            <select id="studentNameFont" onchange="updatePreview()" style="min-width:100px"></select>
+            <input type="number" class="small-input" id="studentNameSize" value="11" min="7" max="22" onchange="updatePreview()">
+            <input type="color" id="studentNameColor" value="#1a1a2e" onchange="updatePreview()">
+            <button class="bold-btn" id="studentNameBold" onclick="toggleBold(this)">B</button>
+          </div>
+        </div>
+        <div>
+          <label>Student ID Number</label>
+          <input type="text" id="studentId" value="STU-2025-04821" oninput="updatePreview()">
+          <div class="field-font-controls">
+            <select id="studentIdFont" onchange="updatePreview()" style="min-width:100px"></select>
+            <input type="number" class="small-input" id="studentIdSize" value="9" min="6" max="18" onchange="updatePreview()">
+            <input type="color" id="studentIdColor" value="#333333" onchange="updatePreview()">
+            <button class="bold-btn" id="studentIdBold" onclick="toggleBold(this)">B</button>
+          </div>
+        </div>
+        <div>
+          <label>Department / Program</label>
+          <input type="text" id="department" value="Computer Science & Engineering" oninput="updatePreview()">
+          <div class="field-font-controls">
+            <select id="departmentFont" onchange="updatePreview()" style="min-width:100px"></select>
+            <input type="number" class="small-input" id="departmentSize" value="9" min="6" max="18" onchange="updatePreview()">
+            <input type="color" id="departmentColor" value="#333333" onchange="updatePreview()">
+            <button class="bold-btn" id="departmentBold" onclick="toggleBold(this)">B</button>
+          </div>
+        </div>
+        <div>
+          <label>Session / Batch</label>
+          <input type="text" id="session" value="2024 - 2028" oninput="updatePreview()">
+          <div class="field-font-controls">
+            <select id="sessionFont" onchange="updatePreview()" style="min-width:100px"></select>
+            <input type="number" class="small-input" id="sessionSize" value="9" min="6" max="18" onchange="updatePreview()">
+            <input type="color" id="sessionColor" value="#333333" onchange="updatePreview()">
+            <button class="bold-btn" id="sessionBold" onclick="toggleBold(this)">B</button>
+          </div>
+        </div>
+        <div>
+          <label>Blood Group</label>
+          <select id="bloodGroup" onchange="updatePreview()">
+            <option value="">-- Select --</option>
+            <option value="A+">A+</option><option value="A-">A-</option>
+            <option value="B+" selected>B+</option><option value="B-">B-</option>
+            <option value="O+">O+</option><option value="O-">O-</option>
+            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+          </select>
+        </div>
+        <div>
+          <label>Date of Birth</label>
+          <input type="date" id="dob" value="2003-06-15" onchange="updatePreview()">
+        </div>
+        <div>
+          <label>Address</label>
+          <textarea id="address" rows="2" oninput="updatePreview()">123 Academic Street, Knowledge City</textarea>
+          <div class="field-font-controls">
+            <select id="addressFont" onchange="updatePreview()" style="min-width:100px"></select>
+            <input type="number" class="small-input" id="addressSize" value="8" min="5" max="16" onchange="updatePreview()">
+            <input type="color" id="addressColor" value="#444444" onchange="updatePreview()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128197; Issue &amp; Expiry Dates</div>
+      <div class="section-content collapsible-content">
+        <div class="row">
+          <div style="flex:1"><label>Issue Date</label><input type="date" id="issueDate" value="2025-01-15" onchange="updatePreview()"></div>
+          <div style="flex:1"><label>Expiry Date</label><input type="date" id="expiryDate" value="2026-12-31" onchange="updatePreview()"></div>
+        </div>
+        <div class="field-font-controls">
+          <select id="dateFont" onchange="updatePreview()" style="min-width:100px"></select>
+          <input type="number" class="small-input" id="dateSize" value="8" min="5" max="14" onchange="updatePreview()">
+          <input type="color" id="dateColor" value="#333333" onchange="updatePreview()">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#9999;&#65039; Authorized Signature</div>
+      <div class="section-content collapsible-content">
+        <label>Signatory Name</label>
+        <input type="text" id="signatureName" value="Dr. A. Rahman" oninput="updatePreview()">
+        <div class="field-font-controls">
+          <select id="signatureFont" onchange="updatePreview()" style="min-width:100px"></select>
+          <input type="number" class="small-input" id="signatureSize" value="10" min="6" max="18" onchange="updatePreview()">
+          <input type="color" id="signatureColor" value="#222222" onchange="updatePreview()">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#127912; Card Design &amp; Background</div>
+      <div class="section-content collapsible-content">
+        
+        <div class="premium-section">
+          <label style="color:#ffd700; font-weight:bold; margin-bottom:10px; font-size:0.9rem">✨ Premium Enhancements</label>
+          <div class="row" style="margin-bottom:12px">
+            <label class="checkbox-label"><input type="checkbox" id="showHole" onchange="updatePreview()"> Lanyard Hole</label>
+            <label class="checkbox-label" style="margin-left:15px"><input type="checkbox" id="showHolo" onchange="updatePreview()"> Hologram Shine</label>
+          </div>
+          <div class="row" style="align-items:center">
+            <label style="margin:0; min-width:80px; color:#ccc">ID Graphic:</label>
+            <select id="idCodeType" onchange="updatePreview()" style="flex:1">
+              <option value="none">Text Only</option>
+              <option value="barcode" selected>Barcode Overlay</option>
+              <option value="qrcode">QR Code Overlay</option>
+            </select>
+          </div>
+        </div>
+
+        <label style="margin-top:12px">Outline Style</label>
+        <div class="outline-options" id="outlineOptions">
+          <button class="outline-opt active" data-val="none">None</button>
+          <button class="outline-opt" data-val="solid">Solid</button>
+          <button class="outline-opt" data-val="double">Double</button>
+          <button class="outline-opt" data-val="dashed">Dashed</button>
+          <button class="outline-opt" data-val="ridge">Ridge</button>
+          <button class="outline-opt" data-val="groove">Groove</button>
+          <button class="outline-opt" data-val="inset">Inset</button>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <div><label>Outline Color</label><input type="color" id="outlineColor" value="#1a3a5c" onchange="updatePreview()"></div>
+          <div style="flex:1"><label>Width (px)</label><input type="number" id="outlineWidth" value="3" min="1" max="10" onchange="updatePreview()"></div>
+        </div>
+        <div style="margin-top:8px"><label>Border Radius (px)</label><input type="number" id="borderRadius" value="12" min="0" max="40" onchange="updatePreview()"></div>
+
+        <label style="margin-top:12px">Texture Overlay</label>
+        <div class="texture-options" id="textureOptions">
+          <div class="texture-opt active" data-val="none" style="background:#fff" title="None"></div>
+          <div class="texture-opt" data-val="diagonal" style="background:repeating-linear-gradient(45deg,#aaa 0,#aaa 1px,#fff 1px,#fff 5px)" title="Diagonal"></div>
+          <div class="texture-opt" data-val="horizontal" style="background:repeating-linear-gradient(0deg,#aaa 0,#aaa 1px,#fff 1px,#fff 5px)" title="Horizontal"></div>
+          <div class="texture-opt" data-val="dots" style="background:radial-gradient(circle,#aaa 1px,#fff 1px);background-size:6px 6px" title="Dots"></div>
+          <div class="texture-opt" data-val="checker" style="background:repeating-conic-gradient(#aaa 0% 25%,#fff 0% 50%) 0 0/8px 8px" title="Checker"></div>
+          <div class="texture-opt" data-val="cross" style="background:repeating-linear-gradient(0deg,#aaa 0,#aaa 1px,transparent 1px,transparent 6px),repeating-linear-gradient(90deg,#aaa 0,#aaa 1px,transparent 1px,transparent 6px)" title="Cross"></div>
+        </div>
+        <div class="row" style="margin-top:6px">
+          <div style="flex:1"><label>Texture Opacity (%)</label><input type="number" id="textureOpacity" value="25" min="0" max="100" onchange="updatePreview()"></div>
+        </div>
+
+        <label style="margin-top:12px">Background Type</label>
+        <div class="bg-type-row" id="bgTypeRow">
+          <button class="bg-type-btn active" data-val="solid">Solid</button>
+          <button class="bg-type-btn" data-val="gradient">Gradient</button>
+          <button class="bg-type-btn" data-val="image">Image</button>
+        </div>
+        <div id="bgSolid" class="bg-settings active">
+          <label>Background Color</label>
+          <input type="color" id="bgColor" value="#f0f4f8" onchange="updatePreview()">
+        </div>
+        <div id="bgGradient" class="bg-settings">
+          <div class="row">
+            <div><label>Color 1</label><input type="color" id="gradColor1" value="#e0eafc" onchange="updatePreview()"></div>
+            <div><label>Color 2</label><input type="color" id="gradColor2" value="#cfdef3" onchange="updatePreview()"></div>
+            <div style="flex:1"><label>Angle</label><input type="number" id="gradAngle" value="135" min="0" max="360" onchange="updatePreview()"></div>
+          </div>
+        </div>
+        <div id="bgImage" class="bg-settings">
+          <label class="file-btn" for="bgImgUpload">&#128247; Upload Background</label>
+          <input type="file" id="bgImgUpload" accept="image/*" onchange="handleFile(event,'bg')">
+          <button class="remove-btn" onclick="removeFile('bg')" style="margin-left:8px">Remove</button>
+          <div style="margin-top:6px"><label>Opacity (%)</label><input type="number" id="bgImgOpacity" value="100" min="0" max="100" onchange="updatePreview()"></div>
+        </div>
+
+        <label style="margin-top:12px">Decorative Shapes</label>
+        <div class="row">
+          <select id="decoShape" onchange="updatePreview()">
+            <option value="none">None</option>
+            <option value="circles" selected>Corner Circles</option>
+            <option value="stripes">Side Stripes</option>
+            <option value="cornerAccents">Corner Accents</option>
+            <option value="waveBottom">Bottom Wave</option>
+            <option value="polygonTop">Top Polygon</option>
+          </select>
+          <div><label>Shape Color</label><input type="color" id="decoColor" value="#1a3a5c" onchange="updatePreview()"></div>
+        </div>
+
+        <label style="margin-top:12px">Field Labels Style</label>
+        <div class="field-font-controls">
+          <select id="labelFont" onchange="updatePreview()" style="min-width:100px"></select>
+          <input type="number" class="small-input" id="labelSize" value="7" min="5" max="14" onchange="updatePreview()">
+          <input type="color" id="labelColor" value="#555555" onchange="updatePreview()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel right-panel">
+    <div class="card-preview-area">
+      <h3 style="color:#00d2ff;margin-bottom:10px;font-size:.95rem">&#128065; Live Preview</h3>
+      <div id="cardPreview"></div>
+      <button class="download-btn" id="downloadBtn" onclick="downloadCard()">&#11015; Download as PNG</button>
+      <div class="download-status" id="downloadStatus"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== STATE ===== */
+const S={logoSrc:null,photoSrc:null,bgImgSrc:null,bgType:'solid',outline:'none',texture:'none'};
+
+/* ===== FONTS ===== */
+const FONTS=['Poppins','Roboto','Open Sans','Lato','Montserrat','Oswald','Playfair Display','Merriweather','Nunito','Raleway','Ubuntu','PT Sans'];
+const FONT_IDS=['instNameFont','subtitleFont','studentNameFont','studentIdFont','departmentFont','sessionFont','addressFont','dateFont','signatureFont','labelFont'];
+FONT_IDS.forEach(id=>{const s=document.getElementById(id);FONTS.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;s.appendChild(o)})});
+document.getElementById('instNameFont').value='Montserrat';
+document.getElementById('subtitleFont').value='Poppins';
+document.getElementById('studentNameFont').value='Poppins';
+document.getElementById('studentIdFont').value='Roboto';
+document.getElementById('departmentFont').value='Roboto';
+document.getElementById('sessionFont').value='Roboto';
+document.getElementById('addressFont').value='Roboto';
+document.getElementById('dateFont').value='Roboto';
+document.getElementById('signatureFont').value='Playfair Display';
+document.getElementById('labelFont').value='Roboto';
+
+/* ===== HELPERS ===== */
+const V=id=>document.getElementById(id).value;
+const N=id=>parseInt(document.getElementById(id).value)||0;
+function formatDate(d){if(!d)return '';return new Date(d+'T00:00:00').toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});}
+function toggleSection(el){el.nextElementSibling.classList.toggle('collapsed')}
+function toggleBold(btn){btn.classList.toggle('active');updatePreview()}
+function isBold(id){const b=document.getElementById(id);return b&&b.classList.contains('active')?'700':'400'}
+
+/* ===== FILE HANDLING ===== */
+function handleFile(e,type){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    if(type==='logo')S.logoSrc=ev.target.result;
+    else if(type==='photo')S.photoSrc=ev.target.result;
+    else if(type==='bg')S.bgImgSrc=ev.target.result;
+    updatePreview();
+  };
+  r.readAsDataURL(f);
+}
+function removeFile(type){
+  if(type==='logo'){S.logoSrc=null;document.getElementById('logoUpload').value=''}
+  else if(type==='photo'){S.photoSrc=null;document.getElementById('photoUpload').value=''}
+  else if(type==='bg'){S.bgImgSrc=null;document.getElementById('bgImgUpload').value=''}
+  updatePreview();
+}
+
+/* ===== SIZE ===== */
+function setSize(w,h,btn){
+  document.getElementById('cardWidth').value=w;
+  document.getElementById('cardHeight').value=h;
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updatePreview();
+}
+
+/* ===== OUTLINE ===== */
+document.getElementById('outlineOptions').addEventListener('click',e=>{
+  const btn=e.target.closest('.outline-opt');if(!btn)return;
+  document.querySelectorAll('.outline-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');S.outline=btn.dataset.val;updatePreview();
+});
+
+/* ===== TEXTURE ===== */
+document.getElementById('textureOptions').addEventListener('click',e=>{
+  const btn=e.target.closest('.texture-opt');if(!btn)return;
+  document.querySelectorAll('.texture-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');S.texture=btn.dataset.val;updatePreview();
+});
+
+/* ===== BG TYPE ===== */
+document.getElementById('bgTypeRow').addEventListener('click',e=>{
+  const btn=e.target.closest('.bg-type-btn');if(!btn)return;
+  document.querySelectorAll('.bg-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');S.bgType=btn.dataset.val;
+  document.querySelectorAll('.bg-settings').forEach(s=>s.classList.remove('active'));
+  document.getElementById('bg'+S.bgType.charAt(0).toUpperCase()+S.bgType.slice(1)).classList.add('active');
+  updatePreview();
+});
+
+/* ===== GRAPHICS & SVG GENERATORS ===== */
+function getTexSVG(opacity){
+  if(S.texture === 'none') return '';
+  let w, h, content;
+  switch(S.texture){
+    case 'diagonal': w=6; h=6; content=`<path d="M-1,7L7,-1" stroke="#000" stroke-width="1.5"/>`; break;
+    case 'horizontal': w=5; h=5; content=`<rect width="5" height="1.5" fill="#000"/>`; break;
+    case 'dots': w=8; h=8; content=`<circle cx="2" cy="2" r="1.5" fill="#000"/>`; break;
+    case 'checker': w=10; h=10; content=`<rect width="5" height="5" fill="#000"/><rect x="5" y="5" width="5" height="5" fill="#000"/>`; break;
+    case 'cross': w=6; h=6; content=`<path d="M3,0L3,6M0,3L6,3" stroke="#000" stroke-width="1.5"/>`; break;
+    default: return '';
+  }
+  return `<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;z-index:2;pointer-events:none;opacity:${opacity}">
+    <defs><pattern id="texPat" width="${w}" height="${h}" patternUnits="userSpaceOnUse">${content}</pattern></defs>
+    <rect width="100%" height="100%" fill="url(#texPat)"/>
+  </svg>`;
+}
+
+function getDecoHTML(c){
+  switch(V('decoShape')){
+    case'circles':return`<div style="position:absolute;top:-18px;right:-18px;width:60px;height:60px;border-radius:50%;background:${c};opacity:.15"></div><div style="position:absolute;bottom:-15px;left:-15px;width:50px;height:50px;border-radius:50%;background:${c};opacity:.12"></div><div style="position:absolute;top:30%;right:-10px;width:30px;height:30px;border-radius:50%;background:${c};opacity:.1"></div>`;
+    case'stripes':return`<div style="position:absolute;top:0;left:0;width:6px;height:100%;background:${c};opacity:.5;border-radius:0 4px 4px 0"></div><div style="position:absolute;top:0;right:0;width:3px;height:100%;background:${c};opacity:.3;border-radius:4px 0 0 4px"></div>`;
+    case'cornerAccents':return`<div style="position:absolute;top:5px;left:5px;width:20px;height:20px;border-top:3px solid ${c};border-left:3px solid ${c};opacity:.5"></div><div style="position:absolute;top:5px;right:5px;width:20px;height:20px;border-top:3px solid ${c};border-right:3px solid ${c};opacity:.5"></div><div style="position:absolute;bottom:5px;left:5px;width:20px;height:20px;border-bottom:3px solid ${c};border-left:3px solid ${c};opacity:.5"></div><div style="position:absolute;bottom:5px;right:5px;width:20px;height:20px;border-bottom:3px solid ${c};border-right:3px solid ${c};opacity:.5"></div>`;
+    case'waveBottom':return `<svg style="position:absolute;bottom:0;left:0;width:100%;height:35%;z-index:0;opacity:0.2" viewBox="0 0 1000 100" preserveAspectRatio="none"><path fill="${c}" d="M0,50 C300,150 700,-50 1000,50 L1000,100 L0,100 Z"/></svg>`;
+    case'polygonTop':return `<svg style="position:absolute;top:0;left:0;width:100%;height:35%;z-index:0;opacity:0.2" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon fill="${c}" points="0,0 100,0 100,70 0,20"/></svg>`;
+    default:return'';
+  }
+}
+
+function getBarcodeSVG(c) {
+  return `<svg width="70" height="22" viewBox="0 0 80 24" preserveAspectRatio="none" style="opacity:0.85">
+    <path fill="${c}" d="M0,0h3v24H0V0z M4,0h1v24H4V0z M7,0h4v24H7V0z M13,0h2v24H13V0z M17,0h3v24H17V0z M22,0h1v24H22V0z M25,0h3v24H25V0z M30,0h4v24H30V0z M36,0h1v24H36V0z M39,0h2v24H39V0z M43,0h5v24H43V0z M50,0h2v24H50V0z M54,0h1v24H54V0z M57,0h4v24H57V0z M63,0h3v24H63V0z M68,0h2v24H68V0z M72,0h3v24H72V0z M77,0h3v24H77V0z"/>
+  </svg>`;
+}
+
+function getQRSVG(c) {
+  return `<svg width="28" height="28" viewBox="0 0 20 20" style="opacity:0.85">
+    <path fill="${c}" d="M0,0h7v7H0V0z M1,1v5h5V1H1z M2,2h3v3H2V2z"/>
+    <path fill="${c}" d="M13,0h7v7h-7V0z M14,1v5h5V1h-5z M15,2h3v3h-3V2z"/>
+    <path fill="${c}" d="M0,13h7v7H0v-7z M1,14v5h5v-5H1z M2,15h3v3H2v-3z"/>
+    <rect x="8" y="0" width="2" height="2" fill="${c}"/><rect x="11" y="2" width="2" height="2" fill="${c}"/><rect x="8" y="4" width="4" height="2" fill="${c}"/><rect x="18" y="9" width="2" height="2" fill="${c}"/><rect x="8" y="8" width="6" height="4" fill="${c}"/><rect x="15" y="12" width="4" height="2" fill="${c}"/><rect x="8" y="15" width="4" height="4" fill="${c}"/><rect x="13" y="16" width="2" height="2" fill="${c}"/><rect x="17" y="15" width="2" height="5" fill="${c}"/><rect x="1" y="8" width="5" height="3" fill="${c}"/><rect x="4" y="11" width="2" height="2" fill="${c}"/>
+  </svg>`;
+}
+
+/* ===== PREVIEW ===== */
+function updatePreview(){
+  const card=document.getElementById('cardPreview');
+  const w=N('cardWidth'),h=N('cardHeight'),rad=N('borderRadius');
+
+  let border='none';
+  if(S.outline!=='none')border=`${N('outlineWidth')}px ${S.outline} ${V('outlineColor')}`;
+
+  let bgCSS='';
+  if(S.bgType==='solid')bgCSS=V('bgColor');
+  else if(S.bgType==='gradient')bgCSS=`linear-gradient(${N('gradAngle')}deg,${V('gradColor1')},${V('gradColor2')})`;
+  else bgCSS='#f0f4f8';
+
+  const logo=S.logoSrc
+    ?`<img src="${S.logoSrc}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5);flex-shrink:0">`
+    :`<div style="width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#888;flex-shrink:0;border:2px dashed rgba(0,0,0,.2)">LOGO</div>`;
+
+  const photo=S.photoSrc
+    ?`<img src="${S.photoSrc}" style="width:72px;height:88px;border-radius:6px;object-fit:cover;border:2px solid rgba(0,0,0,.2);flex-shrink:0">`
+    :`<div style="width:72px;height:88px;border-radius:6px;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#888;border:2px dashed rgba(0,0,0,.2);flex-shrink:0">PHOTO</div>`;
+
+  let bgLayer='';
+  if(S.bgType==='image'&&S.bgImgSrc){
+    bgLayer=`<div style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0"><img src="${S.bgImgSrc}" style="width:100%;height:100%;object-fit:cover;opacity:${N('bgImgOpacity')/100}"></div>`;
+  }
+
+  const texLayer = getTexSVG(N('textureOpacity')/100);
+  const decoLayer=`<div style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:hidden">${getDecoHTML(V('decoColor'))}</div>`;
+
+  const showHole = document.getElementById('showHole').checked;
+  const showHolo = document.getElementById('showHolo').checked;
+  const idCodeType = V('idCodeType');
+
+  const holeHTML = showHole ? `<svg width="45" height="12" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:10"><rect width="45" height="12" rx="6" fill="rgba(0,0,0,0.3)" stroke="rgba(0,0,0,0.2)" stroke-width="1"/><path d="M5,11 L40,11" stroke="rgba(255,255,255,0.6)" stroke-width="1" fill="none"/></svg>` : '';
+  
+  const holoHTML = showHolo ? `<svg width="100%" height="100%" preserveAspectRatio="none" style="position:absolute;top:0;left:0;z-index:8;pointer-events:none;"><defs><linearGradient id="holo" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="20%" stop-color="rgba(255,255,255,0)"/><stop offset="25%" stop-color="rgba(255,255,255,0.4)"/><stop offset="30%" stop-color="rgba(255,255,255,0)"/><stop offset="45%" stop-color="rgba(255,255,255,0)"/><stop offset="50%" stop-color="rgba(255,255,255,0.2)"/><stop offset="55%" stop-color="rgba(255,255,255,0)"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#holo)"/></svg>` : '';
+
+  let codeGraphic = '';
+  if(idCodeType === 'barcode') codeGraphic = getBarcodeSVG(V('studentIdColor'));
+  else if(idCodeType === 'qrcode') codeGraphic = getQRSVG(V('studentIdColor'));
+
+  const ff=id=>`font-family:'${V(id)}',sans-serif`;
+  const fz=id=>`font-size:${N(id)}px`;
+  const fc=id=>`color:${V(id)}`;
+  const fw=id=>`font-weight:${isBold(id)}`;
+  const decoC=V('decoColor');
+  const isP=h>w;
+
+  function fld(lbl,val,fontId,sizeId,colorId,boldId){
+    if(!val)return'';
+    const bw=boldId?fw(boldId):'font-weight:600';
+    return`<div style="margin-bottom:1px"><div style="${ff('labelFont')};${fz('labelSize')};${fc('labelColor')};font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.7">${lbl}</div><div style="${ff(fontId)};${fz(sizeId)};${fc(colorId)};${bw};border-bottom:1px dotted rgba(0,0,0,.2);padding-bottom:1px;min-height:13px">${val}</div></div>`;
+  }
+
+  card.style.cssText=`width:${w}px;height:${h}px;border-radius:${rad}px;border:${border};background:${bgCSS};position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.3)`;
+
+  card.innerHTML=`
+    ${bgLayer}${texLayer}${decoLayer}${holeHTML}${holoHTML}
+    <div style="position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;width:100%;height:100%;padding: ${showHole ? '22px' : '14px'} 16px 10px">
+      <div style="width:100%;display:flex;align-items:center;gap:10px;margin-bottom:2px">
+        ${logo}
+        <div style="flex:1;text-align:center">
+          <div style="${ff('instNameFont')};${fz('instNameSize')};${fc('instNameColor')};${fw('instNameBold')};line-height:1.2">${V('instName')||'Institution Name'}</div>
+          <div style="${ff('subtitleFont')};${fz('subtitleSize')};${fc('subtitleColor')};${fw('subtitleBold')};margin-top:2px;line-height:1.2">${V('subtitle')||''}</div>
+        </div>
+      </div>
+      <div style="width:90%;height:2px;margin:6px auto;border-radius:2px;background:linear-gradient(90deg,transparent,${decoC}55,transparent)"></div>
+      <div style="display:flex;gap:12px;width:100%;flex:1;align-items:flex-start;${isP?'flex-direction:column;align-items:center':''}">
+        <div style="flex-shrink:0">${photo}</div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:3px;${isP?'align-items:center;text-align:center':''}">
+          ${fld('Name',V('studentName'),'studentNameFont','studentNameSize','studentNameColor','studentNameBold')}
+          ${fld('ID No.',V('studentId'),'studentIdFont','studentIdSize','studentIdColor','studentIdBold')}
+          ${fld('Department',V('department'),'departmentFont','departmentSize','departmentColor','departmentBold')}
+          ${fld('Session',V('session'),'sessionFont','sessionSize','sessionColor','sessionBold')}
+          ${fld('Blood Group',V('bloodGroup'),'studentIdFont','studentIdSize','studentIdColor',null)}
+          ${V('dob')?fld('Date of Birth',formatDate(V('dob')),'dateFont','dateSize','dateColor',null):''}
+          ${V('address')?`<div style="margin-bottom:1px"><div style="${ff('labelFont')};${fz('labelSize')};${fc('labelColor')};font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.7">Address</div><div style="${ff('addressFont')};${fz('addressSize')};${fc('addressColor')};line-height:1.3">${V('address')}</div></div>`:''}
+        </div>
+      </div>
+      <div style="width:100%;margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;padding-top:6px">
+        <div style="display:flex;gap:12px">
+          <div style="text-align:center"><div style="${ff('labelFont')};${fz('labelSize')};${fc('labelColor')};text-transform:uppercase;opacity:.7">Issue Date</div><div style="${ff('dateFont')};${fz('dateSize')};${fc('dateColor')};font-weight:600">${formatDate(V('issueDate'))}</div></div>
+          <div style="text-align:center"><div style="${ff('labelFont')};${fz('labelSize')};${fc('labelColor')};text-transform:uppercase;opacity:.7">Expiry Date</div><div style="${ff('dateFont')};${fz('dateSize')};${fc('dateColor')};font-weight:600">${formatDate(V('expiryDate'))}</div></div>
+        </div>
+        <div style="text-align:center">
+          <div style="width:80px;border-bottom:1px solid rgba(0,0,0,.4);margin-bottom:2px;min-height:16px;${ff('signatureFont')};${fz('signatureSize')};${fc('signatureColor')};font-style:italic;display:flex;align-items:flex-end;justify-content:center">${V('signatureName')||''}</div>
+          <div style="${ff('labelFont')};${fz('labelSize')};${fc('labelColor')};text-transform:uppercase;opacity:.7">Authorized Signature</div>
+        </div>
+      </div>
+      
+      <div style="width:100%;text-align:center;margin-top:4px;${ff('studentIdFont')};font-size:${Math.max(N('studentIdSize')-1,7)}px;${fc('studentIdColor')};letter-spacing:1px;opacity:.8;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:3px">
+        ${codeGraphic}
+        <div style="font-weight:600">${V('studentId')||''}</div>
+      </div>
+      
+    </div>`;
+}
+
+/* ===== DOWNLOAD — ROBUST HTML-TO-IMAGE METHOD ===== */
+function downloadCard(){
+  const btn = document.getElementById('downloadBtn');
+  const status = document.getElementById('downloadStatus');
+  const card = document.getElementById('cardPreview');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Generating...';
+  status.textContent = 'Please wait, rendering high-res image...';
+  status.classList.remove('success');
+
+  setTimeout(() => {
+    // Verify Library Loaded
+    if(typeof htmlToImage === 'undefined'){
+      status.textContent = '❌ Error: html-to-image library failed to load. Please check your internet connection.';
+      btn.disabled = false;
+      btn.innerHTML = '&#11015; Download as PNG';
+      return;
+    }
+
+    // Generate high-resolution blob (pixelRatio 3 ensures sharp text/images)
+    htmlToImage.toBlob(card, { pixelRatio: 3 })
+      .then(function (blob) {
+        if(!blob) throw new Error("Image Blob could not be created.");
+        
+        // Trigger Download
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'student-id-card-pro.png';
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Cleanup memory
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+        
+        // Success Message
+        status.classList.add('success');
+        status.textContent = '✅ Downloaded successfully!';
+        btn.disabled = false;
+        btn.innerHTML = '&#11015; Download as PNG';
+        setTimeout(() => { status.textContent = ''; status.classList.remove('success'); }, 3000);
+      })
+      .catch(function (error) {
+        console.error('Download Error:', error);
+        status.textContent = '❌ Error: Failed to generate image. ' + (error.message || 'Check console.');
+        btn.disabled = false;
+        btn.innerHTML = '&#11015; Download as PNG';
+      });
+  }, 100);
+}
+
+/* ===== INIT ===== */
+updatePreview();
+</script>
+</body>
+</html>
             </xmp>
 
         <xmp id="tool-46-code">
