@@ -47607,7 +47607,606 @@ liveUpdate();
 </html>
             </xmp>
 
-        <xmp id="tool-47-code">
+        <xmp id="tool-47-code"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student ID Card Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Oswald:wght@400;700&family=Raleway:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Nunito:wght@400;700&family=Ubuntu:wght@400;700&family=Quicksand:wght@400;700&family=Bebas+Neue&family=Libre+Baskerville:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#e0e0e0}
+.app-header{text-align:center;padding:30px 20px 10px}
+.app-header h1{font-size:2.2rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5,#f953c6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
+.app-header p{color:#aaa;margin-top:5px;font-size:.95rem}
+.main-container{display:flex;gap:30px;max-width:1500px;margin:20px auto;padding:0 20px 40px;align-items:flex-start;flex-wrap:wrap}
+.controls-panel{flex:1;min-width:340px;max-width:520px;background:rgba(255,255,255,.05);border-radius:16px;padding:25px;border:1px solid rgba(255,255,255,.08);max-height:90vh;overflow-y:auto}
+.controls-panel::-webkit-scrollbar{width:6px}
+.controls-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px}
+.preview-panel{flex:1;display:flex;flex-direction:column;align-items:center;position:sticky;top:20px;min-width:340px}
+.section{margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:18px}
+.section:last-child{border-bottom:none}
+.section-title{font-size:1rem;font-weight:700;color:#7eb8ff;margin-bottom:12px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.section-title::before{content:'▸';transition:transform .2s;display:inline-block}
+.section-title.open::before{transform:rotate(90deg)}
+.section-body{display:none}
+.section-body.open{display:block}
+.row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px}
+.field label{font-size:.75rem;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.field input,.field select,.field textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 10px;color:#fff;font-size:.85rem;font-family:inherit;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#7eb8ff}
+.field input[type="color"]{padding:2px;height:36px;cursor:pointer}
+.field input[type="file"]{font-size:.75rem}
+.field select option{background:#1e1e3a;color:#fff}
+.preset-sizes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.preset-btn{padding:6px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#ccc;font-size:.75rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.preset-btn:hover,.preset-btn.active{background:rgba(126,184,255,.2);border-color:#7eb8ff;color:#fff}
+.font-style-row{display:flex;gap:6px;align-items:center;margin-top:4px}
+.font-style-row button{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#ccc;width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:.85rem;transition:all .2s;font-family:inherit}
+.font-style-row button.active,.font-style-row button:hover{background:rgba(126,184,255,.25);border-color:#7eb8ff;color:#fff}
+.texture-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.texture-opt{width:100%;aspect-ratio:1;border-radius:8px;border:2px solid transparent;cursor:pointer;transition:all .2s;overflow:hidden;position:relative;background:#1a1a3a}
+.texture-opt:hover,.texture-opt.active{border-color:#7eb8ff;transform:scale(1.05)}
+.texture-opt .tex-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);color:#ccc;font-size:.45rem;text-align:center;padding:2px 1px;pointer-events:none}
+.bg-type-btns{display:flex;gap:8px;margin-bottom:10px}
+.bg-type-btn{flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#ccc;cursor:pointer;font-size:.8rem;text-align:center;transition:all .2s;font-family:inherit}
+.bg-type-btn:hover,.bg-type-btn.active{background:rgba(126,184,255,.2);border-color:#7eb8ff;color:#fff}
+.download-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 40px;border-radius:30px;border:none;background:linear-gradient(135deg,#3a7bd5,#00d2ff);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:20px;transition:transform .2s,box-shadow .2s;font-family:inherit}
+.download-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,210,255,.35)}
+.download-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+#cardPreview{overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.card-wrap{position:relative;overflow:hidden;border-radius:12px}
+.card-shape-top,.card-shape-bottom{position:absolute;left:0;width:100%;pointer-events:none;z-index:1;overflow:hidden}
+.card-shape-top{top:0}
+.card-shape-bottom{bottom:0}
+.card-texture-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.card-inner-border{position:absolute;pointer-events:none;z-index:3}
+.card-content-layer{position:relative;z-index:5;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <h1>&#127891; Student ID Card Generator</h1>
+  <p>Design your professional student ID card &mdash; customize everything!</p>
+</div>
+
+<div class="main-container">
+  <div class="controls-panel">
+
+    <div class="section">
+      <div class="section-title open" onclick="toggleSection(this)">&#128207; Card Size</div>
+      <div class="section-body open">
+        <div class="preset-sizes">
+          <button class="preset-btn active" onclick="setPreset(340,215,this)">Standard</button>
+          <button class="preset-btn" onclick="setPreset(400,250,this)">Medium</button>
+          <button class="preset-btn" onclick="setPreset(450,280,this)">Large</button>
+          <button class="preset-btn" onclick="setPreset(500,320,this)">XL</button>
+          <button class="preset-btn" onclick="setPreset(550,350,this)">XXL</button>
+        </div>
+        <div class="row">
+          <div class="field"><label>Width (px)</label><input type="number" id="cardWidth" value="340" min="250" max="700" oninput="updatePreview()"></div>
+          <div class="field"><label>Height (px)</label><input type="number" id="cardHeight" value="215" min="180" max="500" oninput="updatePreview()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#127963; Institution</div>
+      <div class="section-body">
+        <div class="row"><div class="field"><label>Logo</label><input type="file" id="logoFile" accept="image/*" onchange="handleFileUpload(event,'logo')"></div></div>
+        <div class="row"><div class="field"><label>Logo Size (px)</label><input type="number" id="logoSize" value="48" min="20" max="120" oninput="updatePreview()"></div></div>
+        <div class="row"><div class="field"><label>Institution Name</label><input type="text" id="instName" value="ABC University" oninput="updatePreview()"></div></div>
+        <div id="instNameStyleCtrl"></div>
+        <div class="row"><div class="field"><label>Subtitle Text</label><input type="text" id="subtitleText" value="Student Identity Card" oninput="updatePreview()"></div></div>
+        <div id="subtitleStyleCtrl"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128247; Student Photo</div>
+      <div class="section-body">
+        <div class="row"><div class="field"><label>Photo (Optional)</label><input type="file" id="photoFile" accept="image/*" onchange="handleFileUpload(event,'photo')"></div></div>
+        <div class="row">
+          <div class="field"><label>Width (px)</label><input type="number" id="photoW" value="80" min="40" max="160" oninput="updatePreview()"></div>
+          <div class="field"><label>Height (px)</label><input type="number" id="photoH" value="95" min="50" max="180" oninput="updatePreview()"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128221; Student Information</div>
+      <div class="section-body">
+        <div class="row"><div class="field"><label>Full Name</label><input type="text" id="studentName" value="John Doe" oninput="updatePreview()"></div></div>
+        <div id="studentNameStyleCtrl"></div>
+        <div class="row"><div class="field"><label>Student ID</label><input type="text" id="studentId" value="2024-001-0123" oninput="updatePreview()"></div></div>
+        <div id="studentIdStyleCtrl"></div>
+        <div class="row"><div class="field"><label>Department / Program</label><input type="text" id="department" value="Computer Science & Engineering" oninput="updatePreview()"></div></div>
+        <div id="departmentStyleCtrl"></div>
+        <div class="row"><div class="field"><label>Session / Batch</label><input type="text" id="session" value="2024-2025" oninput="updatePreview()"></div></div>
+        <div id="sessionStyleCtrl"></div>
+        <div class="row">
+          <div class="field"><label>Blood Group</label>
+            <select id="bloodGroup" onchange="updatePreview()">
+              <option value="">-- Select --</option>
+              <option value="A+">A+</option><option value="A-">A-</option>
+              <option value="B+" selected>B+</option><option value="B-">B-</option>
+              <option value="O+">O+</option><option value="O-">O-</option>
+              <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            </select>
+          </div>
+          <div class="field"><label>Date of Birth</label><input type="date" id="dob" value="2002-05-15" oninput="updatePreview()"></div>
+        </div>
+        <div id="infoLabelStyleCtrl"></div>
+        <div class="row"><div class="field"><label>Address</label><textarea id="address" rows="2" oninput="updatePreview()">123 Main Street, Dhaka, Bangladesh</textarea></div></div>
+        <div id="addressStyleCtrl"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128197; Issue & Expiry Date</div>
+      <div class="section-body">
+        <div class="row">
+          <div class="field"><label>Issue Date</label><input type="date" id="issueDate" value="2024-09-01" oninput="updatePreview()"></div>
+          <div class="field"><label>Expiry Date</label><input type="date" id="expiryDate" value="2028-08-31" oninput="updatePreview()"></div>
+        </div>
+        <div id="datesStyleCtrl"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#9999;&#65039; Authorized Signature</div>
+      <div class="section-body">
+        <div class="row"><div class="field"><label>Signatory Name</label><input type="text" id="sigName" value="Prof. Smith" oninput="updatePreview()"></div></div>
+        <div class="row"><div class="field"><label>Signatory Title</label><input type="text" id="sigTitle" value="Registrar" oninput="updatePreview()"></div></div>
+        <div id="sigStyleCtrl"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#127912; Background</div>
+      <div class="section-body">
+        <div class="bg-type-btns">
+          <button class="bg-type-btn active" onclick="setBgType('solid',this)">Solid</button>
+          <button class="bg-type-btn" onclick="setBgType('gradient',this)">Gradient</button>
+          <button class="bg-type-btn" onclick="setBgType('image',this)">Image</button>
+        </div>
+        <div id="bgSolidCtrl"><div class="row"><div class="field"><label>Color</label><input type="color" id="bgSolidColor" value="#1a1a4e" oninput="updatePreview()"></div></div></div>
+        <div id="bgGradientCtrl" style="display:none">
+          <div class="row">
+            <div class="field"><label>Color 1</label><input type="color" id="bgGrad1" value="#0f0c29" oninput="updatePreview()"></div>
+            <div class="field"><label>Color 2</label><input type="color" id="bgGrad2" value="#302b63" oninput="updatePreview()"></div>
+            <div class="field"><label>Angle</label><input type="number" id="bgGradAngle" value="135" min="0" max="360" oninput="updatePreview()"></div>
+          </div>
+        </div>
+        <div id="bgImageCtrl" style="display:none"><div class="row"><div class="field"><label>Background Image</label><input type="file" id="bgImageFile" accept="image/*" onchange="handleFileUpload(event,'bg')"></div></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#128308; Outline, Border & Texture</div>
+      <div class="section-body">
+        <div class="row">
+          <div class="field"><label>Border Width</label><input type="number" id="borderWidth" value="3" min="0" max="15" oninput="updatePreview()"></div>
+          <div class="field"><label>Border Color</label><input type="color" id="borderColor" value="#7eb8ff" oninput="updatePreview()"></div>
+          <div class="field"><label>Border Style</label>
+            <select id="borderStyle" onchange="updatePreview()">
+              <option value="solid">Solid</option><option value="double">Double</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option><option value="groove">Groove</option><option value="ridge">Ridge</option><option value="inset">Inset</option><option value="outset">Outset</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Inner Border</label>
+            <select id="innerBorder" onchange="updatePreview()">
+              <option value="none">None</option><option value="thin" selected>Thin Solid</option><option value="thin-dashed">Thin Dashed</option><option value="thin-dotted">Thin Dotted</option><option value="double">Double Line</option><option value="double-dashed">Double Dashed</option><option value="triple">Triple Line</option><option value="rounded-thick">Rounded Thick</option><option value="glow">Glow</option><option value="shadow-inset">Inset Shadow</option><option value="elegant">Elegant</option><option value="corner-dots">Corner Accents</option>
+            </select>
+          </div>
+          <div class="field"><label>Inner Color</label><input type="color" id="innerBorderColor" value="#ffffff" oninput="updatePreview()"></div>
+          <div class="field"><label>Inner Gap</label><input type="number" id="innerGap" value="6" min="3" max="20" oninput="updatePreview()"></div>
+        </div>
+        <label style="font-size:.75rem;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:8px 0 6px;display:block">Texture Overlay</label>
+        <div class="row">
+          <div class="field"><label>Texture Opacity</label><input type="range" id="texOpacity" min="0" max="100" value="100" oninput="updatePreview()"></div>
+        </div>
+        <div class="texture-grid" id="textureGrid"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" onclick="toggleSection(this)">&#9670; Decorative Shapes</div>
+      <div class="section-body">
+        <div class="row">
+          <div class="field"><label>Top Shape</label>
+            <select id="shapeTop" onchange="updatePreview()">
+              <option value="none">None</option><option value="wave" selected>Wave</option><option value="wave2">Wave Smooth</option><option value="arc">Arc</option><option value="triangle">Triangle</option><option value="slant-left">Slant Left</option><option value="slant-right">Slant Right</option><option value="double-wave">Double Wave</option><option value="zigzag">Zigzag</option><option value="curve-dip">Curve Dip</option><option value="mountains">Mountains</option><option value="ribbon">Ribbon</option>
+            </select>
+          </div>
+          <div class="field"><label>Color</label><input type="color" id="shapeColor" value="#3a7bd5" oninput="updatePreview()"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Height</label><input type="number" id="shapeTopH" value="40" min="15" max="100" oninput="updatePreview()"></div>
+          <div class="field"><label>Opacity</label><input type="range" id="shapeOpacity" min="0" max="100" value="30" oninput="updatePreview()"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Bottom Shape</label>
+            <select id="shapeBottom" onchange="updatePreview()">
+              <option value="none">None</option><option value="wave" selected>Wave</option><option value="wave2">Wave Smooth</option><option value="arc">Arc</option><option value="stripe">Stripe</option><option value="slant-left">Slant Left</option><option value="slant-right">Slant Right</option><option value="double-wave">Double Wave</option><option value="zigzag">Zigzag</option><option value="curve-bump">Curve Bump</option><option value="mountains">Mountains</option><option value="torn-paper">Torn Paper</option>
+            </select>
+          </div>
+          <div class="field"><label>Color</label><input type="color" id="shapeBottomColor" value="#00d2ff" oninput="updatePreview()"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Height</label><input type="number" id="shapeBottomH" value="35" min="15" max="100" oninput="updatePreview()"></div>
+          <div class="field"><label>Opacity</label><input type="range" id="shapeBottomOpacity" min="0" max="100" value="30" oninput="updatePreview()"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Divider Color</label><input type="color" id="dividerColor" value="#7eb8ff" oninput="updatePreview()"></div>
+          <div class="field"><label>Divider Style</label>
+            <select id="dividerStyle" onchange="updatePreview()"><option value="solid">Solid</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option><option value="double">Double</option><option value="none">None</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="preview-panel">
+    <div id="cardPreview"></div>
+    <button class="download-btn" id="downloadBtn" onclick="downloadCard()">&#11015;&#65039; Download as PNG</button>
+  </div>
+</div>
+
+<script>
+var imageStore={logo:null,photo:null,bg:null};
+var currentBgType='solid';
+var currentTexture='none';
+var texUid=0; // unique counter for pattern IDs
+
+function handleFileUpload(e,type){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){imageStore[type]=ev.target.result;updatePreview();};r.readAsDataURL(f);}
+var fonts=['Poppins','Roboto','Open Sans','Lato','Montserrat','Oswald','Raleway','Playfair Display','Merriweather','Nunito','Ubuntu','Quicksand','Bebas Neue','Libre Baskerville','Source Code Pro'];
+
+var textStyleFields=[
+  {id:'instNameStyle',container:'instNameStyleCtrl',label:'Institution Name',defaults:{font:'Montserrat',size:14,color:'#ffffff',bold:true,italic:false,underline:false}},
+  {id:'subtitleStyle',container:'subtitleStyleCtrl',label:'Subtitle',defaults:{font:'Poppins',size:9,color:'#a8d8ff',bold:false,italic:true,underline:false}},
+  {id:'studentNameStyle',container:'studentNameStyleCtrl',label:'Student Name',defaults:{font:'Poppins',size:12,color:'#ffffff',bold:true,italic:false,underline:false}},
+  {id:'studentIdStyle',container:'studentIdStyleCtrl',label:'Student ID',defaults:{font:'Roboto',size:9,color:'#ffe082',bold:true,italic:false,underline:false}},
+  {id:'departmentStyle',container:'departmentStyleCtrl',label:'Department',defaults:{font:'Roboto',size:8,color:'#e0e0e0',bold:false,italic:false,underline:false}},
+  {id:'sessionStyle',container:'sessionStyleCtrl',label:'Session',defaults:{font:'Roboto',size:8,color:'#e0e0e0',bold:false,italic:false,underline:false}},
+  {id:'infoLabelStyle',container:'infoLabelStyleCtrl',label:'Blood/DOB',defaults:{font:'Roboto',size:8,color:'#e0e0e0',bold:false,italic:false,underline:false}},
+  {id:'addressStyle',container:'addressStyleCtrl',label:'Address',defaults:{font:'Roboto',size:7,color:'#cccccc',bold:false,italic:false,underline:false}},
+  {id:'datesStyle',container:'datesStyleCtrl',label:'Dates',defaults:{font:'Roboto',size:7,color:'#a8d8ff',bold:false,italic:false,underline:false}},
+  {id:'sigStyle',container:'sigStyleCtrl',label:'Signature',defaults:{font:'Playfair Display',size:8,color:'#ffffff',bold:false,italic:true,underline:false}},
+];
+
+function buildStyleControls(){textStyleFields.forEach(function(f){var c=document.getElementById(f.container);if(!c)return;var d=f.defaults;var opts=fonts.map(function(fn){return '<option value="'+fn+'"'+(fn===d.font?' selected':'')+'>'+fn+'</option>';}).join('');c.innerHTML='<div class="row" style="align-items:flex-end"><div class="field" style="min-width:100px"><label>'+f.label+' Font</label><select id="'+f.id+'_font" onchange="updatePreview()">'+opts+'</select></div><div class="field" style="max-width:65px"><label>Size</label><input type="number" id="'+f.id+'_size" value="'+d.size+'" min="5" max="40" oninput="updatePreview()"></div><div class="field" style="max-width:50px"><label>Color</label><input type="color" id="'+f.id+'_color" value="'+d.color+'" oninput="updatePreview()"></div><div class="font-style-row"><button id="'+f.id+'_bold" class="'+(d.bold?'active':'')+'" onclick="this.classList.toggle(\'active\');updatePreview()" title="Bold"><b>B</b></button><button id="'+f.id+'_italic" class="'+(d.italic?'active':'')+'" onclick="this.classList.toggle(\'active\');updatePreview()" title="Italic"><i>I</i></button><button id="'+f.id+'_underline" class="'+(d.underline?'active':'')+'" onclick="this.classList.toggle(\'active\');updatePreview()" title="Underline"><u>U</u></button></div></div>';});}
+function getStyle(id){var el=function(s){return document.getElementById(id+s);};return{fontFamily:el('_font')?el('_font').value:'Poppins',fontSize:(el('_size')?el('_size').value:10)+'px',color:el('_color')?el('_color').value:'#fff',fontWeight:(el('_bold')&&el('_bold').classList.contains('active'))?'700':'400',fontStyle:(el('_italic')&&el('_italic').classList.contains('active'))?'italic':'normal',textDecoration:(el('_underline')&&el('_underline').classList.contains('active'))?'underline':'none'};}
+function ss(s){return 'font-family:\''+s.fontFamily+'\',sans-serif;font-size:'+s.fontSize+';color:'+s.color+';font-weight:'+s.fontWeight+';font-style:'+s.fontStyle+';text-decoration:'+s.textDecoration+';';}
+function toggleSection(el){el.classList.toggle('open');el.nextElementSibling.classList.toggle('open');}
+function setPreset(w,h,btn){document.getElementById('cardWidth').value=w;document.getElementById('cardHeight').value=h;document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');updatePreview();}
+function setBgType(t,btn){currentBgType=t;document.querySelectorAll('.bg-type-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');document.getElementById('bgSolidCtrl').style.display=t==='solid'?'':'none';document.getElementById('bgGradientCtrl').style.display=t==='gradient'?'':'none';document.getElementById('bgImageCtrl').style.display=t==='image'?'':'none';updatePreview();}
+function setTexture(t,el){currentTexture=t;document.querySelectorAll('.texture-opt').forEach(function(e){e.classList.remove('active')});el.classList.add('active');updatePreview();}
+function fmtDate(d){if(!d)return '---';var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function V(id){return document.getElementById(id).value;}
+function Vi(id){return parseInt(document.getElementById(id).value)||0;}
+
+// ================================================================
+//  25 UNIQUE SVG TEXTURES — each with UNIQUE pattern ID
+// ================================================================
+var textureDefinitions=[
+  {name:'none',label:'None'},
+  {name:'h-lines',label:'H Lines'},
+  {name:'v-lines',label:'V Lines'},
+  {name:'diagonal-r',label:'Diag /'},
+  {name:'diagonal-l',label:'Diag \\'},
+  {name:'crosshatch',label:'Crosshatch'},
+  {name:'dots-sm',label:'Dots S'},
+  {name:'dots-lg',label:'Dots L'},
+  {name:'dots-grid',label:'Dot Grid'},
+  {name:'grid-thin',label:'Grid Thin'},
+  {name:'grid-thick',label:'Grid Bold'},
+  {name:'checker',label:'Checker'},
+  {name:'checker-sm',label:'Check S'},
+  {name:'diamonds',label:'Diamonds'},
+  {name:'triangles',label:'Triangles'},
+  {name:'hexagons',label:'Hexagons'},
+  {name:'zigzag',label:'Zigzag'},
+  {name:'waves',label:'Waves'},
+  {name:'brick',label:'Brick'},
+  {name:'scales',label:'Scales'},
+  {name:'stars',label:'Stars'},
+  {name:'crosses',label:'Crosses'},
+  {name:'circles',label:'Circles'},
+  {name:'stripes-thick',label:'Stripes'},
+  {name:'confetti',label:'Confetti'},
+];
+
+function textureSVGFull(name, w, h) {
+  if (name === 'none') return '';
+
+  // UNIQUE ID per call — fixes the "all look same" bug
+  texUid++;
+  var pid = 'tp' + texUid;
+  var pid2 = 'tp2' + texUid;
+
+  var c  = 'rgba(255,255,255,0.07)';
+  var c2 = 'rgba(255,255,255,0.05)';
+  var c3 = 'rgba(255,255,255,0.09)';
+
+  var defs = '', extra = '';
+
+  switch(name) {
+
+    case 'h-lines':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="10" height="5">' +
+        '<line x1="0" y1="1" x2="10" y2="1" stroke="'+c+'" stroke-width="0.8"/></pattern>';
+      break;
+
+    case 'v-lines':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="5" height="10">' +
+        '<line x1="1" y1="0" x2="1" y2="10" stroke="'+c+'" stroke-width="0.8"/></pattern>';
+      break;
+
+    case 'diagonal-r':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">' +
+        '<line x1="0" y1="0" x2="0" y2="7" stroke="'+c+'" stroke-width="0.8"/></pattern>';
+      break;
+
+    case 'diagonal-l':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-45)">' +
+        '<line x1="0" y1="0" x2="0" y2="7" stroke="'+c+'" stroke-width="0.8"/></pattern>';
+      break;
+
+    case 'crosshatch':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">' +
+        '<line x1="0" y1="0" x2="0" y2="7" stroke="'+c2+'" stroke-width="0.7"/></pattern>' +
+        '<pattern id="'+pid2+'" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-45)">' +
+        '<line x1="0" y1="0" x2="0" y2="7" stroke="'+c2+'" stroke-width="0.7"/></pattern>';
+      extra = '<rect width="'+w+'" height="'+h+'" fill="url(#'+pid2+')"/>';
+      break;
+
+    case 'dots-sm':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="8" height="8">' +
+        '<circle cx="4" cy="4" r="1" fill="'+c+'"/></pattern>';
+      break;
+
+    case 'dots-lg':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="14" height="14">' +
+        '<circle cx="7" cy="7" r="2.5" fill="'+c+'"/></pattern>';
+      break;
+
+    case 'dots-grid':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="10" height="10">' +
+        '<circle cx="1" cy="1" r="0.8" fill="'+c+'"/>' +
+        '<circle cx="6" cy="6" r="0.8" fill="'+c+'"/></pattern>';
+      break;
+
+    case 'grid-thin':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="14" height="14">' +
+        '<path d="M14,0 L14,14 M0,14 L14,14" stroke="'+c2+'" stroke-width="0.5" fill="none"/></pattern>';
+      break;
+
+    case 'grid-thick':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="16" height="16">' +
+        '<path d="M16,0 L16,16 M0,16 L16,16" stroke="'+c+'" stroke-width="1.5" fill="none"/></pattern>';
+      break;
+
+    case 'checker':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="14" height="14">' +
+        '<rect x="0" y="0" width="7" height="7" fill="'+c2+'"/>' +
+        '<rect x="7" y="7" width="7" height="7" fill="'+c2+'"/></pattern>';
+      break;
+
+    case 'checker-sm':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="8" height="8">' +
+        '<rect x="0" y="0" width="4" height="4" fill="'+c2+'"/>' +
+        '<rect x="4" y="4" width="4" height="4" fill="'+c2+'"/></pattern>';
+      break;
+
+    case 'diamonds':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="16" height="16">' +
+        '<polygon points="8,1 15,8 8,15 1,8" fill="none" stroke="'+c+'" stroke-width="0.7"/></pattern>';
+      break;
+
+    case 'triangles':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="16" height="14">' +
+        '<polygon points="8,1 15,13 1,13" fill="none" stroke="'+c+'" stroke-width="0.6"/></pattern>';
+      break;
+
+    case 'hexagons':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="20" height="17.32">' +
+        '<polygon points="10,1 17.66,5.33 17.66,14 10,17.32 2.34,14 2.34,5.33" fill="none" stroke="'+c2+'" stroke-width="0.6"/></pattern>';
+      break;
+
+    case 'zigzag':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="16" height="10">' +
+        '<polyline points="0,8 4,2 8,8 12,2 16,8" fill="none" stroke="'+c+'" stroke-width="0.7"/></pattern>';
+      break;
+
+    case 'waves':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="20" height="10">' +
+        '<path d="M0,5 Q5,0 10,5 Q15,10 20,5" fill="none" stroke="'+c+'" stroke-width="0.7"/></pattern>';
+      break;
+
+    case 'brick':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="20" height="12">' +
+        '<line x1="0" y1="6" x2="20" y2="6" stroke="'+c+'" stroke-width="0.5"/>' +
+        '<line x1="0" y1="12" x2="20" y2="12" stroke="'+c+'" stroke-width="0.5"/>' +
+        '<line x1="10" y1="0" x2="10" y2="6" stroke="'+c+'" stroke-width="0.5"/>' +
+        '<line x1="0" y1="6" x2="0" y2="12" stroke="'+c+'" stroke-width="0.5"/>' +
+        '<line x1="20" y1="6" x2="20" y2="12" stroke="'+c+'" stroke-width="0.5"/></pattern>';
+      break;
+
+    case 'scales':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="14" height="10">' +
+        '<path d="M0,10 Q7,0 14,10" fill="none" stroke="'+c+'" stroke-width="0.6"/>' +
+        '<path d="M-7,10 Q0,0 7,10" fill="none" stroke="'+c+'" stroke-width="0.6" opacity="0.5"/>' +
+        '<path d="M7,10 Q14,0 21,10" fill="none" stroke="'+c+'" stroke-width="0.6" opacity="0.5"/></pattern>';
+      break;
+
+    case 'stars':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="20" height="20">' +
+        '<polygon points="10,2 12.3,7.6 18,8 13.5,12 15,18 10,14.5 5,18 6.5,12 2,8 7.7,7.6" fill="'+c3+'"/></pattern>';
+      break;
+
+    case 'crosses':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="12" height="12">' +
+        '<line x1="4" y1="6" x2="8" y2="6" stroke="'+c+'" stroke-width="0.8"/>' +
+        '<line x1="6" y1="4" x2="6" y2="8" stroke="'+c+'" stroke-width="0.8"/></pattern>';
+      break;
+
+    case 'circles':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="16" height="16">' +
+        '<circle cx="8" cy="8" r="5" fill="none" stroke="'+c+'" stroke-width="0.6"/></pattern>';
+      break;
+
+    case 'stripes-thick':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)">' +
+        '<rect x="0" y="0" width="6" height="12" fill="'+c2+'"/></pattern>';
+      break;
+
+    case 'confetti':
+      defs = '<pattern id="'+pid+'" patternUnits="userSpaceOnUse" width="24" height="24">' +
+        '<rect x="3" y="2" width="3" height="1.5" fill="'+c3+'" transform="rotate(25,4.5,2.75)"/>' +
+        '<rect x="15" y="5" width="3" height="1.5" fill="'+c2+'" transform="rotate(-15,16.5,5.75)"/>' +
+        '<rect x="8" y="14" width="3" height="1.5" fill="'+c3+'" transform="rotate(60,9.5,14.75)"/>' +
+        '<rect x="18" y="18" width="3" height="1.5" fill="'+c2+'" transform="rotate(-40,19.5,18.75)"/>' +
+        '<rect x="1" y="20" width="3" height="1.5" fill="'+c+'" transform="rotate(10,2.5,20.75)"/>' +
+        '<rect x="12" y="10" width="2" height="1.2" fill="'+c+'" transform="rotate(75,13,10.6)"/></pattern>';
+      break;
+
+    default: return '';
+  }
+
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'" style="display:block;">' +
+    '<defs>' + defs + '</defs>' +
+    '<rect width="'+w+'" height="'+h+'" fill="url(#'+pid+')"/>' +
+    extra + '</svg>';
+}
+
+function texturePreviewSVG(name) {
+  if (name === 'none') return '<div style="width:100%;height:100%;background:#1a1a3a;border-radius:6px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);font-size:.6rem;">OFF</div>';
+  return textureSVGFull(name, 50, 50);
+}
+
+function buildTextureGrid() {
+  var grid = document.getElementById('textureGrid');
+  var html = '';
+  textureDefinitions.forEach(function(t, i) {
+    html += '<div class="texture-opt'+(i===0?' active':'')+'" title="'+t.label+'" onclick="setTexture(\''+t.name+'\',this)">' +
+      texturePreviewSVG(t.name) +
+      '<div class="tex-label">'+t.label+'</div></div>';
+  });
+  grid.innerHTML = html;
+}
+
+function getTextureLayerHTML(w, h) {
+  if (currentTexture === 'none') return '';
+  var opacity = Vi('texOpacity') / 100;
+  return '<div class="card-texture-layer" style="opacity:'+opacity+';">' + textureSVGFull(currentTexture, w, h) + '</div>';
+}
+
+// ===== SHAPES =====
+function topShapeSVG(type,w,h){if(type==='none')return '';if(type==='wave')return '<path d="M0,0 L'+w+',0 L'+w+','+(h*.6)+' Q'+(w*.75)+','+h+' '+(w*.5)+','+(h*.6)+' Q'+(w*.25)+','+(h*.2)+' 0,'+(h*.6)+' Z"/>';if(type==='wave2')return '<path d="M0,0 L'+w+',0 L'+w+','+(h*.5)+' C'+(w*.8)+','+h+' '+(w*.6)+','+(h*.1)+' '+(w*.4)+','+(h*.6)+' C'+(w*.2)+','+h+' 0,'+(h*.3)+' 0,'+(h*.5)+' Z"/>';if(type==='arc')return '<path d="M0,0 L'+w+',0 L'+w+','+(h*.3)+' Q'+(w*.5)+','+(h*1.2)+' 0,'+(h*.3)+' Z"/>';if(type==='triangle')return '<polygon points="0,0 '+w+',0 '+(w*.5)+','+h+'"/>';if(type==='slant-left')return '<polygon points="0,0 '+w+',0 '+w+','+(h*.4)+' 0,'+h+'"/>';if(type==='slant-right')return '<polygon points="0,0 '+w+',0 '+w+','+h+' 0,'+(h*.4)+'"/>';if(type==='double-wave')return '<path d="M0,0 L'+w+',0 L'+w+','+(h*.4)+' Q'+(w*.75)+','+(h*.8)+' '+(w*.5)+','+(h*.4)+' Q'+(w*.25)+',0 0,'+(h*.4)+' Z"/><path d="M0,0 L'+w+',0 L'+w+','+(h*.6)+' Q'+(w*.65)+','+h+' '+(w*.35)+','+(h*.6)+' Q'+(w*.15)+','+(h*.2)+' 0,'+(h*.6)+' Z" opacity="0.4"/>';if(type==='zigzag'){var s=8;var p='0,0 '+w+',0 ';for(var i=s;i>=0;i--){p+=(w/s*i)+','+(i%2===0?h*.3:h)+' ';}return '<polygon points="'+p+'"/>';}if(type==='curve-dip')return '<path d="M0,0 L'+w+',0 L'+w+','+(h*.5)+' Q'+(w*.5)+','+(h*-.2)+' 0,'+(h*.5)+' Z"/>';if(type==='mountains')return '<polygon points="0,0 '+w+',0 '+w+','+(h*.3)+' '+(w*.8)+','+h+' '+(w*.65)+','+(h*.4)+' '+(w*.5)+','+(h*.9)+' '+(w*.35)+','+(h*.3)+' '+(w*.2)+','+h+' 0,'+(h*.3)+'"/>';if(type==='ribbon')return '<path d="M0,0 L'+w+',0 L'+w+','+(h*.7)+' L'+(w*.5)+','+(h*.5)+' L0,'+(h*.7)+' Z"/>';return '';}
+
+function bottomShapeSVG(type,w,h){if(type==='none')return '';if(type==='wave')return '<path d="M0,'+h+' L'+w+','+h+' L'+w+','+(h*.4)+' Q'+(w*.75)+',0 '+(w*.5)+','+(h*.4)+' Q'+(w*.25)+','+(h*.8)+' 0,'+(h*.4)+' Z"/>';if(type==='wave2')return '<path d="M0,'+h+' L'+w+','+h+' L'+w+','+(h*.5)+' C'+(w*.8)+',0 '+(w*.6)+','+(h*.9)+' '+(w*.4)+','+(h*.4)+' C'+(w*.2)+',0 0,'+(h*.7)+' 0,'+(h*.5)+' Z"/>';if(type==='arc')return '<path d="M0,'+h+' L'+w+','+h+' L'+w+','+(h*.7)+' Q'+(w*.5)+','+(h*-.2)+' 0,'+(h*.7)+' Z"/>';if(type==='stripe')return '<rect x="0" y="0" width="'+w+'" height="'+(h*.4)+'" opacity="0.5"/><rect x="0" y="'+(h*.55)+'" width="'+w+'" height="'+(h*.45)+'"/>';if(type==='slant-left')return '<polygon points="0,'+h+' '+w+','+h+' '+w+',0 0,'+(h*.6)+'"/>';if(type==='slant-right')return '<polygon points="0,'+h+' '+w+','+h+' '+w+','+(h*.6)+' 0,0"/>';if(type==='double-wave')return '<path d="M0,'+h+' L'+w+','+h+' L'+w+','+(h*.6)+' Q'+(w*.75)+','+(h*.2)+' '+(w*.5)+','+(h*.6)+' Q'+(w*.25)+','+h+' 0,'+(h*.6)+' Z"/><path d="M0,'+h+' L'+w+','+h+' L'+w+','+(h*.4)+' Q'+(w*.65)+',0 '+(w*.35)+','+(h*.4)+' Q'+(w*.15)+','+(h*.8)+' 0,'+(h*.4)+' Z" opacity="0.4"/>';if(type==='zigzag'){var s=8;var p='0,'+h+' '+w+','+h+' ';for(var i=s;i>=0;i--){p+=(w/s*i)+','+(i%2===0?h*.7:0)+' ';}return '<polygon points="'+p+'"/>';}if(type==='curve-bump')return '<path d="M0,'+h+' L'+w+','+h+' L'+w+','+(h*.5)+' Q'+(w*.5)+','+(h*1.2)+' 0,'+(h*.5)+' Z"/>';if(type==='mountains')return '<polygon points="0,'+h+' '+w+','+h+' '+w+','+(h*.7)+' '+(w*.85)+',0 '+(w*.7)+','+(h*.6)+' '+(w*.5)+','+(h*.1)+' '+(w*.35)+','+(h*.7)+' '+(w*.15)+',0 0,'+(h*.7)+'"/>';if(type==='torn-paper'){var path='M0,'+h+' L'+w+','+h+' L'+w+','+(h*.5)+' ';for(var i=w;i>=0;i-=w/12){var y=h*.3+Math.sin(i*.15)*h*.25+(Math.sin(i*.4)*h*.1);path+='L'+Math.max(0,i)+','+y+' ';}path+='Z';return '<path d="'+path+'"/>';}return '';}
+
+// ===== INNER BORDER =====
+function getInnerBorderHTML(type,color,gap){if(type==='none')return '';var g=gap,r=Math.max(4,12-g);var c3=color+'33',c5=color+'55',c2=color+'22',cA=color+'aa';if(type==='thin')return '<div class="card-inner-border" style="inset:'+g+'px;border:1px solid '+c3+';border-radius:'+r+'px;"></div>';if(type==='thin-dashed')return '<div class="card-inner-border" style="inset:'+g+'px;border:1px dashed '+c5+';border-radius:'+r+'px;"></div>';if(type==='thin-dotted')return '<div class="card-inner-border" style="inset:'+g+'px;border:1px dotted '+c5+';border-radius:'+r+'px;"></div>';if(type==='double')return '<div class="card-inner-border" style="inset:'+g+'px;border:1px solid '+c3+';border-radius:'+(r+1)+'px;"></div><div class="card-inner-border" style="inset:'+(g+3)+'px;border:1px solid '+c2+';border-radius:'+r+'px;"></div>';if(type==='double-dashed')return '<div class="card-inner-border" style="inset:'+g+'px;border:1px dashed '+c5+';border-radius:'+(r+1)+'px;"></div><div class="card-inner-border" style="inset:'+(g+4)+'px;border:1px dashed '+c2+';border-radius:'+r+'px;"></div>';if(type==='triple')return '<div class="card-inner-border" style="inset:'+g+'px;border:1px solid '+c3+';border-radius:'+(r+2)+'px;"></div><div class="card-inner-border" style="inset:'+(g+3)+'px;border:1px solid '+c2+';border-radius:'+(r+1)+'px;"></div><div class="card-inner-border" style="inset:'+(g+6)+'px;border:1px solid '+c2+';border-radius:'+r+'px;"></div>';if(type==='rounded-thick')return '<div class="card-inner-border" style="inset:'+g+'px;border:3px solid '+c5+';border-radius:'+(r+4)+'px;"></div>';if(type==='glow')return '<div class="card-inner-border" style="inset:'+g+'px;border:1px solid '+c5+';border-radius:'+r+'px;box-shadow:0 0 8px '+c3+',inset 0 0 8px '+c3+';"></div>';if(type==='shadow-inset')return '<div class="card-inner-border" style="inset:'+g+'px;border-radius:'+r+'px;box-shadow:inset 0 0 15px '+c3+',inset 0 0 3px '+c2+';"></div>';if(type==='elegant')return '<div class="card-inner-border" style="inset:'+g+'px;border:2px solid '+c3+';border-radius:'+(r+2)+'px;"></div><div class="card-inner-border" style="inset:'+(g+4)+'px;border:1px solid '+c2+';border-radius:'+r+'px;"></div><div class="card-inner-border" style="inset:'+(g+2)+'px;border-radius:'+(r+1)+'px;box-shadow:0 0 6px '+c2+';"></div>';if(type==='corner-dots'){var s=8,off=g+2;return '<div class="card-inner-border" style="inset:'+g+'px;border:1px solid '+c2+';border-radius:'+r+'px;"></div><div class="card-inner-border" style="top:'+off+'px;left:'+off+'px;width:'+s+'px;height:'+s+'px;background:'+cA+';border-radius:50%;"></div><div class="card-inner-border" style="top:'+off+'px;right:'+off+'px;width:'+s+'px;height:'+s+'px;background:'+cA+';border-radius:50%;"></div><div class="card-inner-border" style="bottom:'+off+'px;left:'+off+'px;width:'+s+'px;height:'+s+'px;background:'+cA+';border-radius:50%;"></div><div class="card-inner-border" style="bottom:'+off+'px;right:'+off+'px;width:'+s+'px;height:'+s+'px;background:'+cA+';border-radius:50%;"></div>';}return '';}
+
+// ===== MAIN PREVIEW =====
+function updatePreview(){
+  var w=Vi('cardWidth')||340,h=Vi('cardHeight')||215;
+  var instName=V('instName'),subtitle=V('subtitleText');
+  var studentName=V('studentName'),studentId=V('studentId');
+  var dept=V('department'),session=V('session');
+  var blood=V('bloodGroup'),dob=V('dob'),address=V('address');
+  var issueDate=V('issueDate'),expiryDate=V('expiryDate');
+  var sigName=V('sigName'),sigTitle=V('sigTitle');
+  var logoSize=Vi('logoSize')||48,photoW=Vi('photoW')||80,photoH=Vi('photoH')||95;
+  var bw=Vi('borderWidth'),bc=V('borderColor'),bs=V('borderStyle');
+  var ib=V('innerBorder'),ibc=V('innerBorderColor'),ig=Vi('innerGap')||6;
+  var shapeTop=V('shapeTop'),shapeColor=V('shapeColor');
+  var shapeOpacity=Vi('shapeOpacity')/100,shapeTopH=Vi('shapeTopH')||40;
+  var shapeBottom=V('shapeBottom'),shapeBottomColor=V('shapeBottomColor');
+  var shapeBottomOpacity=Vi('shapeBottomOpacity')/100,shapeBottomH=Vi('shapeBottomH')||35;
+  var divColor=V('dividerColor'),divStyle=V('dividerStyle');
+
+  var bgCSS='';
+  if(currentBgType==='solid')bgCSS='background:'+V('bgSolidColor')+';';
+  else if(currentBgType==='gradient')bgCSS='background:linear-gradient('+V('bgGradAngle')+'deg,'+V('bgGrad1')+','+V('bgGrad2')+');';
+  else if(currentBgType==='image'&&imageStore.bg)bgCSS='background-image:url('+imageStore.bg+');background-size:cover;background-position:center;';
+  else bgCSS='background:#1a1a4e;';
+
+  var texHTML=getTextureLayerHTML(w,h);
+  var ibHTML=getInnerBorderHTML(ib,ibc,ig);
+
+  var topSVG='';
+  if(shapeTop!=='none')topSVG='<div class="card-shape-top" style="height:'+shapeTopH+'px;"><svg viewBox="0 0 '+w+' '+shapeTopH+'" preserveAspectRatio="none" style="width:100%;height:100%;display:block;opacity:'+shapeOpacity+'" fill="'+shapeColor+'">'+topShapeSVG(shapeTop,w,shapeTopH)+'</svg></div>';
+  var botSVG='';
+  if(shapeBottom!=='none')botSVG='<div class="card-shape-bottom" style="height:'+shapeBottomH+'px;"><svg viewBox="0 0 '+w+' '+shapeBottomH+'" preserveAspectRatio="none" style="width:100%;height:100%;display:block;opacity:'+shapeBottomOpacity+'" fill="'+shapeBottomColor+'">'+bottomShapeSVG(shapeBottom,w,shapeBottomH)+'</svg></div>';
+
+  var sI=getStyle('instNameStyle'),sS=getStyle('subtitleStyle');
+  var sN=getStyle('studentNameStyle'),sID=getStyle('studentIdStyle');
+  var sD=getStyle('departmentStyle'),sSe=getStyle('sessionStyle');
+  var sIn=getStyle('infoLabelStyle'),sA=getStyle('addressStyle');
+  var sDt=getStyle('datesStyle'),sSg=getStyle('sigStyle');
+
+  var logoHTML=imageStore.logo?'<img src="'+imageStore.logo+'" style="width:'+logoSize+'px;height:'+logoSize+'px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.3);margin-bottom:4px;display:block;">':'<div style="width:'+logoSize+'px;height:'+logoSize+'px;border-radius:50%;border:2px dashed rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin-bottom:4px;font-size:'+(logoSize*.4)+'px;">&#127891;</div>';
+  var photoHTML=imageStore.photo?'<div style="width:'+photoW+'px;height:'+photoH+'px;border-radius:8px;overflow:hidden;border:2px solid rgba(255,255,255,.25);margin:6px 0;flex-shrink:0;"><img src="'+imageStore.photo+'" style="width:100%;height:100%;object-fit:cover;display:block;"></div>':'<div style="width:'+photoW+'px;height:'+photoH+'px;border-radius:8px;border:2px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;margin:6px 0;background:rgba(255,255,255,.03);flex-shrink:0;"><span style="color:rgba(255,255,255,.25);font-size:.65rem;">Photo</span></div>';
+  var divHTML=divStyle!=='none'?'<div style="height:0;width:80%;margin:6px auto;border-top:2px '+divStyle+' '+divColor+';"></div>':'';
+
+  document.getElementById('cardPreview').innerHTML=
+    '<div class="card-wrap" style="width:'+w+'px;height:'+h+'px;'+bgCSS+'border:'+bw+'px '+bs+' '+bc+';">'+
+      topSVG+botSVG+texHTML+ibHTML+
+      '<div class="card-content-layer" style="padding:12px 14px 10px;">'+
+        logoHTML+
+        '<div style="'+ss(sI)+'text-align:center;line-height:1.2;">'+(instName||'&nbsp;')+'</div>'+
+        '<div style="'+ss(sS)+'text-align:center;margin-top:1px;">'+(subtitle||'&nbsp;')+'</div>'+
+        divHTML+
+        '<div style="display:flex;gap:12px;align-items:flex-start;width:92%;margin-top:4px;">'+
+          photoHTML+
+          '<div style="flex:1;display:flex;flex-direction:column;gap:2px;padding-top:2px;">'+
+            '<div style="'+ss(sN)+'">'+(studentName||'&nbsp;')+'</div>'+
+            '<div style="'+ss(sID)+'">ID: '+studentId+'</div>'+
+            '<div style="'+ss(sD)+'">'+dept+'</div>'+
+            '<div style="'+ss(sSe)+'">Session: '+session+'</div>'+
+            '<div style="'+ss(sIn)+'">Blood: '+blood+' &nbsp;|&nbsp; DOB: '+fmtDate(dob)+'</div>'+
+          '</div>'+
+        '</div>'+
+        '<div style="'+ss(sA)+'text-align:center;width:90%;margin-top:4px;line-height:1.3;">Address: '+address+'</div>'+
+        '<div style="display:flex;justify-content:space-between;width:90%;margin-top:4px;">'+
+          '<div style="'+ss(sDt)+'">Issue: '+fmtDate(issueDate)+'</div>'+
+          '<div style="'+ss(sDt)+'">Expiry: '+fmtDate(expiryDate)+'</div>'+
+        '</div>'+
+        '<div style="margin-top:auto;text-align:center;padding-top:4px;">'+
+          '<div style="width:100px;border-top:1px solid '+sSg.color+';margin:0 auto 1px;"></div>'+
+          '<div style="'+ss(sSg)+'">'+sigName+'</div>'+
+          '<div style="'+ss(sSg)+'font-size:.55rem;opacity:.7;">'+sigTitle+'</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+}
+
+function downloadCard(){
+  var btn=document.getElementById('downloadBtn');btn.disabled=true;btn.textContent='⏳ Generating...';
+  var cardEl=document.querySelector('#cardPreview .card-wrap');
+  if(!cardEl){btn.disabled=false;btn.innerHTML='⬇️ Download as PNG';return;}
+  html2canvas(cardEl,{scale:4,useCORS:true,allowTaint:true,backgroundColor:null,logging:false}).then(function(canvas){
+    var link=document.createElement('a');link.download='student-id-card.png';link.href=canvas.toDataURL('image/png',1.0);
+    document.body.appendChild(link);link.click();document.body.removeChild(link);
+    btn.disabled=false;btn.innerHTML='⬇️ Download as PNG';
+  }).catch(function(err){console.error(err);alert('Failed: '+err.message);btn.disabled=false;btn.innerHTML='⬇️ Download as PNG';});
+}
+
+buildStyleControls();
+buildTextureGrid();
+updatePreview();
+</script>
+</body>
+</html>
             </xmp>
 
         <xmp id="tool-48-code">
