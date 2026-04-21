@@ -49841,7 +49841,887 @@ window.addEventListener('load', () => {
 </html>
             </xmp>
 
-        <xmp id="tool-49-code">
+        <xmp id="tool-49-code"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Student ID Card Maker (Advanced Textures + Border + Text Styler)</title>
+  <style>
+    :root{
+      --panel:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --primary:#2563eb;
+
+      --headerColor1:#1d4ed8;
+      --headerColor2:#3b82f6;
+
+      --borderColor:#1e3a8a;
+      --borderWidth:3px;
+      --radius:24px;
+
+      --headerTextureOpacity:.22;
+      --bgTextureOpacity:.20;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(circle at 10% 20%, #dbeafe, #eef2ff 45%, #f8fafc);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color:var(--text);
+    }
+
+    .app{
+      display:grid;
+      grid-template-columns: 390px 1fr;
+      gap:14px;
+      min-height:100vh;
+      padding:14px;
+    }
+    .panel,.stage{
+      background:var(--panel);
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(15,23,42,.1);
+    }
+    .panel{
+      padding:14px;
+      overflow:auto;
+      max-height:calc(100vh - 28px);
+    }
+    .stage{
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      overflow:auto;
+    }
+
+    h2,h3{margin:8px 0 10px}
+    .sec{
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:10px;
+      margin-bottom:10px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-bottom:8px;
+    }
+    label{
+      display:block;
+      font-size:12px;
+      color:#374151;
+      margin-bottom:3px;
+    }
+    input,select,textarea,button{
+      width:100%;
+      border:1px solid #d1d5db;
+      border-radius:8px;
+      padding:8px;
+      font-size:13px;
+      background:#fff;
+    }
+    textarea{resize:vertical}
+    .inline{display:flex; align-items:center; gap:8px}
+    .inline input[type=checkbox]{width:auto}
+    button{
+      cursor:pointer; border:none; color:#fff; background:var(--primary); font-weight:600;
+    }
+    button.dark{background:#111827}
+    .small{font-size:11px;color:var(--muted)}
+
+    /* CARD */
+    #card{
+      width:330px;
+      height:520px;
+      border-radius:var(--radius);
+      position:relative;
+      overflow:hidden;
+      border:var(--borderWidth) solid var(--borderColor);
+      box-shadow:0 16px 35px rgba(0,0,0,.18);
+      background:#fff;
+      isolation:isolate;
+    }
+
+    #bgLayer{
+      position:absolute; inset:0;
+      background:linear-gradient(160deg,#e0e7ff,#ffffff 45%,#dbeafe);
+      z-index:0;
+    }
+    #bgImage{
+      position:absolute; inset:0;
+      background-size:cover;
+      background-position:center;
+      opacity:.2;
+      z-index:0;
+    }
+
+    /* background texture */
+    #texture{
+      position:absolute; inset:0;
+      z-index:0;
+      pointer-events:none;
+      opacity:var(--bgTextureOpacity);
+      mix-blend-mode:multiply;
+    }
+
+    /* header blobs */
+    .topWave{
+      position:absolute;
+      top:-70px; left:-30px;
+      width:420px; height:220px;
+      background:linear-gradient(135deg,var(--headerColor1),var(--headerColor2));
+      border-radius:0 0 50% 50%;
+      transform:rotate(-2deg);
+      z-index:0;
+    }
+    .topWave2{
+      position:absolute;
+      top:-88px; right:-70px;
+      width:280px; height:200px;
+      background:linear-gradient(120deg,var(--headerColor2),#93c5fd);
+      border-radius:0 0 55% 55%;
+      transform:rotate(12deg);
+      opacity:.55;
+      z-index:0;
+    }
+
+    /* header texture overlay */
+    #headerTexture{
+      position:absolute;
+      top:0; left:0; right:0;
+      height:180px;
+      z-index:0;
+      pointer-events:none;
+      opacity:var(--headerTextureOpacity);
+      mix-blend-mode:screen;
+    }
+
+    /* border texture ring */
+    #borderFx{
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      pointer-events:none;
+      z-index:5;
+      border:0 solid transparent;
+    }
+
+    .content{
+      position:relative;
+      z-index:2;
+      height:100%;
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .head{
+      text-align:center;
+      color:#fff;
+      margin-top:2px;
+      position:relative;
+      z-index:2;
+    }
+
+    #logoView{
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      object-fit:cover;
+      border:2px solid rgba(255,255,255,.9);
+      background:#fff;
+      display:block;
+      margin:0 auto 6px;
+      box-shadow:0 4px 10px rgba(0,0,0,.18);
+    }
+
+    #instNameView{font-weight:800;font-size:18px;line-height:1.1}
+    #instSubView{font-size:11px;opacity:.95}
+    #centerTextView{
+      margin-top:6px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+    }
+
+    .glass{
+      background:rgba(255,255,255,.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border:1px solid rgba(255,255,255,.65);
+      border-radius:16px;
+      padding:10px;
+    }
+
+    .profile{
+      display:grid;
+      grid-template-columns:100px 1fr;
+      gap:10px;
+      align-items:center;
+    }
+    #photoView{
+      width:100px; height:120px;
+      border-radius:12px;
+      object-fit:cover;
+      border:2px solid rgba(30,58,138,.22);
+      background:#f3f4f6;
+    }
+    .hidden{display:none !important;}
+
+    .name{font-weight:800;font-size:16px;color:#0f172a;line-height:1.2}
+    .sid{margin-top:3px;font-size:12px;color:#1d4ed8;font-weight:700}
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      font-size:11px;
+    }
+    .item span{display:block;color:#6b7280;font-size:10px}
+    .item b{color:#111827;font-size:11px}
+
+    .address{font-size:11px;line-height:1.3}
+    .footer{
+      margin-top:auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      font-size:10px;
+    }
+    .sign{text-align:right}
+    .sign .line{
+      border-top:1px solid rgba(17,24,39,.45);
+      margin-top:14px;
+      padding-top:3px;
+    }
+
+    #decor{position:absolute;inset:0;z-index:1;pointer-events:none;}
+    .dline{position:absolute;height:2px;background:rgba(255,255,255,.65)}
+    .dcircle{position:absolute;width:28px;height:28px;border:2px solid rgba(255,255,255,.5);border-radius:999px}
+    .drect{position:absolute;width:40px;height:18px;border:2px solid rgba(255,255,255,.5);border-radius:4px}
+
+    .actions{
+      width:100%;
+      max-width:460px;
+      margin-top:12px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="panel">
+    <h2>Modern ID Maker</h2>
+    <p class="small">Advanced textures, border textures, and universal text styling added.</p>
+
+    <div class="sec">
+      <h3>Card Size</h3>
+      <div class="row">
+        <div>
+          <label>Preset</label>
+          <select id="preset">
+            <option value="">Custom</option>
+            <option value="330x520">Classic Vertical</option>
+            <option value="360x560">Large Vertical</option>
+            <option value="300x500">Slim Vertical</option>
+          </select>
+        </div>
+        <div></div>
+      </div>
+      <div class="row">
+        <div><label>Width</label><input type="number" id="w" value="330" min="240" max="700"></div>
+        <div><label>Height</label><input type="number" id="h" value="520" min="300" max="900"></div>
+      </div>
+      <div class="row">
+        <div><label>Corner Radius</label><input type="number" id="radius" value="24" min="0" max="80"></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h3>Institution</h3>
+      <label>Institution Name</label><input id="inst" value="North Valley University">
+      <label>Institution Subtitle</label><input id="instSub" value="Office of Registrar">
+      <label>Centered Text</label><input id="centerText" value="Student Identity Card">
+      <label>Upload Logo</label><input type="file" id="logoUp" accept="image/*">
+    </div>
+
+    <div class="sec">
+      <h3>Student Info</h3>
+      <div class="row">
+        <div><label>Name</label><input id="name" value="Emma Watson"></div>
+        <div><label>Student ID</label><input id="sid" value="NVU-26-7781"></div>
+      </div>
+      <div class="row">
+        <div><label>Program</label><input id="program" value="BBA"></div>
+        <div><label>Department</label><input id="dept" value="Business Administration"></div>
+      </div>
+      <div class="row">
+        <div><label>DOB</label><input id="dob" type="date" value="2004-09-11"></div>
+        <div><label>Blood</label><input id="blood" value="A+"></div>
+      </div>
+      <div class="row">
+        <div><label>Issue Date</label><input id="issue" type="date" value="2026-01-15"></div>
+        <div><label>Expire Date</label><input id="expire" type="date" value="2030-01-14"></div>
+      </div>
+      <label>Address</label><textarea id="address" rows="2">House 12, Green Road, Dhaka</textarea>
+      <label>Signature Name</label><input id="signName" value="Registrar">
+      <div class="inline"><input type="checkbox" id="showPhoto" checked><label for="showPhoto">Show Student Photo</label></div>
+      <label>Upload Student Photo</label><input type="file" id="photoUp" accept="image/*">
+    </div>
+
+    <div class="sec">
+      <h3>Background, Header & Border Style</h3>
+      <div class="row">
+        <div>
+          <label>Background Mode</label>
+          <select id="bgMode">
+            <option value="grad">Gradient</option>
+            <option value="solid">Solid</option>
+            <option value="image">Image</option>
+          </select>
+        </div>
+        <div>
+          <label>Background Texture</label>
+          <select id="textureType">
+            <option value="none">None</option>
+            <option value="dots">Dots</option>
+            <option value="grid">Grid</option>
+            <option value="diag">Diagonal</option>
+            <option value="hatch">Cross Hatch</option>
+            <option value="waves">Waves</option>
+            <option value="hex">Hex Pattern</option>
+            <option value="noise">Soft Noise</option>
+            <option value="triangles">Triangles</option>
+            <option value="checker">Checker</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div><label>BG Texture Opacity</label><input type="range" id="bgTexOpacity" min="0" max="100" value="20"></div>
+        <div><label>Header Texture Opacity</label><input type="range" id="headTexOpacity" min="0" max="100" value="22"></div>
+      </div>
+
+      <div class="row">
+        <div><label>Background Color (Solid)</label><input type="color" id="bgSolid" value="#f8fafc"></div>
+        <div><label>Gradient Color 1</label><input type="color" id="c1" value="#e0e7ff"></div>
+      </div>
+      <div class="row">
+        <div><label>Gradient Color 2</label><input type="color" id="c2" value="#dbeafe"></div>
+        <div></div>
+      </div>
+
+      <div class="row">
+        <div><label>Header Color 1</label><input type="color" id="headerC1" value="#1d4ed8"></div>
+        <div><label>Header Color 2</label><input type="color" id="headerC2" value="#3b82f6"></div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Header Texture</label>
+          <select id="headerTextureType">
+            <option value="none">None</option>
+            <option value="shine">Shine</option>
+            <option value="mesh">Mesh</option>
+            <option value="stripes">Stripes</option>
+            <option value="dots">Dots</option>
+            <option value="spark">Spark</option>
+          </select>
+        </div>
+        <div>
+          <label>Border Texture</label>
+          <select id="borderTextureType">
+            <option value="none">None</option>
+            <option value="double">Double</option>
+            <option value="dashed">Dashed</option>
+            <option value="dotted">Dotted</option>
+            <option value="groove">Groove</option>
+            <option value="inset">Inset</option>
+            <option value="shadow-frame">Shadow Frame</option>
+            <option value="neon">Neon Glow</option>
+            <option value="gold-frame">Gold Frame</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Upload Background Image</label><input type="file" id="bgUp" accept="image/*">
+
+      <div class="row" style="margin-top:8px;">
+        <div><label>Border Color</label><input type="color" id="outlineC" value="#1e3a8a"></div>
+        <div><label>Border Width</label><input type="number" id="outlineW" min="0" max="16" value="3"></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h3>Custom Text Section (All Options)</h3>
+      <label>Target Text Element</label>
+      <select id="textTarget">
+        <option value="instNameView">Institution Name</option>
+        <option value="instSubView">Institution Subtitle</option>
+        <option value="centerTextView">Center Header Text</option>
+        <option value="nameView">Student Name</option>
+        <option value="sidView">Student ID</option>
+        <option value="programView">Program Value</option>
+        <option value="deptView">Department Value</option>
+        <option value="dobView">DOB Value</option>
+        <option value="bloodView">Blood Group Value</option>
+        <option value="addressView">Address Value</option>
+        <option value="issueView">Issue Date Value</option>
+        <option value="expireView">Expire Date Value</option>
+        <option value="signView">Signature Name</option>
+        <option value="dataWrap">Data Box (all)</option>
+        <option value="footerWrap">Footer Box (all)</option>
+        <option value="head">Header Full Block</option>
+      </select>
+
+      <div class="row">
+        <div>
+          <label>Font Family</label>
+          <select id="fontFamily">
+            <option>Arial</option>
+            <option>Verdana</option>
+            <option>Tahoma</option>
+            <option>Georgia</option>
+            <option>"Times New Roman"</option>
+            <option>"Trebuchet MS"</option>
+            <option>"Courier New"</option>
+            <option>Impact</option>
+            <option>"Segoe UI"</option>
+            <option>"Lucida Sans Unicode"</option>
+          </select>
+        </div>
+        <div><label>Font Size (px)</label><input type="number" id="fontSize" value="12" min="8" max="50"></div>
+      </div>
+
+      <div class="row">
+        <div><label>Text Color</label><input type="color" id="fontColor" value="#111827"></div>
+        <div><label>Letter Spacing (px)</label><input type="number" id="letterSpacing" value="0" min="-1" max="10" step="0.2"></div>
+      </div>
+
+      <div class="row">
+        <div class="inline"><input type="checkbox" id="isBold"><label for="isBold">Bold</label></div>
+        <div class="inline"><input type="checkbox" id="isItalic"><label for="isItalic">Italic</label></div>
+      </div>
+
+      <div class="row">
+        <div class="inline"><input type="checkbox" id="isUpper"><label for="isUpper">UPPERCASE</label></div>
+        <div>
+          <label>Text Align</label>
+          <select id="textAlign">
+            <option value="">(No change)</option>
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" id="applyTextStyle">Apply Text Style</button>
+    </div>
+
+    <div class="sec">
+      <h3>Decorative</h3>
+      <div class="row">
+        <div><button type="button" id="addLine">Add Line</button></div>
+        <div><button type="button" id="addCircle">Add Circle</button></div>
+      </div>
+      <div class="row">
+        <div><button type="button" id="addRect">Add Rectangle</button></div>
+        <div><button type="button" class="dark" id="clearDecor">Clear</button></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <h3>Preview</h3>
+    <div id="card">
+      <div id="bgLayer"></div>
+      <div id="bgImage"></div>
+      <div id="texture"></div>
+
+      <div class="topWave"></div>
+      <div class="topWave2"></div>
+      <div id="headerTexture"></div>
+
+      <div id="decor"></div>
+      <div id="borderFx"></div>
+
+      <div class="content">
+        <div class="head" id="head">
+          <img id="logoView" alt="Institution Logo">
+          <div id="instNameView">North Valley University</div>
+          <div id="instSubView">Office of Registrar</div>
+          <div id="centerTextView">Student Identity Card</div>
+        </div>
+
+        <div class="glass profile">
+          <img id="photoView" alt="Student Photo">
+          <div>
+            <div class="name" id="nameView">Emma Watson</div>
+            <div class="sid" id="sidView">NVU-26-7781</div>
+          </div>
+        </div>
+
+        <div class="glass" id="dataWrap">
+          <div class="grid">
+            <div class="item"><span>Program</span><b id="programView">BBA</b></div>
+            <div class="item"><span>Department</span><b id="deptView">Business Administration</b></div>
+            <div class="item"><span>Date of Birth</span><b id="dobView">2004-09-11</b></div>
+            <div class="item"><span>Blood Group</span><b id="bloodView">A+</b></div>
+          </div>
+        </div>
+
+        <div class="glass address">
+          <span style="color:#6b7280;font-size:10px;">Address</span><br>
+          <b id="addressView">House 12, Green Road, Dhaka</b>
+        </div>
+
+        <div class="glass footer" id="footerWrap">
+          <div>
+            <div>Issue Date: <b id="issueView">2026-01-15</b></div>
+            <div>Expire Date: <b id="expireView">2030-01-14</b></div>
+          </div>
+          <div class="sign">
+            <div class="line" id="signView">Registrar</div>
+            <div>Authorized Signature</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="download">Download PNG</button>
+      <button class="dark" id="reset">Reset</button>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  const state = { bgImage:'', photo:'', logo:'' };
+
+  function svgPlaceholder(text,w,h,bg='#f3f4f6',c='#6b7280'){
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+        <rect width="100%" height="100%" fill="${bg}"/>
+        <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="${c}" font-size="16">${text}</text>
+      </svg>`
+    );
+  }
+
+  function initPlaceholders(){
+    $('photoView').src = svgPlaceholder('Photo',220,260);
+    $('logoView').src = svgPlaceholder('Logo',120,120,'#ffffff','#374151');
+  }
+
+  function readImage(inp, cb){
+    const f = inp.files?.[0];
+    if(!f) return;
+    const r = new FileReader();
+    r.onload = e => cb(e.target.result);
+    r.readAsDataURL(f);
+  }
+
+  function applySize(){
+    const w = (+$('w').value || 330);
+    const h = (+$('h').value || 520);
+    const r = (+$('radius').value || 24);
+
+    $('card').style.width = w + 'px';
+    $('card').style.height = h + 'px';
+    $('card').style.borderRadius = r + 'px';
+    document.documentElement.style.setProperty('--radius', r + 'px');
+  }
+
+  function syncText(){
+    $('instNameView').textContent = $('inst').value;
+    $('instSubView').textContent = $('instSub').value;
+    $('centerTextView').textContent = $('centerText').value;
+    $('nameView').textContent = $('name').value;
+    $('sidView').textContent = $('sid').value;
+    $('programView').textContent = $('program').value;
+    $('deptView').textContent = $('dept').value;
+    $('dobView').textContent = $('dob').value;
+    $('bloodView').textContent = $('blood').value;
+    $('issueView').textContent = $('issue').value;
+    $('expireView').textContent = $('expire').value;
+    $('addressView').textContent = $('address').value;
+    $('signView').textContent = $('signName').value;
+  }
+
+  function applyBg(){
+    const mode = $('bgMode').value;
+    const solid = $('bgSolid').value;
+    const c1 = $('c1').value;
+    const c2 = $('c2').value;
+    const bg = $('bgLayer');
+    const bgImg = $('bgImage');
+
+    bgImg.style.backgroundImage = '';
+
+    if(mode === 'solid'){
+      bg.style.background = solid;
+    }else if(mode === 'grad'){
+      bg.style.background = `linear-gradient(160deg, ${c1}, ${c2})`;
+    }else{
+      bg.style.background = solid;
+      if(state.bgImage) bgImg.style.backgroundImage = `url('${state.bgImage}')`;
+    }
+  }
+
+  function applyHeaderColors(){
+    document.documentElement.style.setProperty('--headerColor1', $('headerC1').value);
+    document.documentElement.style.setProperty('--headerColor2', $('headerC2').value);
+  }
+
+  function applyTexture(){
+    const t = $('textureType').value;
+    const tx = $('texture');
+    tx.style.backgroundImage = 'none';
+    tx.style.backgroundSize = '';
+    tx.style.background = 'none';
+
+    if(t==='dots'){
+      tx.style.backgroundImage = 'radial-gradient(rgba(0,0,0,.5) 1px, transparent 1px)';
+      tx.style.backgroundSize = '12px 12px';
+    }else if(t==='grid'){
+      tx.style.backgroundImage = 'linear-gradient(rgba(0,0,0,.35) 1px, transparent 1px),linear-gradient(90deg, rgba(0,0,0,.35) 1px, transparent 1px)';
+      tx.style.backgroundSize = '20px 20px';
+    }else if(t==='diag'){
+      tx.style.backgroundImage = 'repeating-linear-gradient(45deg, rgba(0,0,0,.35), rgba(0,0,0,.35) 2px, transparent 2px, transparent 9px)';
+    }else if(t==='hatch'){
+      tx.style.backgroundImage = 'repeating-linear-gradient(45deg, rgba(0,0,0,.28) 0 2px, transparent 2px 10px), repeating-linear-gradient(-45deg, rgba(0,0,0,.18) 0 2px, transparent 2px 12px)';
+    }else if(t==='waves'){
+      tx.style.backgroundImage = 'radial-gradient(ellipse at 0 100%, rgba(0,0,0,.25) 0 8%, transparent 9%), radial-gradient(ellipse at 100% 0, rgba(0,0,0,.2) 0 8%, transparent 9%)';
+      tx.style.backgroundSize = '40px 40px';
+    }else if(t==='hex'){
+      tx.style.backgroundImage = 'linear-gradient(30deg, rgba(0,0,0,.22) 12%, transparent 12.5%, transparent 87%, rgba(0,0,0,.22) 87.5%, rgba(0,0,0,.22)), linear-gradient(150deg, rgba(0,0,0,.22) 12%, transparent 12.5%, transparent 87%, rgba(0,0,0,.22) 87.5%, rgba(0,0,0,.22)), linear-gradient(90deg, rgba(0,0,0,.22) 2%, transparent 2.5%, transparent 97%, rgba(0,0,0,.22) 97.5%, rgba(0,0,0,.22))';
+      tx.style.backgroundSize = '28px 48px';
+    }else if(t==='noise'){
+      tx.style.backgroundImage = 'radial-gradient(rgba(0,0,0,.2) 0.6px, transparent 0.7px), radial-gradient(rgba(0,0,0,.14) 0.6px, transparent 0.7px)';
+      tx.style.backgroundSize = '6px 6px, 8px 8px';
+      tx.style.backgroundPosition = '0 0, 3px 3px';
+    }else if(t==='triangles'){
+      tx.style.backgroundImage = 'linear-gradient(60deg, rgba(0,0,0,.22) 25%, transparent 25.5%, transparent 75%, rgba(0,0,0,.22) 75.5%), linear-gradient(-60deg, rgba(0,0,0,.22) 25%, transparent 25.5%, transparent 75%, rgba(0,0,0,.22) 75.5%)';
+      tx.style.backgroundSize = '24px 24px';
+    }else if(t==='checker'){
+      tx.style.backgroundImage = 'linear-gradient(45deg, rgba(0,0,0,.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.2) 75%), linear-gradient(45deg, rgba(0,0,0,.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.2) 75%)';
+      tx.style.backgroundSize = '20px 20px';
+      tx.style.backgroundPosition = '0 0, 10px 10px';
+    }
+
+    document.documentElement.style.setProperty('--bgTextureOpacity', ($('bgTexOpacity').value/100).toString());
+  }
+
+  function applyHeaderTexture(){
+    const t = $('headerTextureType').value;
+    const el = $('headerTexture');
+    el.style.backgroundImage = 'none';
+    el.style.backgroundSize = '';
+    el.style.background = 'none';
+
+    if(t==='shine'){
+      el.style.backgroundImage = 'linear-gradient(120deg, rgba(255,255,255,.0) 20%, rgba(255,255,255,.5) 45%, rgba(255,255,255,.0) 70%)';
+      el.style.backgroundSize = '240px 180px';
+    }else if(t==='mesh'){
+      el.style.backgroundImage = 'radial-gradient(circle at 20% 30%, rgba(255,255,255,.55) 0 18%, transparent 19%), radial-gradient(circle at 75% 40%, rgba(255,255,255,.35) 0 16%, transparent 17%), radial-gradient(circle at 55% 75%, rgba(255,255,255,.25) 0 12%, transparent 13%)';
+    }else if(t==='stripes'){
+      el.style.backgroundImage = 'repeating-linear-gradient(60deg, rgba(255,255,255,.45), rgba(255,255,255,.45) 3px, transparent 3px, transparent 11px)';
+    }else if(t==='dots'){
+      el.style.backgroundImage = 'radial-gradient(rgba(255,255,255,.8) 1.1px, transparent 1.2px)';
+      el.style.backgroundSize = '12px 12px';
+    }else if(t==='spark'){
+      el.style.backgroundImage = 'radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.5px), radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1.5px)';
+      el.style.backgroundSize = '22px 22px, 30px 30px';
+      el.style.backgroundPosition = '0 0, 10px 14px';
+    }
+
+    document.documentElement.style.setProperty('--headerTextureOpacity', ($('headTexOpacity').value/100).toString());
+  }
+
+  function applyBorder(){
+    const card = $('card');
+    const fx = $('borderFx');
+    const color = $('outlineC').value;
+    const width = (+$('outlineW').value || 0);
+
+    card.style.borderColor = color;
+    card.style.borderWidth = width + 'px';
+    document.documentElement.style.setProperty('--borderColor', color);
+    document.documentElement.style.setProperty('--borderWidth', width + 'px');
+
+    // reset
+    card.style.borderStyle = 'solid';
+    card.style.boxShadow = '0 16px 35px rgba(0,0,0,.18)';
+    fx.style.border = '0 solid transparent';
+    fx.style.boxShadow = 'none';
+    fx.style.background = 'none';
+
+    const type = $('borderTextureType').value;
+
+    if(type === 'double'){
+      card.style.borderStyle = 'double';
+    }else if(type === 'dashed'){
+      card.style.borderStyle = 'dashed';
+    }else if(type === 'dotted'){
+      card.style.borderStyle = 'dotted';
+    }else if(type === 'groove'){
+      card.style.borderStyle = 'groove';
+    }else if(type === 'inset'){
+      card.style.borderStyle = 'inset';
+    }else if(type === 'shadow-frame'){
+      fx.style.boxShadow = `inset 0 0 0 ${Math.max(1,width)}px rgba(255,255,255,.55), inset 0 0 18px rgba(0,0,0,.18)`;
+    }else if(type === 'neon'){
+      card.style.boxShadow = `0 0 0 ${Math.max(1,width)}px ${color}, 0 0 10px ${color}, 0 0 24px ${color}, 0 16px 35px rgba(0,0,0,.18)`;
+    }else if(type === 'gold-frame'){
+      card.style.borderColor = '#C89B3C';
+      card.style.borderStyle = 'solid';
+      fx.style.boxShadow = 'inset 0 0 0 1px #f8e4a0, inset 0 0 0 3px rgba(200,155,60,.35)';
+      fx.style.background = 'linear-gradient(135deg, transparent 0 92%, rgba(248,228,160,.35) 100%)';
+    }
+  }
+
+  function applyTextStyle(){
+    const target = $('textTarget').value;
+    const el = $(target);
+    if(!el) return;
+
+    el.style.fontFamily = $('fontFamily').value;
+    el.style.fontSize = (+$('fontSize').value || 12) + 'px';
+    el.style.color = $('fontColor').value;
+    el.style.fontWeight = $('isBold').checked ? '700' : '400';
+    el.style.fontStyle = $('isItalic').checked ? 'italic' : 'normal';
+    el.style.letterSpacing = (+$('letterSpacing').value || 0) + 'px';
+    el.style.textTransform = $('isUpper').checked ? 'uppercase' : 'none';
+
+    const align = $('textAlign').value;
+    if(align) el.style.textAlign = align;
+  }
+
+  function photoToggle(){
+    const show = $('showPhoto').checked;
+    $('photoView').classList.toggle('hidden', !show);
+    document.querySelector('.profile').style.gridTemplateColumns = show ? '100px 1fr' : '1fr';
+  }
+
+  function addDecor(type){
+    const d = $('decor');
+    const e = document.createElement('div');
+    e.className = type==='line' ? 'dline' : type==='circle' ? 'dcircle' : 'drect';
+    if(type==='line') e.style.width = (60 + Math.random()*120) + 'px';
+    e.style.left = (8 + Math.random()*84) + '%';
+    e.style.top = (10 + Math.random()*80) + '%';
+    e.style.transform = `translate(-50%, -50%) rotate(${Math.floor(Math.random()*60)-30}deg)`;
+    d.appendChild(e);
+  }
+
+  async function downloadRounded(){
+    const original = $('card');
+    const clone = original.cloneNode(true);
+
+    clone.style.position = 'fixed';
+    clone.style.left = '-99999px';
+    clone.style.top = '0';
+    clone.style.margin = '0';
+    clone.style.transform = 'none';
+    clone.style.borderRadius = getComputedStyle(original).borderRadius;
+    clone.style.overflow = 'hidden';
+
+    document.body.appendChild(clone);
+
+    const canvas = await html2canvas(clone, {
+      scale: 3,
+      useCORS: true,
+      backgroundColor: null
+    });
+
+    document.body.removeChild(clone);
+
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'student-id-advanced.png';
+    a.click();
+  }
+
+  function bind(){
+    ['inst','instSub','centerText','name','sid','program','dept','dob','blood','issue','expire','address','signName']
+      .forEach(id => $(id).addEventListener('input', syncText));
+
+    ['w','h','radius'].forEach(id => $(id).addEventListener('input', applySize));
+
+    $('preset').addEventListener('change', e=>{
+      if(!e.target.value) return;
+      const [w,h] = e.target.value.split('x').map(Number);
+      $('w').value = w; $('h').value = h; applySize();
+    });
+
+    $('logoUp').addEventListener('change', ()=>readImage($('logoUp'), data=>{
+      state.logo = data;
+      $('logoView').src = data;
+      $('logoView').style.display = 'block';
+    }));
+
+    $('photoUp').addEventListener('change', ()=>readImage($('photoUp'), data=>{
+      state.photo = data; $('photoView').src = data;
+    }));
+
+    $('bgUp').addEventListener('change', ()=>readImage($('bgUp'), data=>{
+      state.bgImage = data; applyBg();
+    }));
+
+    $('showPhoto').addEventListener('change', photoToggle);
+
+    ['bgMode','bgSolid','c1','c2'].forEach(id => $(id).addEventListener('input', applyBg));
+
+    $('textureType').addEventListener('change', applyTexture);
+    $('bgTexOpacity').addEventListener('input', applyTexture);
+
+    $('headerTextureType').addEventListener('change', applyHeaderTexture);
+    $('headTexOpacity').addEventListener('input', applyHeaderTexture);
+
+    $('headerC1').addEventListener('input', applyHeaderColors);
+    $('headerC2').addEventListener('input', applyHeaderColors);
+
+    $('outlineC').addEventListener('input', applyBorder);
+    $('outlineW').addEventListener('input', applyBorder);
+    $('borderTextureType').addEventListener('change', applyBorder);
+
+    $('applyTextStyle').addEventListener('click', applyTextStyle);
+
+    $('addLine').addEventListener('click', ()=>addDecor('line'));
+    $('addCircle').addEventListener('click', ()=>addDecor('circle'));
+    $('addRect').addEventListener('click', ()=>addDecor('rect'));
+    $('clearDecor').addEventListener('click', ()=> $('decor').innerHTML='');
+
+    $('download').addEventListener('click', downloadRounded);
+    $('reset').addEventListener('click', ()=> location.reload());
+  }
+
+  initPlaceholders();
+  applySize();
+  syncText();
+  applyBg();
+  applyHeaderColors();
+  applyTexture();
+  applyHeaderTexture();
+  applyBorder();
+  photoToggle();
+  bind();
+</script>
+</body>
+</html>
             </xmp>
 
         <xmp id="tool-50-code">
