@@ -50724,7 +50724,964 @@ window.addEventListener('load', () => {
 </html>
             </xmp>
 
-        <xmp id="tool-50-code">
+        <xmp id="tool-50-code"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student ID Card Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Bebas+Neue&family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600;700;800&family=Oswald:wght@300;400;600&family=Merriweather:wght@300;400;700&family=Montserrat:wght@300;400;600;700&family=Lato:wght@300;400;700&family=Poppins:wght@300;400;600;700&family=Source+Serif+4:wght@300;400;600;700&family=DM+Serif+Display&family=Cormorant+Garamond:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;600;700&family=Abril+Fatface&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root {
+    --bg: #f4f7f9;
+    --surface: #ffffff;
+    --surface2: #f8fafc;
+    --border: #e2e8f0;
+    --accent: #2563eb; 
+    --accent-hover: #1d4ed8;
+    --accent2: #8b5cf6;
+    --gold: #f59e0b;
+    --text: #0f172a;
+    --text2: #64748b;
+    --danger: #ef4444;
+    --success: #10b981;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius: 10px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; min-height: 100vh; }
+
+  /* HEADER */
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm); }
+  header .logo-mark { width: 42px; height: 42px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: #fff; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+  header h1 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+  header p { font-size: 12px; color: var(--text2); font-weight: 400; margin-top: 2px;}
+
+  /* LAYOUT */
+  .app { display: grid; grid-template-columns: 400px 1fr; height: calc(100vh - 75px); }
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+  .section { border-bottom: 1px solid var(--border); overflow: hidden; }
+  .section-header { padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.2s; background: var(--surface); }
+  .section-header:hover { background: var(--surface2); }
+  .section-header h3 { font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .section-header .arrow { font-size: 10px; color: var(--text2); transition: transform 0.3s ease; }
+  .section-header.open .arrow { transform: rotate(180deg); color: var(--accent); }
+  .section-body { padding: 16px 24px 24px; display: none; background: var(--surface); }
+  .section-body.open { display: block; }
+
+  /* FORM ELEMENTS */
+  label { display: block; font-size: 12px; color: var(--text); margin-bottom: 6px; font-weight: 500; }
+  input[type="text"], input[type="date"], select, textarea { width: 100%; background: #fff; border: 1px solid #cbd5e1; color: var(--text); padding: 10px 14px; border-radius: var(--radius); font-size: 13px; font-family: inherit; outline: none; transition: all 0.2s; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02); }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+  textarea { resize: vertical; min-height: 70px; }
+  input[type="color"] { width: 40px; height: 40px; border-radius: var(--radius); border: 1px solid #cbd5e1; background: #fff; cursor: pointer; padding: 2px; }
+  input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; height: 6px; background: #e2e8f0; border-radius: 4px; outline: none; -webkit-appearance: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  input[type="number"] { width: 80px; background: #fff; border: 1px solid #cbd5e1; color: var(--text); padding: 8px 12px; border-radius: var(--radius); font-size: 13px; outline: none; text-align: center; }
+  .row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+  .row label { margin-bottom: 0; min-width: 60px; }
+  .field { margin-bottom: 16px; }
+
+  /* BUTTONS & CHIPS */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
+  .btn-accent { background: var(--accent); color: #fff; box-shadow: var(--shadow-sm); }
+  .btn-accent:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text2); transition: all 0.2s; }
+  .chip.active, .chip:hover { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2); }
+  .style-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; color: var(--text); font-size: 12px; cursor: pointer; transition: all 0.15s; font-weight: 600; }
+  .style-btn.active { background: #e0e7ff; border-color: var(--accent); color: var(--accent); }
+  .color-row { display: flex; align-items: center; gap: 12px; }
+
+  /* CANVAS AREA */
+  .canvas-area { background-color: var(--bg); background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px; overflow: auto; position: relative; }
+  .canvas-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; background: #fff; padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border); width: 100%; max-width: 800px; box-shadow: var(--shadow-sm); }
+  .canvas-toolbar span { font-size: 12px; font-weight: 600; color: var(--text2); margin-right: 4px; letter-spacing: 0.5px;}
+
+  /* 
+   * ID CARD (HTML2CANVAS OPTIMIZED)
+   */
+  #card-wrapper { position: relative; cursor: default; transition: box-shadow 0.3s; border-radius: 12px; }
+  #id-card { position: relative; overflow: hidden; display: flex; flex-direction: column; font-family: 'Raleway', sans-serif; box-shadow: var(--shadow-md); background: #1e3a8a; }
+
+  /* Fix for html2canvas: Textures on a separate explicit div layer */
+  #card-texture-layer { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .texture-none { background: none; }
+  .texture-grain { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E"); background-size: 128px 128px; opacity: 0.15; }
+  .texture-lines { background: repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(255,255,255,0.15) 8px, rgba(255,255,255,0.15) 9px); }
+  .texture-dots { background-image: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px); background-size: 12px 12px; }
+  .texture-crosshatch { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 1px, transparent 0, transparent 50%), repeating-linear-gradient(-45deg, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 1px, transparent 0, transparent 50%); background-size: 10px 10px; }
+  .texture-carbon { background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px), repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px); }
+
+  /* Outline styles */
+  #id-card.outline-none { border: none; }
+  #id-card.outline-solid { border: 3px solid; }
+  #id-card.outline-double { border: 4px double; }
+  #id-card.outline-dashed { border: 3px dashed; }
+  #id-card.outline-groove { border: 4px groove; }
+  #id-card.outline-ridge { border: 4px ridge; }
+  #id-card.outline-thick-accent { border: 6px solid; }
+
+  .card-inner { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; padding: 0; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.0) 100%); }
+
+  /* Fix for html2canvas: Angled header using skewY instead of clip-path */
+  .header-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 95px;
+    background: rgba(0,0,0,0.25);
+    transform: skewY(-8deg); transform-origin: top left;
+    z-index: 1;
+  }
+  .card-header { position: relative; z-index: 2; display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px 25px; }
+  .card-logo-wrap { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 4px 10px rgba(0,0,0,0.15); overflow: hidden; padding: 4px; }
+  .card-logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+  .card-logo-placeholder { font-size: 20px; opacity: 0.8; }
+  .card-title-block { flex: 1; text-align: left; margin-top: 2px; padding-right: 40px; }
+  #card-inst-name { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 0.5px; line-height: 1.1; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+  #card-subtitle { font-size: 8px; color: rgba(255,255,255,0.9); margin-top: 2px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+  #card-dept { font-size: 10px; margin-top: 4px; color: rgba(255,255,255,0.8); border-left: 2px solid var(--gold); padding-left: 6px; }
+
+  /* Corner Ribbon */
+  .card-label-badge { position: absolute; top: 16px; right: -35px; background: var(--gold); transform: rotate(45deg); width: 130px; text-align: center; padding: 5px 0; z-index: 10; box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
+  #card-id-label { font-size: 7.5px; font-weight: 800; letter-spacing: 1.5px; color: #000; text-transform: uppercase; }
+
+  /* BODY */
+  .card-body { position: relative; z-index: 3; display: flex; gap: 14px; padding: 0 18px 10px; flex: 1; margin-top: -15px; align-items: flex-end; }
+  .card-photo-col { flex-shrink: 0; position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; }
+  .card-photo-box { width: 78px; height: 78px; border-radius: 50%; overflow: hidden; background: rgba(255,255,255,0.2); border: 3px solid #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(0,0,0,0.25); }
+  .card-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+  .card-photo-placeholder { font-size: 32px; opacity: 0.5; }
+  .card-photo-col > div:nth-child(2) { margin-top: -10px !important; position: relative; z-index: 6; }
+  .card-photo-col > div:nth-child(2) > div:first-child { display: none; }
+  #card-blood { font-size: 11px; font-weight: 700; color: #fff; font-family: 'IBM Plex Mono', monospace; background: var(--danger); padding: 2px 8px; border-radius: 12px; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+  .card-info-col { flex: 1; display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
+  .info-row { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px dotted rgba(255,255,255,0.4); padding-bottom: 2px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { font-size: 7px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.6); }
+  .info-val { font-size: 11px; font-weight: 600; color: #fff; text-align: right; }
+  #addr-row { flex-direction: column; align-items: flex-start; gap: 2px; border-bottom: none; margin-top: 2px; }
+  #addr-row .info-val { text-align: left; font-size: 9px; line-height: 1.3; opacity: 0.9; }
+
+  /* FOOTER */
+  .card-footer { position: relative; z-index: 3; padding: 8px 18px; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.1); }
+  .dates-col { display: flex; flex-direction: row; gap: 14px; }
+  .date-row { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+  .date-label { font-size: 6px; font-weight: 700; letter-spacing: 1px; color: rgba(255,255,255,0.5); min-width: auto; }
+  .date-val { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.9); }
+  .barcode-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .barcode { display: flex; gap: 1px; height: 22px; align-items: flex-end; }
+  .bar { background: rgba(255,255,255,0.9); border-radius: 1px; }
+  .barcode-num { font-size: 7px; color: rgba(255,255,255,0.6); letter-spacing: 1px; }
+  .sig-col { text-align: right; }
+  .sig-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 1px; margin-bottom: 2px; }
+  .sig-label { font-size: 6px; font-weight: 700; letter-spacing: 1px; color: rgba(255,255,255,0.5); }
+
+  /* FILE UPLOAD & MISC */
+  .download-section { margin-top: 30px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .btn-download { padding: 14px 30px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; background: var(--accent); color: #fff; font-family: 'Poppins', sans-serif; font-size: 14px; transition: all 0.2s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); display: flex; align-items: center; gap: 10px; }
+  .btn-download:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35); }
+  .file-upload-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed #cbd5e1; border-radius: var(--radius); padding: 20px; cursor: pointer; transition: all 0.2s; color: var(--text2); font-size: 12px; font-weight: 500; text-align: center; background: #f8fafc; gap: 8px; }
+  .file-upload-btn:hover { border-color: var(--accent); color: var(--accent); background: #f0fdf4; }
+  .file-upload-btn input { display: none; }
+  .file-upload-btn .icon { font-size: 28px; }
+  .preview-img-wrap { position: relative; display: inline-block; }
+  .preview-img-wrap img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; box-shadow: var(--shadow-sm); }
+  .remove-img { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; background: var(--danger); border: 2px solid #fff; border-radius: 50%; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
+  .tab-group { display: flex; gap: 6px; margin-bottom: 16px; background: #f1f5f9; padding: 4px; border-radius: 8px;}
+  .tab { flex: 1; padding: 8px; border-radius: 6px; border: none; background: transparent; color: var(--text2); font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; }
+  .tab.active { background: #fff; color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .field-style-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 14px; margin-bottom: 12px; }
+  .field-style-box .field-name { font-size: 11px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .mini-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+  .mini-label { font-size: 11px; font-weight: 500; color: var(--text2); min-width: 40px; }
+  select.mini { padding: 6px 8px; font-size: 12px; flex: 1; border-color: #cbd5e1; border-radius: 6px;}
+  input[type="number"].mini { width: 60px; font-size: 12px; padding: 6px 8px; }
+  input[type="color"].mini { width: 32px; height: 32px; padding: 0; border: none; overflow: hidden;}
+  .github-badge { margin-top: 30px; background: #fff; border: 1px solid #e2e8f0; border-radius: var(--radius); padding: 14px 20px; font-size: 12px; color: var(--text2); display: flex; align-items: center; gap: 12px; max-width: 500px; box-shadow: var(--shadow-sm); }
+  .github-badge .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--success); flex-shrink: 0; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">ID</div>
+  <div>
+    <h1>Student ID Card Generator</h1>
+    <p>Professional · Customizable · GitHub Student Pack Ready</p>
+  </div>
+</header>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- Card Size -->
+    <div class="section">
+      <div class="section-header open" onclick="toggleSection(this)">
+        <h3>📐 Card Size</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body open">
+        <div class="field">
+          <label>Preset Sizes</label>
+          <div class="chip-group" id="size-chips">
+            <span class="chip active" onclick="setSize(336,212,this)">CR80 Standard</span>
+            <span class="chip" onclick="setSize(300,450,this)">Portrait</span>
+            <span class="chip" onclick="setSize(400,250,this)">Wide</span>
+            <span class="chip" onclick="setSize(280,180,this)">Mini</span>
+            <span class="chip" onclick="setSize(360,240,this)">A8 Size</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Custom Width (px)</label>
+          <input type="range" id="card-w" min="240" max="600" value="336" oninput="updateCardSize()">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-top:4px;">
+            <span>240px</span><span id="w-val" style="font-weight:600;">336px</span><span>600px</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Custom Height (px)</label>
+          <input type="range" id="card-h" min="160" max="520" value="212" oninput="updateCardSize()">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-top:4px;">
+            <span>160px</span><span id="h-val" style="font-weight:600;">212px</span><span>520px</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Corner Radius (px)</label>
+          <input type="range" id="card-radius" min="0" max="30" value="12" oninput="document.getElementById('id-card').style.borderRadius=this.value+'px'">
+        </div>
+      </div>
+    </div>
+
+    <!-- Institution -->
+    <div class="section">
+      <div class="section-header open" onclick="toggleSection(this)">
+        <h3>🏫 Institution</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body open">
+        <div class="field">
+          <label>Institution Name</label>
+          <input type="text" id="inst-name" value="State University" oninput="updateCard()" placeholder="Enter institution name">
+        </div>
+        <div class="field">
+          <label>Subtitle / Tagline (below institution name)</label>
+          <input type="text" id="inst-subtitle" value="Excellence in Education" oninput="updateCard()" placeholder="Motto or tagline">
+        </div>
+        <div class="field">
+          <label>Department / Faculty</label>
+          <input type="text" id="inst-dept" value="Department of Computer Science" oninput="updateCard()" placeholder="Department name">
+        </div>
+        <div class="field">
+          <label>Address</label>
+          <textarea id="inst-address" rows="2" oninput="updateCard()" placeholder="University Address">123 University Ave, City, Country</textarea>
+        </div>
+        <div class="field">
+          <label>Institution Logo</label>
+          <div id="logo-upload-area">
+            <label class="file-upload-btn">
+              <div class="icon">🏛️</div>
+              <span>Upload Logo</span>
+              <input type="file" accept="image/*" onchange="uploadLogo(this)">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Info -->
+    <div class="section">
+      <div class="section-header open" onclick="toggleSection(this)">
+        <h3>👤 Student Information</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body open">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="stu-name" value="Alexander Johnson" oninput="updateCard()" placeholder="Student full name">
+        </div>
+        <div class="field">
+          <label>Student ID</label>
+          <input type="text" id="stu-id" value="CS-2024-001" oninput="updateCard()" placeholder="Student ID number">
+        </div>
+        <div class="field">
+          <label>Program / Course</label>
+          <input type="text" id="stu-program" value="B.Sc. Computer Science" oninput="updateCard()" placeholder="Program name">
+        </div>
+        <div class="field">
+          <label>Year / Semester</label>
+          <input type="text" id="stu-year" value="3rd Year, 6th Semester" oninput="updateCard()" placeholder="Year or semester">
+        </div>
+        <div class="field">
+          <label>Blood Group</label>
+          <select id="stu-blood" onchange="updateCard()">
+            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Issue Date</label>
+          <input type="date" id="issue-date" value="2024-01-15" oninput="updateCard()">
+        </div>
+        <div class="field">
+          <label>Expiry Date</label>
+          <input type="date" id="expiry-date" value="2025-12-31" oninput="updateCard()">
+        </div>
+        <div class="field">
+          <label>Authorized Signature (Name)</label>
+          <input type="text" id="sig-name" value="Dr. Sarah Mitchell" oninput="updateCard()" placeholder="Authorized signatory name">
+        </div>
+        <div class="field">
+          <label>Signature Title</label>
+          <input type="text" id="sig-title" value="Registrar" oninput="updateCard()" placeholder="e.g. Registrar, Principal">
+        </div>
+        <div class="field">
+          <label>Student Photo</label>
+          <div id="photo-upload-area">
+            <label class="file-upload-btn">
+              <div class="icon">📷</div>
+              <span>Upload Student Photo</span>
+              <input type="file" accept="image/*" onchange="uploadPhoto(this)">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <h3>🎨 Background</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="tab-group">
+          <button class="tab active" onclick="setBgMode('solid',this)">Solid</button>
+          <button class="tab" onclick="setBgMode('gradient',this)">Gradient</button>
+          <button class="tab" onclick="setBgMode('image',this)">Image</button>
+        </div>
+
+        <div id="bg-solid">
+          <div class="field">
+            <label>Background Color</label>
+            <div class="color-row">
+              <input type="color" id="bg-color" value="#1e3a8a" oninput="updateBg()">
+              <input type="text" id="bg-color-hex" value="#1e3a8a" oninput="syncColor('bg-color','bg-color-hex')" style="flex:1">
+            </div>
+          </div>
+          <div class="field">
+            <label>Quick Presets</label>
+            <div class="chip-group">
+              <span class="chip" onclick="setBgColor('#1e3a8a')">Navy</span>
+              <span class="chip" onclick="setBgColor('#065f46')">Forest</span>
+              <span class="chip" onclick="setBgColor('#9f1239')">Maroon</span>
+              <span class="chip" onclick="setBgColor('#5b21b6')">Purple</span>
+              <span class="chip" onclick="setBgColor('#b91c1c')">Crimson</span>
+              <span class="chip" onclick="setBgColor('#0f766e')">Teal</span>
+              <span class="chip" onclick="setBgColor('#1e293b')">Slate</span>
+              <span class="chip" onclick="setBgColor('#475569')">Charcoal</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="bg-gradient" style="display:none">
+          <div class="field">
+            <label>Color 1</label>
+            <div class="color-row">
+              <input type="color" id="grad1" value="#1e3a8a" oninput="updateBg()">
+              <input type="text" id="grad1-hex" value="#1e3a8a" oninput="syncColor('grad1','grad1-hex')" style="flex:1">
+            </div>
+          </div>
+          <div class="field">
+            <label>Color 2</label>
+            <div class="color-row">
+              <input type="color" id="grad2" value="#5b21b6" oninput="updateBg()">
+              <input type="text" id="grad2-hex" value="#5b21b6" oninput="syncColor('grad2','grad2-hex')" style="flex:1">
+            </div>
+          </div>
+          <div class="field">
+            <label>Gradient Direction</label>
+            <select id="grad-dir" onchange="updateBg()">
+              <option value="135deg">Diagonal ↘</option>
+              <option value="0deg">Top → Bottom</option>
+              <option value="90deg">Left → Right</option>
+              <option value="45deg">Diagonal ↗</option>
+              <option value="180deg">Bottom → Top</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="bg-image" style="display:none">
+          <label class="file-upload-btn">
+            <div class="icon">🖼️</div>
+            <span>Upload Background Image</span>
+            <input type="file" accept="image/*" onchange="uploadBg(this)">
+          </label>
+          <div id="bg-img-preview" style="margin-top:12px"></div>
+          <div class="field" style="margin-top:16px">
+            <label>Overlay Opacity</label>
+            <input type="range" id="bg-overlay" min="0" max="0.9" step="0.05" value="0.3" oninput="updateBgOverlay()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outline & Texture -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <h3>🖼️ Outline & Texture</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Outline Style</label>
+          <div class="chip-group">
+            <span class="chip active" onclick="setOutline('none',this)">None</span>
+            <span class="chip" onclick="setOutline('solid',this)">Solid</span>
+            <span class="chip" onclick="setOutline('double',this)">Double</span>
+            <span class="chip" onclick="setOutline('dashed',this)">Dashed</span>
+            <span class="chip" onclick="setOutline('groove',this)">Groove</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Outline Color</label>
+          <div class="color-row">
+            <input type="color" id="outline-color" value="#f59e0b" oninput="updateOutlineColor()">
+            <input type="text" id="outline-color-hex" value="#f59e0b" oninput="syncColor('outline-color','outline-color-hex')" style="flex:1">
+          </div>
+        </div>
+        <div class="field">
+          <label>Card Texture</label>
+          <div class="chip-group">
+            <span class="chip active" onclick="setTexture('none',this)">None</span>
+            <span class="chip" onclick="setTexture('grain',this)">Grain</span>
+            <span class="chip" onclick="setTexture('lines',this)">Lines</span>
+            <span class="chip" onclick="setTexture('dots',this)">Dots</span>
+            <span class="chip" onclick="setTexture('crosshatch',this)">Crosshatch</span>
+            <span class="chip" onclick="setTexture('carbon',this)">Carbon</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Shadow (Applies to preview only)</label>
+          <div class="chip-group">
+            <span class="chip" onclick="setShadow('none',this)">None</span>
+            <span class="chip active" onclick="setShadow('md',this)">Medium</span>
+            <span class="chip" onclick="setShadow('lg',this)">Strong</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <h3>✍️ Typography & Colors</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+
+        <div class="field-style-box">
+          <div class="field-name">Institution Name</div>
+          <div class="mini-row">
+            <span class="mini-label">Font</span>
+            <select class="mini" onchange="applyStyle('card-inst-name','fontFamily',this.value)">
+              <option value="'Cinzel', serif">Cinzel</option>
+              <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+              <option value="'Playfair Display', serif">Playfair Display</option>
+              <option value="'Raleway', sans-serif">Raleway</option>
+              <option value="'Oswald', sans-serif">Oswald</option>
+              <option value="'Montserrat', sans-serif">Montserrat</option>
+            </select>
+          </div>
+          <div class="mini-row">
+            <span class="mini-label">Size</span>
+            <input type="number" class="mini" value="14" min="8" max="36" oninput="applyStyle('card-inst-name','fontSize',this.value+'px')">
+            <span class="mini-label">Color</span>
+            <input type="color" class="mini" value="#ffffff" oninput="applyStyle('card-inst-name','color',this.value)">
+          </div>
+          <div class="mini-row">
+            <button class="style-btn active" onclick="toggleBold('card-inst-name',this)">B</button>
+            <button class="style-btn" onclick="toggleItalic('card-inst-name',this)">I</button>
+            <button class="style-btn" onclick="toggleUnderline('card-inst-name',this)">U</button>
+          </div>
+        </div>
+
+        <div class="field-style-box">
+          <div class="field-name">Subtitle / Tagline</div>
+          <div class="mini-row">
+            <span class="mini-label">Font</span>
+            <select class="mini" onchange="applyStyle('card-subtitle','fontFamily',this.value)">
+              <option value="'Raleway', sans-serif">Raleway</option>
+              <option value="'Montserrat', sans-serif">Montserrat</option>
+              <option value="'Cinzel', serif">Cinzel</option>
+            </select>
+          </div>
+          <div class="mini-row">
+            <span class="mini-label">Size</span>
+            <input type="number" class="mini" value="8" min="6" max="24" oninput="applyStyle('card-subtitle','fontSize',this.value+'px')">
+            <span class="mini-label">Color</span>
+            <input type="color" class="mini" value="#ffffff" oninput="applyStyle('card-subtitle','color',this.value + 'e6')">
+          </div>
+        </div>
+
+        <div class="field-style-box">
+          <div class="field-name">Student Name</div>
+          <div class="mini-row">
+            <span class="mini-label">Font</span>
+            <select class="mini" onchange="applyInfoStyle('name-val','fontFamily',this.value)">
+              <option value="'Raleway', sans-serif">Raleway</option>
+              <option value="'Montserrat', sans-serif">Montserrat</option>
+              <option value="'Poppins', sans-serif">Poppins</option>
+              <option value="'Playfair Display', serif">Playfair Display</option>
+            </select>
+          </div>
+          <div class="mini-row">
+            <span class="mini-label">Size</span>
+            <input type="number" class="mini" value="11" min="8" max="24" oninput="applyInfoStyle('name-val','fontSize',this.value+'px')">
+            <span class="mini-label">Color</span>
+            <input type="color" class="mini" value="#ffffff" oninput="applyInfoStyle('name-val','color',this.value)">
+          </div>
+          <div class="mini-row">
+            <button class="style-btn active" onclick="toggleInfoBold('name-val',this)">B</button>
+          </div>
+        </div>
+
+        <div class="field-style-box">
+          <div class="field-name">Info Values (ID, Program, etc.)</div>
+          <div class="mini-row">
+            <span class="mini-label">Font</span>
+            <select class="mini" id="info-vals-font" onchange="applyInfoValsFont(this.value)">
+              <option value="'Raleway', sans-serif">Raleway</option>
+              <option value="'Montserrat', sans-serif">Montserrat</option>
+              <option value="'IBM Plex Mono', monospace">IBM Plex Mono</option>
+            </select>
+          </div>
+          <div class="mini-row">
+            <span class="mini-label">Size</span>
+            <input type="number" class="mini" id="info-vals-size" value="11" min="7" max="18" oninput="applyInfoValsSize(this.value)">
+            <span class="mini-label">Color</span>
+            <input type="color" class="mini" id="info-vals-color" value="#ffffff" oninput="applyInfoValsColor(this.value)">
+          </div>
+        </div>
+
+        <!-- NEW: Date Customization -->
+        <div class="field-style-box">
+          <div class="field-name">Dates (Issue & Expiry)</div>
+          <div class="mini-row">
+            <span class="mini-label">Color</span>
+            <input type="color" class="mini" id="dates-color" value="#ffffff" oninput="applyDatesColor(this.value)">
+            <span class="mini-label">Size</span>
+            <input type="number" class="mini" id="dates-size" value="9" min="6" max="14" oninput="applyDatesSize(this.value)">
+          </div>
+          <div class="mini-row">
+            <button class="style-btn" onclick="toggleDatesBold(this)">B</button>
+          </div>
+        </div>
+
+        <div class="field-style-box">
+          <div class="field-name">Label Keys (ID, Blood, etc.)</div>
+          <div class="mini-row">
+            <span class="mini-label">Color</span>
+            <input type="color" class="mini" id="keys-color" value="#b3b3b3" oninput="applyKeysColor(this.value)">
+            <span class="mini-label">Size</span>
+            <input type="number" class="mini" id="keys-size" value="7" min="6" max="14" oninput="applyKeysSize(this.value)">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CANVAS -->
+  <div class="canvas-area">
+    <div class="canvas-toolbar">
+      <span>CARD PREVIEW</span>
+      <div style="flex:1"></div>
+      <span style="font-size:12px;color:var(--text);font-weight:500;" id="size-display">336 × 212 px</span>
+    </div>
+
+    <div id="card-wrapper">
+      <div id="id-card" style="width:336px;height:212px;border-radius:12px;">
+        
+        <!-- FIX: Explicit texture layer for html2canvas -->
+        <div id="card-texture-layer" class="texture-none"></div>
+        <div id="card-bg-overlay" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.3);z-index:1;"></div>
+
+        <div class="card-inner">
+          
+          <!-- FIX: Skewed background instead of clip-path -->
+          <div class="header-bg"></div>
+          
+          <!-- Header Content -->
+          <div class="card-header" id="card-header-el">
+            <div class="card-logo-wrap" id="card-logo-wrap">
+              <div class="card-logo-placeholder">🏛️</div>
+            </div>
+            <div class="card-title-block">
+              <div id="card-inst-name">State University</div>
+              <div id="card-subtitle">Excellence in Education</div>
+              <div id="card-dept">Department of Computer Science</div>
+            </div>
+          </div>
+          
+          <div class="card-label-badge">
+            <div id="card-id-label">STUDENT ID</div>
+          </div>
+
+          <!-- Body -->
+          <div class="card-body">
+            <div class="card-photo-col">
+              <div class="card-photo-box" id="card-photo-box">
+                <div class="card-photo-placeholder" id="card-photo-placeholder">👤</div>
+              </div>
+              <div>
+                <div>Blood</div>
+                <div id="card-blood">A+</div>
+              </div>
+            </div>
+            <div class="card-info-col">
+              <div class="info-row">
+                <div class="info-key" id="lbl-name">Name</div>
+                <div class="info-val" id="name-val" style="font-family:'Raleway',sans-serif;">Alexander Johnson</div>
+              </div>
+              <div class="info-row">
+                <div class="info-key" id="lbl-id">ID No</div>
+                <div class="info-val" id="id-val" style="font-family:'IBM Plex Mono',monospace;">CS-2024-001</div>
+              </div>
+              <div class="info-row">
+                <div class="info-key" id="lbl-prog">Program</div>
+                <div class="info-val" id="prog-val" style="font-family:'Raleway',sans-serif;">B.Sc. Comp Sci</div>
+              </div>
+              <div class="info-row">
+                <div class="info-key" id="lbl-yr">Year</div>
+                <div class="info-val" id="yr-val" style="font-family:'Raleway',sans-serif;">3rd Yr, 6th Sem</div>
+              </div>
+              <div class="info-row" id="addr-row">
+                <div class="info-key" id="lbl-addr">Address</div>
+                <div class="info-val" id="addr-val" style="font-family:'Raleway',sans-serif;">123 University Ave, City</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="card-footer">
+            <div class="dates-col">
+              <div class="date-row">
+                <div class="date-label">Issued</div>
+                <div class="date-val" id="card-issue">2024-01-15</div>
+              </div>
+              <div class="date-row">
+                <div class="date-label">Expires</div>
+                <div class="date-val" id="card-expiry">2025-12-31</div>
+              </div>
+            </div>
+            <div class="barcode-wrap" id="card-barcode">
+              <div class="barcode" id="barcode-bars"></div>
+              <div class="barcode-num" id="barcode-num">CS-2024-001</div>
+            </div>
+            <div class="sig-col">
+              <div class="sig-name" id="card-sig-name">Dr. Sarah Mitchell</div>
+              <div class="sig-label" id="card-sig-title">Registrar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="download-section">
+      <button class="btn-download" onclick="downloadCard()">
+        ⬇ Download ID Card (PNG)
+      </button>
+      <button class="btn-download" style="background:#10b981;" onclick="downloadCard('jpeg')">
+        ⬇ Download JPG
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleSection(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+function setSize(w, h, chip) {
+  document.getElementById('card-w').value = w;
+  document.getElementById('card-h').value = h;
+  document.querySelectorAll('#size-chips .chip').forEach(c => c.classList.remove('active'));
+  if(chip) chip.classList.add('active');
+  updateCardSize();
+}
+
+function updateCardSize() {
+  const w = document.getElementById('card-w').value;
+  const h = document.getElementById('card-h').value;
+  document.getElementById('w-val').textContent = w + 'px';
+  document.getElementById('h-val').textContent = h + 'px';
+  document.getElementById('id-card').style.width = w + 'px';
+  document.getElementById('id-card').style.height = h + 'px';
+  document.getElementById('size-display').textContent = w + ' × ' + h + ' px';
+}
+
+function updateCard() {
+  setText('card-inst-name', 'inst-name');
+  setText('card-subtitle', 'inst-subtitle');
+  setText('card-dept', 'inst-dept');
+  setText('name-val', 'stu-name');
+  setText('id-val', 'stu-id');
+  setText('prog-val', 'stu-program');
+  setText('yr-val', 'stu-year');
+  setText('card-blood', 'stu-blood', true);
+  setText('addr-val', 'inst-address');
+  setText('card-issue', 'issue-date');
+  setText('card-expiry', 'expiry-date');
+  setText('card-sig-name', 'sig-name');
+  setText('card-sig-title', 'sig-title');
+  const sid = document.getElementById('stu-id').value || 'STU-ID';
+  document.getElementById('barcode-num').textContent = sid;
+  generateBarcode(sid);
+}
+
+function setText(elId, inputId, isSelect) {
+  const el = document.getElementById(elId);
+  const inp = document.getElementById(inputId);
+  if(el && inp) el.textContent = inp.value;
+}
+
+function generateBarcode(text) {
+  const wrap = document.getElementById('barcode-bars');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  let seed = 0;
+  for(let i=0;i<text.length;i++) seed += text.charCodeAt(i);
+  const rng = (s) => { s = Math.sin(s)*10000; return s - Math.floor(s); };
+  for(let i=0;i<30;i++) {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    const h = 10 + Math.floor(rng(seed+i)*12);
+    bar.style.width = (rng(seed+i+50) > 0.6 ? '2px' : '1px');
+    bar.style.height = h + 'px';
+    wrap.appendChild(bar);
+  }
+}
+
+let bgMode = 'solid';
+function setBgMode(mode, btn) {
+  bgMode = mode;
+  document.querySelectorAll('.tab-group .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('bg-solid').style.display = mode==='solid' ? 'block' : 'none';
+  document.getElementById('bg-gradient').style.display = mode==='gradient' ? 'block' : 'none';
+  document.getElementById('bg-image').style.display = mode==='image' ? 'block' : 'none';
+  if(mode !== 'image') document.getElementById('card-bg-overlay').style.display = 'none';
+  updateBg();
+}
+
+function updateBg() {
+  const card = document.getElementById('id-card');
+  if(bgMode === 'solid') {
+    const c = document.getElementById('bg-color').value;
+    card.style.background = c;
+    document.getElementById('bg-color-hex').value = c;
+  } else if(bgMode === 'gradient') {
+    const c1 = document.getElementById('grad1').value;
+    const c2 = document.getElementById('grad2').value;
+    const dir = document.getElementById('grad-dir').value;
+    card.style.background = `linear-gradient(${dir}, ${c1}, ${c2})`;
+    document.getElementById('grad1-hex').value = c1;
+    document.getElementById('grad2-hex').value = c2;
+  }
+}
+
+function setBgColor(hex) {
+  document.getElementById('bg-color').value = hex;
+  document.getElementById('bg-color-hex').value = hex;
+  updateBg();
+}
+
+function setGradient(c1, c2) {
+  document.getElementById('grad1').value = c1;
+  document.getElementById('grad2').value = c2;
+  document.getElementById('grad1-hex').value = c1;
+  document.getElementById('grad2-hex').value = c2;
+  updateBg();
+}
+
+function uploadBg(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const card = document.getElementById('id-card');
+    card.style.backgroundImage = `url('${e.target.result}')`;
+    card.style.backgroundSize = 'cover';
+    card.style.backgroundPosition = 'center';
+    document.getElementById('card-bg-overlay').style.display = 'block';
+    document.getElementById('bg-img-preview').innerHTML = `<div class="preview-img-wrap"><img src="${e.target.result}"><button class="remove-img" onclick="removeBg()">✕</button></div>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeBg() {
+  const card = document.getElementById('id-card');
+  card.style.backgroundImage = '';
+  document.getElementById('card-bg-overlay').style.display = 'none';
+  document.getElementById('bg-img-preview').innerHTML = '';
+}
+
+function updateBgOverlay() {
+  const val = document.getElementById('bg-overlay').value;
+  document.getElementById('card-bg-overlay').style.background = `rgba(0,0,0,${val})`;
+}
+
+function syncColor(colorId, textId) {
+  document.getElementById(colorId).value = document.getElementById(textId).value;
+  updateBg();
+}
+
+let currentOutline = 'none';
+function setOutline(style, chip) {
+  document.querySelectorAll('[onclick^="setOutline"]').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  const card = document.getElementById('id-card');
+  card.classList.remove('outline-none','outline-solid','outline-double','outline-dashed','outline-groove','outline-ridge','outline-thick-accent');
+  card.classList.add('outline-'+style);
+  currentOutline = style;
+  updateOutlineColor();
+}
+
+function updateOutlineColor() {
+  const c = document.getElementById('outline-color').value;
+  document.getElementById('outline-color-hex').value = c;
+  document.getElementById('id-card').style.borderColor = c;
+}
+
+// FIX: apply texture class to the specific layer instead of the parent card
+function setTexture(t, chip) {
+  document.querySelectorAll('[onclick^="setTexture"]').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  document.getElementById('card-texture-layer').className = 'texture-' + t;
+}
+
+function setShadow(s, chip) {
+  document.querySelectorAll('[onclick^="setShadow"]').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  const wrap = document.getElementById('card-wrapper');
+  const shadows = {
+    none: 'none',
+    sm: '0 4px 12px rgba(0,0,0,0.1)',
+    md: '0 8px 24px rgba(0,0,0,0.15)',
+    lg: '0 16px 48px rgba(0,0,0,0.2)'
+  };
+  wrap.style.boxShadow = shadows[s] || 'none';
+}
+
+function applyStyle(elId, prop, val) { document.getElementById(elId).style[prop] = val; }
+function applyInfoStyle(elId, prop, val) { document.getElementById(elId).style[prop] = val; }
+
+function toggleBold(elId, btn) {
+  btn.classList.toggle('active');
+  const el = document.getElementById(elId);
+  el.style.fontWeight = el.style.fontWeight === '700' ? '400' : '700';
+}
+function toggleInfoBold(elId, btn) {
+  btn.classList.toggle('active');
+  const el = document.getElementById(elId);
+  el.style.fontWeight = el.style.fontWeight === '700' ? '400' : '700';
+}
+function toggleItalic(elId, btn) {
+  btn.classList.toggle('active');
+  const el = document.getElementById(elId);
+  el.style.fontStyle = el.style.fontStyle === 'italic' ? 'normal' : 'italic';
+}
+function toggleUnderline(elId, btn) {
+  btn.classList.toggle('active');
+  const el = document.getElementById(elId);
+  el.style.textDecoration = el.style.textDecoration === 'underline' ? 'none' : 'underline';
+}
+
+function applyInfoValsFont(font) { ['id-val','prog-val','yr-val','addr-val'].forEach(id => { document.getElementById(id).style.fontFamily = font; }); }
+function applyInfoValsSize(size) { ['id-val','prog-val','yr-val','addr-val'].forEach(id => { document.getElementById(id).style.fontSize = size + 'px'; }); }
+function applyInfoValsColor(color) { ['id-val','prog-val','yr-val','addr-val'].forEach(id => { document.getElementById(id).style.color = color; }); }
+function applyKeysColor(color) { document.querySelectorAll('.info-key, .date-label').forEach(el => el.style.color = color); }
+function applyKeysSize(size) { document.querySelectorAll('.info-key').forEach(el => el.style.fontSize = size + 'px'); }
+
+// NEW: Date styling functions
+function applyDatesColor(color) {
+  document.querySelectorAll('.date-val').forEach(el => el.style.color = color);
+}
+function applyDatesSize(size) {
+  document.querySelectorAll('.date-val').forEach(el => el.style.fontSize = size + 'px');
+}
+function toggleDatesBold(btn) {
+  btn.classList.toggle('active');
+  document.querySelectorAll('.date-val').forEach(el => {
+    el.style.fontWeight = el.style.fontWeight === '800' ? '600' : '800';
+  });
+}
+
+function uploadLogo(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('card-logo-wrap').innerHTML = `<img src="${e.target.result}" alt="Logo">`;
+    document.getElementById('logo-upload-area').innerHTML = `<div class="preview-img-wrap"><img src="${e.target.result}" style="width:60px;height:60px;object-fit:contain;border-radius:8px;"><button class="remove-img" onclick="removeLogo()">✕</button></div>`;
+  };
+  reader.readAsDataURL(file);
+}
+function removeLogo() {
+  document.getElementById('card-logo-wrap').innerHTML = '<div class="card-logo-placeholder">🏛️</div>';
+  document.getElementById('logo-upload-area').innerHTML = `<label class="file-upload-btn"><div class="icon">🏛️</div><span>Upload Logo</span><input type="file" accept="image/*" onchange="uploadLogo(this)"></label>`;
+}
+
+function uploadPhoto(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('card-photo-box').innerHTML = `<img src="${e.target.result}" alt="Student Photo" style="width:100%;height:100%;object-fit:cover;">`;
+    document.getElementById('photo-upload-area').innerHTML = `<div class="preview-img-wrap"><img src="${e.target.result}" style="width:70px;height:80px;object-fit:cover;border-radius:8px;"><button class="remove-img" onclick="removePhoto()">✕</button></div>`;
+  };
+  reader.readAsDataURL(file);
+}
+function removePhoto() {
+  document.getElementById('card-photo-box').innerHTML = '<div class="card-photo-placeholder" id="card-photo-placeholder">👤</div>';
+  document.getElementById('photo-upload-area').innerHTML = `<label class="file-upload-btn"><div class="icon">📷</div><span>Upload Student Photo</span><input type="file" accept="image/*" onchange="uploadPhoto(this)"></label>`;
+}
+
+async function downloadCard(format = 'png') {
+  const card = document.getElementById('id-card');
+  try {
+    const canvas = await html2canvas(card, {
+      scale: 3,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: null,
+      logging: false
+    });
+    const link = document.createElement('a');
+    link.download = `student-id-card.${format}`;
+    link.href = canvas.toDataURL(format === 'jpeg' ? 'image/jpeg' : 'image/png', 0.98);
+    link.click();
+  } catch(e) {
+    alert('Download failed. Please try again.\n' + e.message);
+  }
+}
+
+updateCard();
+generateBarcode('CS-2024-001');
+document.getElementById('id-card').style.background = '#1e3a8a';
+</script>
+</body>
+</html>
             </xmp>
 
         <xmp id="tool-51-code">
