@@ -51684,7 +51684,399 @@ document.getElementById('id-card').style.background = '#1e3a8a';
 </html>
             </xmp>
 
-        <xmp id="tool-51-code">
+        <xmp id="tool-51-code"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>OmniCard Studio Pro | Ultimate ID Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&family=Poppins:wght@400;600;800&family=Montserrat:wght@400;700&family=Bebas+Neue&family=Cinzel:wght@700&family=Space+Grotesk:wght@400;600&family=Playfair+Display:wght@700&family=Roboto+Mono&family=Rubik+Glitch&family=Josefin+Sans&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #eef2f8;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
+.app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+/* SIDEBAR SCROLLABLE WITH ENHANCED CONTROLS */
+.control-panel {
+    width: 380px;
+    background: #ffffff;
+    border-right: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+.panel-header {
+    padding: 18px 20px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+.panel-header h1 { font-size: 1.2rem; letter-spacing: -0.3px; }
+.panel-header p { font-size: 0.7rem; opacity: 0.7; }
+.controls-scroll { padding: 20px; flex:1; overflow-y: auto; }
+.control-group { margin-bottom: 18px; }
+.section-title {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: #f1f5f9;
+    padding: 6px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    color: #0f172a;
+    letter-spacing: 0.5px;
+}
+.label { font-size: 0.7rem; font-weight: 600; color: #334155; margin-bottom: 4px; display: block; }
+.input-field, select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    background: #fefefe;
+}
+.row-duo { display: flex; gap: 12px; }
+.row-duo .control-group { flex: 1; }
+.color-row { display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 6px 12px; border-radius: 30px; margin-bottom: 8px; }
+input[type="color"] { width: 36px; height: 36px; border-radius: 12px; border: 1px solid #ddd; cursor: pointer; }
+.theme-quick { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
+.theme-bubble { width: 44px; height: 44px; border-radius: 22px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); border: 2px solid white; }
+.btn-download {
+    background: linear-gradient(95deg, #0f172a, #2d3a5e);
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 40px;
+    font-weight: bold;
+    color: white;
+    margin-top: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+/* preview area */
+.preview-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 30% 40%, #e2e8f0, #cbd5e1);
+    padding: 30px;
+    overflow: auto;
+}
+.id-card-core {
+    width: 540px;
+    height: 340px;
+    background: white;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 25px 40px -12px rgba(0,0,0,0.3);
+    transition: all 0.1s;
+}
+.card-bg-layer { position: absolute; inset:0; z-index:0; }
+.card-pattern-layer { position: absolute; inset:0; z-index:2; pointer-events: none; opacity: 0.35; mix-blend-mode: overlay; }
+.holo-shine { position: absolute; inset:0; background: linear-gradient(125deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%); z-index:8; pointer-events: none; }
+.card-content { position: relative; z-index: 15; height: 100%; display: flex; flex-direction: column; padding: 18px 22px; }
+/* header */
+.card-header-flex { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.logo-wrapper { width: 52px; height: 52px; background: white; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.logo-img-preview { width: 100%; height: 100%; object-fit: cover; }
+.institution-block { flex: 1; }
+.inst-name-txt { font-weight: 800; font-size: 1.3rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.inst-motto { font-size: 0.6rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; }
+.qr-mini { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+#dynamicQR canvas, #dynamicQR img { width: 40px; height: 40px; }
+.card-body-layout { display: flex; gap: 18px; flex: 1; margin: 5px 0; }
+.photo-area { width: 105px; height: 125px; background: rgba(0,0,0,0.15); border-radius: 16px; border: 2px solid rgba(255,255,255,0.4); overflow: hidden; flex-shrink: 0; }
+.photo-img { width: 100%; height: 100%; object-fit: cover; }
+.details-area { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+.info-line { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.info-key { min-width: 55px; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; opacity: 0.8; }
+.info-value { font-weight: 700; word-break: break-word; }
+.card-footer-area { margin-top: 6px; border-top: 1px dashed rgba(255,255,255,0.3); padding-top: 6px; }
+.address-preview { font-size: 0.6rem; font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.signature-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 4px; font-size: 0.6rem; }
+.signature-line { border-bottom: 1px solid currentColor; min-width: 85px; display: inline-block; padding-bottom: 2px; }
+.corner-accent { position: absolute; width: 70px; height: 70px; z-index: 12; pointer-events: none; opacity: 0.3; }
+.accent-tl { top:0; left:0; background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, transparent 70%); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.accent-br { bottom:0; right:0; background: linear-gradient(315deg, rgba(255,255,255,0.5) 0%, transparent 70%); clip-path: polygon(100% 100%, 0 100%, 100% 0); }
+/* custom font size slider group */
+.style-micro {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 6px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+.style-micro input, .style-micro select { width: auto; margin: 0; padding: 4px 8px; font-size: 0.7rem; }
+.bold-check { display: flex; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="app-container">
+    <div class="control-panel">
+        <div class="panel-header"><h1>🎴 OmniCard Studio Pro</h1><p>per‑text styling • advanced textures • HD export</p></div>
+        <div class="controls-scroll">
+            <!-- Theme quick -->
+            <div class="control-group"><div class="section-title">🎨 INSTANT THEMES</div>
+                <div class="theme-quick">
+                    <div class="theme-bubble" style="background:linear-gradient(135deg,#0b2b40,#146b3a)" onclick="applyTheme('#0b2b40','#146b3a','#ffffff')"></div>
+                    <div class="theme-bubble" style="background:linear-gradient(135deg,#1e1b4b,#4c1d95)" onclick="applyTheme('#1e1b4b','#4c1d95','#ffffff')"></div>
+                    <div class="theme-bubble active" style="background:linear-gradient(135deg,#0f172a,#1e3a8a)" onclick="applyTheme('#0f172a','#1e3a8a','#ffffff')"></div>
+                    <div class="theme-bubble" style="background:linear-gradient(135deg,#831843,#db2777)" onclick="applyTheme('#831843','#db2777','#ffefef')"></div>
+                    <div class="theme-bubble" style="background:linear-gradient(135deg,#2c3e50,#e67e22)" onclick="applyTheme('#2c3e50','#e67e22','#ffffff')"></div>
+                </div>
+            </div>
+            <!-- Dimensions & Outline Texture -->
+            <div class="control-group"><div class="section-title">📐 CARD SHAPE & OUTLINE</div>
+                <div class="row-duo"><div><label class="label">Width (mm)</label><input type="number" id="cardWidthMM" value="85.6" step="0.5"></div>
+                <div><label class="label">Height (mm)</label><input type="number" id="cardHeightMM" value="54" step="0.5"></div></div>
+                <div><label class="label">Border Radius (px)</label><input type="range" id="cornerRadius" min="0" max="35" value="18" style="width:100%"> <span id="radiusVal">18px</span></div>
+                <div><label class="label">Outline Style</label><select id="outlineStyle">
+                    <option value="none">None</option><option value="solid">Solid</option><option value="double">Double</option><option value="dotted">Dotted</option><option value="dashed">Dashed</option>
+                    <option value="groove">Groove</option><option value="ridge">Ridge</option><option value="inset">Inset</option><option value="outset">Outset</option>
+                    <option value="glow">Glow Shadow</option><option value="neon">Neon Pulse</option>
+                </select></div>
+                <div class="color-row"><span>Outline Color</span><input type="color" id="outlineColor" value="#ffd966"></div>
+            </div>
+            <!-- Background textures (more) -->
+            <div class="control-group"><div class="section-title">✨ BG TEXTURE + PATTERN</div>
+                <div><label class="label">Gradient Start</label><input type="color" id="gradColorA" value="#0f172a"></div>
+                <div><label class="label">Gradient End</label><input type="color" id="gradColorB" value="#1e3a8a"></div>
+                <div><label class="label">Pattern Overlay</label><select id="patternSelect">
+                    <option value="none">None</option><option value="dots">Polka Dots</option><option value="stripes">Diagonal Stripes</option><option value="grid">Carbon Grid</option>
+                    <option value="zigzag">ZigZag</option><option value="wave">Wave Lines</option><option value="hexagon">Hexagon Mesh</option><option value="noise">Film Grain</option>
+                </select></div>
+            </div>
+            <!-- PER-TEXT STYLES (Dynamic) -->
+            <div class="control-group"><div class="section-title">✍️ PER‑TEXT STYLING</div>
+                <div id="textStylesContainer"></div>
+            </div>
+            <!-- Institution & Data -->
+            <div class="control-group"><div class="section-title">🏛️ INSTITUTION</div>
+                <label class="label">Name</label><input type="text" id="instName" value="GREENFIELD ELITE">
+                <label class="label">Motto</label><input type="text" id="instMotto" value="LEADERSHIP · INTEGRITY · VISION">
+                <label class="label">Logo</label><input type="file" id="logoUpload" accept="image/*">
+            </div>
+            <div class="control-group"><div class="section-title">🧑‍🎓 HOLDER DATA</div>
+                <label class="label">Full Name</label><input type="text" id="holderName" value="JORDAN A. REYES">
+                <div class="row-duo"><div><label>ID Number</label><input type="text" id="holderID" value="VC-2411-9872"></div><div><label>Class/Role</label><input type="text" id="holderClass" value="SENIOR FACULTY"></div></div>
+                <div class="row-duo"><div><label>DOB</label><input type="date" id="holderDob" value="1995-06-15"></div><div><label>Blood</label><input type="text" id="holderBlood" value="B+"></div></div>
+                <label>Address</label><textarea id="holderAddress" rows="2">Innovation Hub, Sector 62, Noida, UP – 201301</textarea>
+                <label>Photo</label><input type="file" id="photoUpload" accept="image/*">
+            </div>
+            <div class="control-group"><div class="section-title">✍️ VALIDITY & SIGN</div>
+                <label>Authorized Signatory</label><input type="text" id="signatureName" value="Dr. Victoria Chen">
+                <div class="row-duo"><div><label>Issue Date</label><input type="date" id="issueDate"></div><div><label>Expiry</label><input type="date" id="expiryDate"></div></div>
+            </div>
+            <button class="btn-download" id="downloadBtn">⬇️ EXPORT 4K PNG</button>
+        </div>
+    </div>
+    <div class="preview-area">
+        <div class="id-card-core" id="liveCard">
+            <div class="card-bg-layer" id="cardBgGrad"></div>
+            <div class="card-pattern-layer" id="cardPatternLayer"></div>
+            <div class="holo-shine"></div>
+            <div class="corner-accent accent-tl"></div>
+            <div class="corner-accent accent-br"></div>
+            <div class="card-content">
+                <div class="card-header-flex"><div class="logo-wrapper"><img src="" id="logoPreviewImg" class="logo-img-preview" style="display:none"></div><div class="institution-block"><div class="inst-name-txt" id="previewInstName">GREENFIELD ELITE</div><div class="inst-motto" id="previewMotto">LEADERSHIP · INTEGRITY · VISION</div></div><div class="qr-mini"><div id="dynamicQR"></div></div></div>
+                <div class="card-body-layout"><div class="photo-area"><img src="" id="previewPhotoImg" class="photo-img" style="display:none"></div><div class="details-area"><div class="info-line"><span class="info-key">NAME</span><span class="info-value" id="previewName">JORDAN A. REYES</span></div><div class="info-line"><span class="info-key">ID</span><span class="info-value" id="previewID">VC-2411-9872</span></div><div class="info-line"><span class="info-key">CLASS</span><span class="info-value" id="previewClass">SENIOR FACULTY</span></div><div class="info-line"><span class="info-key">DOB</span><span class="info-value" id="previewDob">--</span></div><div class="info-line"><span class="info-key">BLOOD</span><span class="info-value" id="previewBlood">B+</span></div></div></div>
+                <div class="card-footer-area"><div class="address-preview" id="previewAddress">Innovation Hub, Sector 62, Noida, UP – 201301</div><div class="signature-row"><div class="sign-item"><div class="signature-line" id="signaturePreview">Dr. Victoria Chen</div><div style="font-size:0.55rem;">AUTHORIZED</div></div><div class="sign-item"><div class="signature-line" id="validityPreview">ISSUED: --</div><div id="expiryPreview" style="font-size:0.55rem;">EXP: --</div></div></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// --------- Text elements mapping for per-style ----------
+const textFields = [
+    { id: 'previewInstName', label: 'Institution Name', defaultColor: '#ffffff', defaultSize: 20, defaultFont: 'Poppins', defaultBold: true },
+    { id: 'previewMotto', label: 'Motto', defaultColor: '#ffffff', defaultSize: 11, defaultFont: 'Montserrat', defaultBold: false },
+    { id: 'previewName', label: 'Holder Name', defaultColor: '#ffffff', defaultSize: 15, defaultFont: 'Poppins', defaultBold: true },
+    { id: 'previewID', label: 'ID Number', defaultColor: '#ffffff', defaultSize: 12, defaultFont: 'Inter', defaultBold: false },
+    { id: 'previewClass', label: 'Class/Role', defaultColor: '#ffffff', defaultSize: 12, defaultFont: 'Inter', defaultBold: false },
+    { id: 'previewDob', label: 'DOB', defaultColor: '#ffffff', defaultSize: 11, defaultFont: 'Inter', defaultBold: false },
+    { id: 'previewBlood', label: 'Blood Group', defaultColor: '#ffffff', defaultSize: 11, defaultFont: 'Inter', defaultBold: true },
+    { id: 'previewAddress', label: 'Address', defaultColor: '#ffffff', defaultSize: 10, defaultFont: 'Inter', defaultBold: false },
+    { id: 'signaturePreview', label: 'Signature', defaultColor: '#ffffff', defaultSize: 11, defaultFont: 'Cinzel', defaultBold: false },
+    { id: 'validityPreview', label: 'Issue Date', defaultColor: '#ffffff', defaultSize: 10, defaultFont: 'Inter', defaultBold: false },
+    { id: 'expiryPreview', label: 'Expiry', defaultColor: '#ffffff', defaultSize: 10, defaultFont: 'Inter', defaultBold: false }
+];
+// store user style overrides
+let textStyles = {};
+function initTextStyles() {
+    for(let f of textFields) {
+        if(!textStyles[f.id]) textStyles[f.id] = { color: f.defaultColor, fontSize: f.defaultSize, fontFamily: f.defaultFont, bold: f.defaultBold };
+    }
+}
+function buildStyleControls() {
+    const container = document.getElementById('textStylesContainer');
+    container.innerHTML = '';
+    for(let f of textFields) {
+        const style = textStyles[f.id];
+        const div = document.createElement('div');
+        div.className = 'control-group';
+        div.style.borderBottom = '1px solid #e2e8f0';
+        div.style.marginBottom = '14px';
+        div.innerHTML = `<div style="font-weight:800; font-size:0.7rem;">📌 ${f.label}</div>
+        <div class="style-micro">
+            <input type="color" data-id="${f.id}" class="txt-color" value="${style.color}" style="width:32px; height:32px;">
+            <input type="number" data-id="${f.id}" class="txt-size" value="${style.fontSize}" step="1" min="8" max="28" style="width:55px;" placeholder="Size">
+            <select data-id="${f.id}" class="txt-font">
+                ${['Poppins','Montserrat','Inter','Cinzel','Space Grotesk','Bebas Neue','Roboto Mono','Josefin Sans'].map(font => `<option ${style.fontFamily===font?'selected':''} value="${font}">${font}</option>`).join('')}
+            </select>
+            <label class="bold-check"><input type="checkbox" data-id="${f.id}" class="txt-bold" ${style.bold?'checked':''}> <span style="font-weight:bold;">B</span></label>
+        </div>`;
+        container.appendChild(div);
+    }
+    // attach events
+    document.querySelectorAll('.txt-color').forEach(el => el.addEventListener('input', (e) => { textStyles[e.target.dataset.id].color = e.target.value; renderAll(); }));
+    document.querySelectorAll('.txt-size').forEach(el => el.addEventListener('input', (e) => { textStyles[e.target.dataset.id].fontSize = parseInt(e.target.value) || 12; renderAll(); }));
+    document.querySelectorAll('.txt-font').forEach(el => el.addEventListener('change', (e) => { textStyles[e.target.dataset.id].fontFamily = e.target.value; renderAll(); }));
+    document.querySelectorAll('.txt-bold').forEach(el => el.addEventListener('change', (e) => { textStyles[e.target.dataset.id].bold = e.target.checked; renderAll(); }));
+}
+function applyTextStylesToElements() {
+    for(let f of textFields) {
+        const el = document.getElementById(f.id);
+        if(!el) continue;
+        const style = textStyles[f.id];
+        el.style.color = style.color;
+        el.style.fontSize = style.fontSize + 'px';
+        el.style.fontFamily = `'${style.fontFamily}', sans-serif`;
+        el.style.fontWeight = style.bold ? '800' : '500';
+        // for address we also want line-clamp but keep as is
+    }
+}
+// general render
+function formatDateInput(d) { if(!d) return '--'; let dt = new Date(d); return dt.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}); }
+function updateAddressWrap(text) { let addr = document.getElementById('previewAddress'); addr.innerText = text||''; let len = text?.length||0; if(len>55) addr.style.fontSize = '0.55rem'; else if(len>35) addr.style.fontSize = '0.58rem'; else addr.style.fontSize = '0.65rem'; applyTextStylesToElements();}
+function refreshQR() { let qrDiv = document.getElementById('dynamicQR'); qrDiv.innerHTML = ''; let qrData = document.getElementById('holderID').value + '|' + document.getElementById('holderName').value; new QRCode(qrDiv, { text: qrData||'CARD', width: 40, height: 40 }); }
+function updateCardDimensions() {
+    let w = parseFloat(document.getElementById('cardWidthMM').value) * 3.7795;
+    let h = parseFloat(document.getElementById('cardHeightMM').value) * 3.7795;
+    w = Math.min(700, Math.max(320, w)); h = Math.min(450, Math.max(200, h));
+    document.getElementById('liveCard').style.width = w + 'px';
+    document.getElementById('liveCard').style.height = h + 'px';
+    let rad = document.getElementById('cornerRadius').value;
+    document.getElementById('liveCard').style.borderRadius = rad + 'px';
+    document.getElementById('radiusVal').innerText = rad + 'px';
+}
+function applyOutlineAndGlow() {
+    let style = document.getElementById('outlineStyle').value;
+    let color = document.getElementById('outlineColor').value;
+    let card = document.getElementById('liveCard');
+    if(style === 'glow') card.style.boxShadow = `0 0 0 2px ${color}, 0 0 0 5px rgba(255,215,0,0.4), 0 8px 20px black`;
+    else if(style === 'neon') card.style.boxShadow = `0 0 5px ${color}, 0 0 15px ${color}, inset 0 0 3px ${color}`;
+    else { card.style.boxShadow = '0 20px 35px -12px rgba(0,0,0,0.3)'; card.style.border = style === 'none' ? 'none' : `${style} 2px ${color}`; }
+    if(style !== 'glow' && style !== 'neon') card.style.border = (style!=='none')? `${style} 2px ${color}` : 'none';
+}
+function applyPatternTexture() {
+    let pat = document.getElementById('patternSelect').value;
+    let patternDiv = document.getElementById('cardPatternLayer');
+    let svg = '';
+    if(pat === 'dots') svg = `url("data:image/svg+xml,%3Csvg width='14' height='14' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1.8' fill='white' opacity='0.5'/%3E%3C/svg%3E")`;
+    else if(pat === 'stripes') svg = `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0 L0 20' stroke='white' stroke-width='1.5' opacity='0.35'/%3E%3C/svg%3E")`;
+    else if(pat === 'grid') svg = `url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='16' height='16' fill='none' stroke='white' stroke-width='0.8' opacity='0.3'/%3E%3C/svg%3E")`;
+    else if(pat === 'zigzag') svg = `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='2,10 8,4 14,10 20,4' stroke='white' fill='none' stroke-width='1.5' opacity='0.4'/%3E%3C/svg%3E")`;
+    else if(pat === 'wave') svg = `url("data:image/svg+xml,%3Csvg width='24' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6 Q6 0 12 6 T24 6' stroke='white' fill='none' stroke-width='1.2' opacity='0.4'/%3E%3C/svg%3E")`;
+    else if(pat === 'hexagon') svg = `url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2 L22 7 L22 17 L12 22 L2 17 L2 7 Z' fill='none' stroke='white' stroke-width='0.8' opacity='0.3'/%3E%3C/svg%3E")`;
+    else if(pat === 'noise') svg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E")`;
+    else svg = 'none';
+    patternDiv.style.backgroundImage = svg;
+    patternDiv.style.backgroundRepeat = 'repeat';
+}
+function renderAll() {
+    // update dynamic text
+    document.getElementById('previewInstName').innerText = document.getElementById('instName').value;
+    document.getElementById('previewMotto').innerText = document.getElementById('instMotto').value;
+    document.getElementById('previewName').innerText = document.getElementById('holderName').value;
+    document.getElementById('previewID').innerText = document.getElementById('holderID').value;
+    document.getElementById('previewClass').innerText = document.getElementById('holderClass').value;
+    let dob = document.getElementById('holderDob').value;
+    document.getElementById('previewDob').innerText = dob ? formatDateInput(dob) : '—';
+    document.getElementById('previewBlood').innerText = document.getElementById('holderBlood').value;
+    updateAddressWrap(document.getElementById('holderAddress').value);
+    document.getElementById('signaturePreview').innerText = document.getElementById('signatureName').value;
+    let issue = document.getElementById('issueDate').value;
+    let expire = document.getElementById('expiryDate').value;
+    document.getElementById('validityPreview').innerHTML = `ISSUED: ${issue?formatDateInput(issue):'--'}`;
+    document.getElementById('expiryPreview').innerHTML = `EXP: ${expire?formatDateInput(expire):'--'}`;
+    // gradients and bg
+    let gA = document.getElementById('gradColorA').value;
+    let gB = document.getElementById('gradColorB').value;
+    document.getElementById('cardBgGrad').style.background = `linear-gradient(135deg, ${gA}, ${gB})`;
+    applyPatternTexture();
+    applyOutlineAndGlow();
+    updateCardDimensions();
+    applyTextStylesToElements();
+    refreshQR();
+}
+// image uploads
+function setupImageUpload(fileInput, imgId) {
+    fileInput.addEventListener('change', e => { if(e.target.files[0]) { let r = new FileReader(); r.onload = ev => { document.getElementById(imgId).src = ev.target.result; document.getElementById(imgId).style.display = 'block'; renderAll(); }; r.readAsDataURL(e.target.files[0]); } });
+}
+// theme apply
+function applyTheme(c1,c2,txtColor) {
+    document.getElementById('gradColorA').value = c1;
+    document.getElementById('gradColorB').value = c2;
+    document.getElementById('outlineColor').value = txtColor;
+    for(let f of textFields) textStyles[f.id].color = txtColor;
+    // rebuild style controls to reflect color change
+    buildStyleControls();
+    renderAll();
+}
+// download
+async function downloadCard() {
+    let btn = document.getElementById('downloadBtn');
+    let orig = btn.innerHTML;
+    btn.innerHTML = "⏳ Generating...";
+    let card = document.getElementById('liveCard');
+    let oldShadow = card.style.boxShadow;
+    card.style.boxShadow = 'none';
+    let canvas = await html2canvas(card, { scale: 4, backgroundColor: null, useCORS: true });
+    let link = document.createElement('a');
+    link.download = `OmniCard_${document.getElementById('holderID').value || 'card'}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+    card.style.boxShadow = oldShadow;
+    btn.innerHTML = "✅ Exported!";
+    setTimeout(()=> btn.innerHTML = orig, 2000);
+}
+// event listeners
+let allInputs = ['instName','instMotto','holderName','holderID','holderClass','holderDob','holderBlood','holderAddress','signatureName','issueDate','expiryDate','gradColorA','gradColorB','patternSelect','outlineStyle','outlineColor','cardWidthMM','cardHeightMM','cornerRadius'];
+allInputs.forEach(id => { let e = document.getElementById(id); if(e) e.addEventListener('input', () => renderAll()); if(e && (id.includes('Width')||id.includes('Height')||id==='cornerRadius')) e.addEventListener('change',()=>renderAll()); });
+setupImageUpload(document.getElementById('logoUpload'), 'logoPreviewImg');
+setupImageUpload(document.getElementById('photoUpload'), 'previewPhotoImg');
+document.getElementById('downloadBtn').addEventListener('click', downloadCard);
+// set default dates
+document.getElementById('issueDate').value = new Date().toISOString().split('T')[0];
+let nextY = new Date(); nextY.setFullYear(nextY.getFullYear()+2);
+document.getElementById('expiryDate').value = nextY.toISOString().split('T')[0];
+initTextStyles();
+buildStyleControls();
+renderAll();
+window.applyTheme = applyTheme;
+</script>
+</body>
+</html>
             </xmp>
 
         <xmp id="tool-52-code">
