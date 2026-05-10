@@ -52079,7 +52079,700 @@ window.applyTheme = applyTheme;
 </html>
             </xmp>
 
-        <xmp id="tool-52-code">
+        <xmp id="tool-52-code"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Student ID Card Generator | Pro+ Edition</title>
+  <!-- Google Fonts + Font Awesome + html2canvas -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #eef2f9;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+    .app-container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      background: #eef2f9;
+    }
+    /* Left Panel */
+    .control-panel {
+      width: 380px;
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.12);
+      overflow-y: auto;
+      padding: 1.4rem 1.2rem;
+    }
+    .control-panel::-webkit-scrollbar {
+      width: 5px;
+    }
+    .control-panel::-webkit-scrollbar-track {
+      background: #e9ecef;
+      border-radius: 10px;
+    }
+    .control-panel::-webkit-scrollbar-thumb {
+      background: #adb5bd;
+      border-radius: 10px;
+    }
+    /* Accordion */
+    .accordion-cat {
+      background: #f8fafc;
+      border-radius: 18px;
+      margin-bottom: 1rem;
+      border: 1px solid #e9edf2;
+      overflow: hidden;
+    }
+    .accordion-header {
+      background: #ffffff;
+      padding: 0.9rem 1rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #1e2a3e;
+    }
+    .accordion-header i {
+      font-size: 0.85rem;
+      color: #5c6f87;
+      transition: transform 0.2s;
+    }
+    .accordion-content {
+      padding: 1rem 1rem 1.2rem;
+      border-top: 1px solid #eef2f6;
+      display: block;
+    }
+    .accordion-cat.collapsed .accordion-content {
+      display: none;
+    }
+    .accordion-cat.collapsed .accordion-header i {
+      transform: rotate(-90deg);
+    }
+    /* Form elements */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #3b4a5c;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid #ced4da;
+      background: white;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+    }
+    .row-2cols {
+      display: flex;
+      gap: 0.8rem;
+    }
+    .row-2cols > div {
+      flex: 1;
+    }
+    button {
+      background: #1e293b;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 0.6rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+    button.primary {
+      background: #2563eb;
+    }
+    button.primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .style-preview-group {
+      background: #f1f5f9;
+      border-radius: 14px;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+    }
+    .inline-color {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    /* Right Preview */
+    .card-preview-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #eef2f9;
+      border-radius: 32px;
+    }
+    .card-wrapper {
+      background: rgba(255,255,255,0.3);
+      padding: 1.2rem;
+      border-radius: 32px;
+      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25);
+    }
+    #idCard {
+      transition: all 0.15s ease;
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2);
+    }
+    .download-btn-large {
+      margin-top: 2rem;
+      background: #0f172a;
+      width: auto;
+      padding: 0.8rem 2.2rem;
+      font-size: 1rem;
+      border-radius: 60px;
+    }
+    /* Card inner styles */
+    .card-inner {
+      padding: 1.2rem;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .card-header-logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.2rem;
+    }
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      background: #f1f5f9;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .logo-img img, .logo-img i {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .inst-texts {
+      flex: 1;
+      text-align: center;
+    }
+    .inst-name {
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+    .identity-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      opacity: 0.85;
+    }
+    .student-photo-section {
+      display: flex;
+      gap: 1rem;
+      margin: 0.2rem 0;
+      align-items: center;
+    }
+    .photo-avatar {
+      width: 80px;
+      height: 80px;
+      background: #eef2ff;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 2px solid rgba(0,0,0,0.08);
+    }
+    .photo-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-avatar i {
+      font-size: 42px;
+      color: #4b5563;
+    }
+    .details-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem 0.6rem;
+      font-size: 0.7rem;
+    }
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .detail-label {
+      font-weight: 700;
+      opacity: 0.65;
+      font-size: 0.6rem;
+    }
+    .detail-value {
+      font-weight: 500;
+      word-break: break-word;
+    }
+    .signature-cursive {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem;
+      border-top: 1px dashed rgba(0,0,0,0.2);
+      padding-top: 0.4rem;
+      margin-top: 0.2rem;
+    }
+    .divider-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, currentColor, transparent);
+      margin: 0.2rem 0;
+    }
+    .header-block, .footer-block {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .header-block { top: 0; }
+    .footer-block { bottom: 0; }
+    /* Texture overlay */
+    .texture-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.22;
+      background-repeat: repeat;
+      background-size: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- LEFT PANEL -->
+  <div class="control-panel">
+    <!-- Size & Border -->
+    <div class="accordion-cat">
+      <div class="accordion-header">📏 Card Dimensions <i class="fas fa-chevron-down"></i></div>
+      <div class="accordion-content">
+        <div class="form-group">
+          <label>Preset Size</label>
+          <select id="sizePreset">
+            <option value="cr80">CR80 (480x302px)</option>
+            <option value="vertical">Vertical (350x450px)</option>
+            <option value="horizontal" selected>Horizontal (520x320px)</option>
+            <option value="custom">Custom (px)</option>
+          </select>
+        </div>
+        <div id="customSizeGroup" style="display:none;">
+          <div class="row-2cols">
+            <div><label>Width (px)</label><input type="number" id="customWidth" value="500" step="5"></div>
+            <div><label>Height (px)</label><input type="number" id="customHeight" value="320" step="5"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Border Outline (more styles added)</label>
+          <select id="borderStyle">
+            <option value="solid">Solid</option>
+            <option value="dashed">Dashed</option>
+            <option value="double">Double</option>
+            <option value="groove">Groove</option>
+            <option value="ridge">Ridge</option>
+            <option value="inset">Inset</option>
+            <option value="outset">Outset</option>
+            <option value="none">None</option>
+          </select>
+          <div class="row-2cols" style="margin-top:8px">
+            <div><label>Color</label><input type="color" id="borderColor" value="#334155"></div>
+            <div><label>Width(px)</label><input type="number" id="borderWidth" value="2" step="0.5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Background & Texture (more textures added) -->
+    <div class="accordion-cat">
+      <div class="accordion-header">🎨 Background & Texture <i class="fas fa-chevron-down"></i></div>
+      <div class="accordion-content">
+        <div class="form-group"><label>Background Mode</label>
+          <select id="bgMode">
+            <option value="solid">Solid Color</option><option value="gradient">Gradient</option><option value="image">Image Upload</option>
+          </select>
+        </div>
+        <div id="solidGroup"><label>Color</label><input type="color" id="solidColor" value="#fef9e6"></div>
+        <div id="gradientGroup" style="display:none;"><label>Gradient Start/End</label><div class="row-2cols"><input type="color" id="gradStart" value="#2b7a4b"><input type="color" id="gradEnd" value="#f9c74f"></div><label>Angle</label><input type="range" id="gradAngle" min="0" max="360" value="135"><span id="angleValue">135°</span></div>
+        <div id="imageGroup" style="display:none;"><label>Upload BG Image</label><input type="file" id="bgImageUpload" accept="image/*"></div>
+        <div class="form-group"><label>Texture Overlay (more patterns)</label>
+          <select id="textureSelect">
+            <option value="none">None</option>
+            <option value="dots">Dots Pattern</option>
+            <option value="dots_large">Large Dots</option>
+            <option value="lines">Fine Lines</option>
+            <option value="grid">Subtle Grid</option>
+            <option value="crosshatch">Crosshatch</option>
+            <option value="zigzag">Zigzag</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- Shapes & Elements with adjustable header height -->
+    <div class="accordion-cat">
+      <div class="accordion-header">✨ Design Elements <i class="fas fa-chevron-down"></i></div>
+      <div class="accordion-content">
+        <label><input type="checkbox" id="showHeaderBlock"> Top Header Block</label>
+        <div style="margin:8px 0 8px 0">
+          <label>Header Height (px)</label>
+          <input type="range" id="headerHeight" min="20" max="80" value="36" step="2">
+          <span id="headerHeightValue">36px</span>
+        </div>
+        <div style="margin-bottom:12px"><label>Header Color</label><input type="color" id="headerBlockColor" value="#1e293b"></div>
+        
+        <label><input type="checkbox" id="showFooterBlock"> Bottom Footer Block</label>
+        <div style="margin:8px 0 12px 0"><label>Footer Color</label><input type="color" id="footerBlockColor" value="#334155"></div>
+        
+        <label><input type="checkbox" id="showDividerLine"> Divider Line (after institution)</label>
+      </div>
+    </div>
+    <!-- Institution -->
+    <div class="accordion-cat">
+      <div class="accordion-header">🏛️ Institution <i class="fas fa-chevron-down"></i></div>
+      <div class="accordion-content">
+        <label>Institution Logo</label><input type="file" id="instLogoUpload" accept="image/*">
+        <label>Institution Name</label><input type="text" id="instName" value="UNIVERSITY OF EXCELLENCE">
+        <label>"Identity Card" Text</label><input type="text" id="identityText" value="STUDENT IDENTITY CARD">
+      </div>
+    </div>
+    <!-- Student Details -->
+    <div class="accordion-cat">
+      <div class="accordion-header">👤 Student Details <i class="fas fa-chevron-down"></i></div>
+      <div class="accordion-content">
+        <label>Student Photo (optional)</label><input type="file" id="studentPhotoUpload" accept="image/*">
+        <label>Full Name</label><input type="text" id="studentName" value="ALEX JOHNSON">
+        <label>ID Number</label><input type="text" id="studentId" value="S12345678">
+        <label>Date of Birth</label><input type="date" id="dob" value="2002-05-15">
+        <label>Blood Group</label><input type="text" id="bloodGroup" value="O+">
+        <label>Address</label><input type="text" id="address" value="123 Campus Road, Springfield">
+        <div class="row-2cols"><div><label>Issue Date</label><input type="date" id="issueDate" value="2023-09-01"></div><div><label>Expiry Date</label><input type="date" id="expiryDate" value="2027-08-31"></div></div>
+        <label>Signature (cursive style)</label><input type="text" id="signatureText" value="A. Johnson">
+      </div>
+    </div>
+    <!-- Typography -->
+    <div class="accordion-cat">
+      <div class="accordion-header">✍️ Text Styling (Per Element) <i class="fas fa-chevron-down"></i></div>
+      <div class="accordion-content">
+        <div class="form-group"><label>Select Text Element</label>
+          <select id="textElementSelect">
+            <option value="instName">🏛️ Institution Name</option><option value="identityLabel">📛 Identity Label</option><option value="studentName">👤 Student Name</option>
+            <option value="studentIdValue">🆔 ID Number</option><option value="dobValue">📅 Date of Birth</option><option value="bloodValue">🩸 Blood Group</option>
+            <option value="addressValue">📍 Address</option><option value="issueValue">📆 Issue Date</option><option value="expiryValue">⏳ Expiry Date</option>
+            <option value="signatureValue">✍️ Signature</option>
+          </select>
+        </div>
+        <div class="style-preview-group">
+          <div class="row-2cols"><div><label>Font</label><select id="fontFamilySelect"><option value="'Inter', sans-serif">Inter</option><option value="'Poppins', sans-serif">Poppins</option><option value="'Roboto', sans-serif">Roboto</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Playfair Display', serif">Playfair</option><option value="'Dancing Script', cursive">Dancing Script</option><option value="'Lato', sans-serif">Lato</option></select></div><div><label>Size(px)</label><input type="number" id="fontSizeInput" value="13" step="1"></div></div>
+          <div class="inline-color"><label>Color</label><input type="color" id="textColorInput" value="#1f2937"><label><input type="checkbox" id="boldCheck"> Bold</label><label><input type="checkbox" id="italicCheck"> Italic</label></div>
+          <button id="applyTextStyleBtn" class="primary" style="margin-top: 10px;">Apply to Selected</button>
+        </div>
+      </div>
+    </div>
+    <button id="downloadCardBtn" class="primary download-btn-large"><i class="fas fa-download"></i> Download ID Card (PNG)</button>
+  </div>
+
+  <!-- RIGHT PREVIEW -->
+  <div class="card-preview-area">
+    <div class="card-wrapper">
+      <div id="idCard" style="width:520px; height:320px;"></div>
+    </div>
+    <p style="margin-top: 1rem; background: white; padding: 6px 14px; border-radius: 80px; font-size: 0.75rem; color:#2d3e50;"><i class="fas fa-magic"></i> Live preview — textures & outlines & adjustable header</p>
+  </div>
+</div>
+
+<script>
+  // DOM elements
+  const cardContainer = document.getElementById('idCard');
+  let instLogoData = null;
+  let studentPhotoData = null;
+  let bgImageData = null;
+
+  // Text styles store
+  let textStyles = {
+    instName: { fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#1f2937", bold: true, italic: false },
+    identityLabel: { fontFamily: "'Inter', sans-serif", fontSize: 11, color: "#4b5563", bold: false, italic: false },
+    studentName: { fontFamily: "'Inter', sans-serif", fontSize: 13, color: "#111827", bold: true, italic: false },
+    studentIdValue: { fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#1f2937", bold: false, italic: false },
+    dobValue: { fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#1f2937", bold: false, italic: false },
+    bloodValue: { fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#1f2937", bold: false, italic: false },
+    addressValue: { fontFamily: "'Inter', sans-serif", fontSize: 11, color: "#374151", bold: false, italic: false },
+    issueValue: { fontFamily: "'Inter', sans-serif", fontSize: 10, color: "#4b5563", bold: false, italic: false },
+    expiryValue: { fontFamily: "'Inter', sans-serif", fontSize: 10, color: "#4b5563", bold: false, italic: false },
+    signatureValue: { fontFamily: "'Dancing Script', cursive", fontSize: 15, color: "#1f2937", bold: false, italic: true }
+  };
+
+  function formatDate(dateVal) {
+    if(!dateVal) return '—';
+    let d = new Date(dateVal);
+    if(isNaN(d.getTime())) return dateVal;
+    return d.toLocaleDateString('en-US');
+  }
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+  // Build card HTML (supports dynamic header height)
+  function buildCardHTML() {
+    const logoHtml = instLogoData ? `<img src="${instLogoData}" alt="logo">` : '<i class="fas fa-university" style="font-size:28px; color:#334155;"></i>';
+    const photoHtml = studentPhotoData ? `<img src="${studentPhotoData}" alt="student">` : '<i class="fas fa-user-graduate"></i>';
+    const headerHeight = document.getElementById('showHeaderBlock').checked ? document.getElementById('headerHeight').value : 0;
+    const headerStyle = headerHeight > 0 ? `height:${headerHeight}px; background:${document.getElementById('headerBlockColor').value};` : '';
+    const footerStyle = document.getElementById('showFooterBlock').checked ? `height:32px; background:${document.getElementById('footerBlockColor').value};` : '';
+    return `
+      <div class="card-inner">
+        <div class="card-header-logo-area">
+          <div class="logo-img">${logoHtml}</div>
+          <div class="inst-texts">
+            <div class="inst-name" id="instNameElem">${escapeHtml(document.getElementById('instName').value)}</div>
+            <div class="identity-label" id="identityLabelElem">${escapeHtml(document.getElementById('identityText').value)}</div>
+          </div>
+        </div>
+        <div class="student-photo-section">
+          <div class="photo-avatar" id="studentPhotoElem">${photoHtml}</div>
+          <div class="details-grid">
+            <div class="detail-item"><span class="detail-label">Full Name</span><span class="detail-value" id="studentNameElem">${escapeHtml(document.getElementById('studentName').value)}</span></div>
+            <div class="detail-item"><span class="detail-label">ID No.</span><span class="detail-value" id="studentIdElem">${escapeHtml(document.getElementById('studentId').value)}</span></div>
+            <div class="detail-item"><span class="detail-label">DOB</span><span class="detail-value" id="dobElem">${formatDate(document.getElementById('dob').value)}</span></div>
+            <div class="detail-item"><span class="detail-label">Blood</span><span class="detail-value" id="bloodElem">${escapeHtml(document.getElementById('bloodGroup').value)}</span></div>
+            <div class="detail-item"><span class="detail-label">Address</span><span class="detail-value" id="addressElem">${escapeHtml(document.getElementById('address').value)}</span></div>
+            <div class="detail-item"><span class="detail-label">Issue</span><span class="detail-value" id="issueElem">${formatDate(document.getElementById('issueDate').value)}</span></div>
+            <div class="detail-item"><span class="detail-label">Expiry</span><span class="detail-value" id="expiryElem">${formatDate(document.getElementById('expiryDate').value)}</span></div>
+          </div>
+        </div>
+        <div class="signature-cursive" id="signatureElem">${escapeHtml(document.getElementById('signatureText').value)}</div>
+        ${document.getElementById('showDividerLine').checked ? '<div class="divider-line" style="background:currentColor; opacity:0.3;"></div>' : ''}
+      </div>
+      ${document.getElementById('showHeaderBlock').checked ? `<div class="header-block" style="${headerStyle}"></div>` : ''}
+      ${document.getElementById('showFooterBlock').checked ? `<div class="footer-block" style="${footerStyle}"></div>` : ''}
+      <div class="texture-overlay" id="dynamicTexture"></div>
+    `;
+  }
+
+  // Apply background and texture (with extended patterns)
+  function applyBackgroundAndTexture() {
+    const mode = document.getElementById('bgMode').value;
+    if(mode === 'solid') {
+      cardContainer.style.background = document.getElementById('solidColor').value;
+      cardContainer.style.backgroundImage = 'none';
+    } else if(mode === 'gradient') {
+      const start = document.getElementById('gradStart').value;
+      const end = document.getElementById('gradEnd').value;
+      const angle = document.getElementById('gradAngle').value;
+      cardContainer.style.background = `linear-gradient(${angle}deg, ${start}, ${end})`;
+    } else if(mode === 'image' && bgImageData) {
+      cardContainer.style.backgroundImage = `url(${bgImageData})`;
+      cardContainer.style.backgroundSize = 'cover';
+      cardContainer.style.backgroundPosition = 'center';
+    } else if(mode === 'image') {
+      cardContainer.style.background = '#e2e8f0';
+    }
+
+    // Texture overlay - extended patterns
+    const texture = document.getElementById('textureSelect').value;
+    const overlay = document.getElementById('dynamicTexture');
+    if(overlay) {
+      overlay.style.backgroundImage = 'none';
+      overlay.style.opacity = '0.22';
+      if(texture === 'dots') {
+        overlay.style.backgroundImage = "radial-gradient(circle, #2d3748 1.2px, transparent 1.2px)";
+        overlay.style.backgroundSize = "12px 12px";
+      } else if(texture === 'dots_large') {
+        overlay.style.backgroundImage = "radial-gradient(circle, #2d3748 2px, transparent 2px)";
+        overlay.style.backgroundSize = "20px 20px";
+        overlay.style.opacity = "0.25";
+      } else if(texture === 'lines') {
+        overlay.style.backgroundImage = "repeating-linear-gradient(45deg, #2d3748 0px, #2d3748 1px, transparent 1px, transparent 12px)";
+        overlay.style.backgroundSize = "16px 16px";
+      } else if(texture === 'grid') {
+        overlay.style.backgroundImage = "linear-gradient(to right, #2d3748 1px, transparent 1px), linear-gradient(to bottom, #2d3748 1px, transparent 1px)";
+        overlay.style.backgroundSize = "14px 14px";
+      } else if(texture === 'crosshatch') {
+        overlay.style.backgroundImage = "repeating-linear-gradient(45deg, #2d3748 0px, #2d3748 1px, transparent 1px, transparent 10px), repeating-linear-gradient(135deg, #2d3748 0px, #2d3748 1px, transparent 1px, transparent 10px)";
+        overlay.style.backgroundSize = "16px 16px";
+        overlay.style.opacity = "0.2";
+      } else if(texture === 'zigzag') {
+        overlay.style.backgroundImage = "repeating-linear-gradient(135deg, #2d3748 0px, #2d3748 2px, transparent 2px, transparent 8px), repeating-linear-gradient(45deg, #2d3748 0px, #2d3748 2px, transparent 2px, transparent 8px)";
+        overlay.style.backgroundSize = "20px 20px";
+        overlay.style.opacity = "0.18";
+      } else {
+        overlay.style.backgroundImage = "none";
+        overlay.style.opacity = "0";
+      }
+    }
+  }
+
+  // Apply per-element text styles
+  function applyAllTextStyles() {
+    const mapping = {
+      instName: 'instNameElem', identityLabel: 'identityLabelElem', studentName: 'studentNameElem',
+      studentIdValue: 'studentIdElem', dobValue: 'dobElem', bloodValue: 'bloodElem',
+      addressValue: 'addressElem', issueValue: 'issueElem', expiryValue: 'expiryElem', signatureValue: 'signatureElem'
+    };
+    for(let [key, domId] of Object.entries(mapping)) {
+      const el = document.getElementById(domId);
+      if(el && textStyles[key]) {
+        const st = textStyles[key];
+        el.style.fontFamily = st.fontFamily;
+        el.style.fontSize = st.fontSize + 'px';
+        el.style.color = st.color;
+        el.style.fontWeight = st.bold ? 'bold' : 'normal';
+        el.style.fontStyle = st.italic ? 'italic' : 'normal';
+      }
+    }
+    const sig = document.getElementById('signatureElem');
+    if(sig && textStyles.signatureValue) sig.style.fontFamily = textStyles.signatureValue.fontFamily;
+  }
+
+  // Full card refresh
+  function fullCardUpdate() {
+    const preset = document.getElementById('sizePreset').value;
+    let width = 520, height = 320;
+    if(preset === 'cr80') { width=480; height=302; }
+    else if(preset === 'vertical') { width=350; height=450; }
+    else if(preset === 'horizontal') { width=520; height=320; }
+    else if(preset === 'custom') { width=parseInt(document.getElementById('customWidth').value)||480; height=parseInt(document.getElementById('customHeight').value)||320; }
+    cardContainer.style.width = width + 'px';
+    cardContainer.style.height = height + 'px';
+
+    const borderStyle = document.getElementById('borderStyle').value;
+    const borderWidth = document.getElementById('borderWidth').value;
+    const borderColor = document.getElementById('borderColor').value;
+    if(borderStyle !== 'none') cardContainer.style.border = `${borderWidth}px ${borderStyle} ${borderColor}`;
+    else cardContainer.style.border = 'none';
+    cardContainer.style.borderRadius = '20px';
+
+    cardContainer.innerHTML = buildCardHTML();
+    applyBackgroundAndTexture();
+    applyAllTextStyles();
+  }
+
+  // Event binding
+  function bindEvents() {
+    const liveIds = ['instName','identityText','studentName','studentId','dob','bloodGroup','address','issueDate','expiryDate','signatureText','sizePreset','customWidth','customHeight','borderStyle','borderWidth','borderColor','bgMode','solidColor','gradStart','gradEnd','gradAngle','showHeaderBlock','showFooterBlock','headerBlockColor','footerBlockColor','showDividerLine','textureSelect','headerHeight'];
+    liveIds.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) {
+        const eventType = (id === 'showHeaderBlock' || id === 'showFooterBlock' || id === 'showDividerLine') ? 'change' : 'input';
+        el.addEventListener(eventType, () => { 
+          if(id === 'customWidth' || id === 'customHeight') document.getElementById('sizePreset').value='custom';
+          if(id === 'headerHeight') document.getElementById('headerHeightValue').innerText = document.getElementById('headerHeight').value + 'px';
+          fullCardUpdate(); 
+        });
+      }
+    });
+    
+    // Additional for header height slider display
+    document.getElementById('headerHeight').addEventListener('input', () => {
+      document.getElementById('headerHeightValue').innerText = document.getElementById('headerHeight').value + 'px';
+      fullCardUpdate();
+    });
+
+    document.getElementById('bgMode').addEventListener('change', (e) => {
+      document.getElementById('solidGroup').style.display = e.target.value === 'solid' ? 'block' : 'none';
+      document.getElementById('gradientGroup').style.display = e.target.value === 'gradient' ? 'block' : 'none';
+      document.getElementById('imageGroup').style.display = e.target.value === 'image' ? 'block' : 'none';
+      fullCardUpdate();
+    });
+    document.getElementById('gradAngle').addEventListener('input', (e) => { document.getElementById('angleValue').innerText = e.target.value + '°'; fullCardUpdate(); });
+    
+    // Images
+    document.getElementById('instLogoUpload').addEventListener('change', (e) => { if(e.target.files[0]) { const r = new FileReader(); r.onload = ev => { instLogoData = ev.target.result; fullCardUpdate(); }; r.readAsDataURL(e.target.files[0]); } });
+    document.getElementById('studentPhotoUpload').addEventListener('change', (e) => { if(e.target.files[0]) { const r = new FileReader(); r.onload = ev => { studentPhotoData = ev.target.result; fullCardUpdate(); }; r.readAsDataURL(e.target.files[0]); } else { studentPhotoData = null; fullCardUpdate(); } });
+    document.getElementById('bgImageUpload').addEventListener('change', (e) => { if(e.target.files[0]) { const r = new FileReader(); r.onload = ev => { bgImageData = ev.target.result; fullCardUpdate(); }; r.readAsDataURL(e.target.files[0]); } });
+
+    // Apply text style
+    document.getElementById('applyTextStyleBtn').addEventListener('click', () => {
+      const selected = document.getElementById('textElementSelect').value;
+      textStyles[selected] = {
+        fontFamily: document.getElementById('fontFamilySelect').value,
+        fontSize: document.getElementById('fontSizeInput').value,
+        color: document.getElementById('textColorInput').value,
+        bold: document.getElementById('boldCheck').checked,
+        italic: document.getElementById('italicCheck').checked
+      };
+      applyAllTextStyles();
+    });
+
+    // Download
+    document.getElementById('downloadCardBtn').addEventListener('click', () => {
+      fullCardUpdate(); // ensure latest state
+      setTimeout(() => {
+        html2canvas(cardContainer, { scale: 3, backgroundColor: null, useCORS: true, logging: false }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = 'student_id_card.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        }).catch(err => alert("Error: " + err));
+      }, 60);
+    });
+
+    document.getElementById('sizePreset').addEventListener('change', () => {
+      document.getElementById('customSizeGroup').style.display = document.getElementById('sizePreset').value === 'custom' ? 'flex' : 'none';
+      fullCardUpdate();
+    });
+  }
+
+  // Initial setup
+  document.getElementById('solidGroup').style.display = 'block';
+  document.getElementById('gradientGroup').style.display = 'none';
+  document.getElementById('imageGroup').style.display = 'none';
+  document.getElementById('customSizeGroup').style.display = 'none';
+  document.getElementById('angleValue').innerText = '135°';
+  document.getElementById('headerHeightValue').innerText = '36px';
+  
+  // Accordion toggles
+  document.querySelectorAll('.accordion-cat .accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      header.parentElement.classList.toggle('collapsed');
+    });
+  });
+
+  bindEvents();
+  fullCardUpdate();
+</script>
+</body>
+</html>
             </xmp>
 
         <xmp id="tool-53-code">
