@@ -52775,7 +52775,1691 @@ window.applyTheme = applyTheme;
 </html>
             </xmp>
 
-        <xmp id="tool-53-code">
+        <xmp id="tool-53-code"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Student ID Card Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Lato:wght@300;400;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Great+Vibes:wght@400&family=Pacifico:wght@400&family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            height: auto;
+        }
+
+        /* CONTROL PANEL */
+        .control-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .control-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .control-panel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .control-panel::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .control-panel::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        .panel-title {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .accordion {
+            margin-bottom: 15px;
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .accordion-header.active {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .accordion-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 0 0 12px 12px;
+            border: 1px solid #e0e7ff;
+            border-top: none;
+        }
+
+        .accordion-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: capitalize;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="date"],
+        .form-group input[type="color"],
+        .form-group input[type="file"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group input[type="date"]:focus,
+        .form-group input[type="color"]:focus,
+        .form-group input[type="file"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-item label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .color-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-input-wrapper input[type="color"] {
+            width: 50px;
+            height: 45px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .color-input-wrapper input[type="text"] {
+            flex: 1;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .button-secondary {
+            background: #e0e7ff;
+            color: #667eea;
+        }
+
+        .button-secondary:hover {
+            background: #d0d9ff;
+        }
+
+        /* PREVIEW SECTION */
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .preview-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        #idCard {
+            position: relative;
+            width: 340px;
+            height: 215px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Texture pseudo-element */
+        #idCard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            background-repeat: repeat;
+            opacity: 0;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .institution-logo {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .institution-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .institution-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .institution-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            line-height: 1;
+        }
+
+        .institution-subtitle {
+            font-size: 10px;
+            color: #666;
+            line-height: 1;
+        }
+
+        .status-badge {
+            background: #d4af37;
+            color: #333;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .card-body {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            align-items: center;
+        }
+
+        .student-photo {
+            width: 50px;
+            height: 60px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #e0e0e0;
+            border: 2px solid #ddd;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .student-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .student-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .detail-row {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            line-height: 1.2;
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #666;
+            min-width: 40px;
+        }
+
+        .detail-value {
+            color: #333;
+            word-break: break-word;
+            flex: 1;
+        }
+
+        .student-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 2px;
+            word-break: break-word;
+        }
+
+        .address-section {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 6px 8px;
+            border-radius: 4px;
+            border-left: 3px solid #d4af37;
+            margin-top: 6px;
+            margin-bottom: 6px;
+            font-size: 9px;
+            color: #555;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 6px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 9px;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .footer-dates {
+            font-size: 8px;
+            color: #666;
+            line-height: 1.2;
+        }
+
+        .signature-section {
+            font-family: 'Great Vibes', cursive;
+            font-size: 12px;
+            color: #333;
+            text-align: right;
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .export-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .export-options select {
+            padding: 10px;
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .export-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .export-button:active {
+            transform: translateY(0);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: slideInRight 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .control-panel {
+                max-height: none;
+            }
+
+            .card-container {
+                justify-content: center;
+            }
+        }
+
+        /* Hidden element for export */
+        #cardExport {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- CONTROL PANEL -->
+        <div class="control-panel">
+            <h1 class="panel-title">🎓 ID Card Generator</h1>
+
+            <!-- SIZE SETUP -->
+            <div class="accordion">
+                <div class="accordion-header active" onclick="toggleAccordion(this)">
+                    <span>📏 Card Size & Dimensions</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content active">
+                    <div class="form-group">
+                        <label>Card Template</label>
+                        <select id="sizeTemplate" onchange="applySizeTemplate()">
+                            <option value="cr80">CR80 Standard (85.6mm × 53.98mm)</option>
+                            <option value="vertical">Vertical (100mm × 150mm)</option>
+                            <option value="horizontal">Horizontal (150mm × 100mm)</option>
+                            <option value="custom">Custom Size</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Width (px)</label>
+                            <input type="number" id="cardWidth" value="340" min="200" max="1000" onchange="updateCardSize()">
+                        </div>
+                        <div class="form-group">
+                            <label>Height (px)</label>
+                            <input type="number" id="cardHeight" value="215" min="150" max="800" onchange="updateCardSize()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BACKGROUND SETUP -->
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>🎨 Background & Design</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="form-group">
+                        <label>Background Type</label>
+                        <select id="bgType" onchange="updateBackgroundType()">
+                            <option value="solid">Solid Color</option>
+                            <option value="gradient">Gradient</option>
+                            <option value="image">Image Upload</option>
+                        </select>
+                    </div>
+
+                    <!-- Solid Color -->
+                    <div id="solidBgOptions">
+                        <div class="form-group">
+                            <label>Background Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="solidColor" value="#ffffff" onchange="updateCardBackground()">
+                                <input type="text" id="solidColorHex" value="#ffffff" onchange="updateCardBackground()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Opacity (%)</label>
+                            <input type="number" id="bgOpacity" value="100" min="0" max="100" onchange="updateCardBackground()">
+                        </div>
+                    </div>
+
+                    <!-- Gradient Options -->
+                    <div id="gradientBgOptions" style="display:none;">
+                        <div class="form-group">
+                            <label>Gradient Direction</label>
+                            <select id="gradientDirection" onchange="updateCardBackground()">
+                                <option value="to right">Left to Right</option>
+                                <option value="to bottom">Top to Bottom</option>
+                                <option value="135deg">Diagonal (↘)</option>
+                                <option value="to right bottom">Diagonal (↙)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Gradient Color 1</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="gradColor1" value="#667eea" onchange="updateCardBackground()">
+                                <input type="text" id="gradColor1Hex" value="#667eea" onchange="updateCardBackground()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Gradient Color 2</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="gradColor2" value="#764ba2" onchange="updateCardBackground()">
+                                <input type="text" id="gradColor2Hex" value="#764ba2" onchange="updateCardBackground()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div id="imageBgOptions" style="display:none;">
+                        <div class="form-group">
+                            <label>Upload Background Image</label>
+                            <input type="file" id="bgImage" accept="image/*" onchange="updateCardBackground()">
+                        </div>
+                        <div class="form-group">
+                            <label>Image Fit</label>
+                            <select id="bgImageFit" onchange="updateCardBackground()">
+                                <option value="cover">Cover</option>
+                                <option value="contain">Contain</option>
+                                <option value="stretch">Stretch</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- BG TEXTURE (NEW) -->
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">🎲 BG Texture Overlay</label>
+                        <div class="form-group">
+                            <label>Texture Pattern</label>
+                            <select id="bgTexture" onchange="updateBgTexture()">
+                                <option value="none">None</option>
+                                <option value="dots">Dots</option>
+                                <option value="grid">Grid</option>
+                                <option value="lines">Diagonal Lines</option>
+                                <option value="crosshatch">Crosshatch</option>
+                                <option value="zigzag">Zigzag</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Texture Opacity (%)</label>
+                            <input type="number" id="textureOpacity" value="15" min="0" max="100" onchange="updateBgTexture()">
+                        </div>
+                        <div class="form-group">
+                            <label>Texture Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="textureColor" value="#000000" onchange="updateBgTexture()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Border Options -->
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e7ff;">
+                        <div class="form-group">
+                            <label>Border Style</label>
+                            <select id="borderStyle" onchange="updateCardBorder()">
+                                <option value="none">None</option>
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                                <option value="double">Double</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Border Width (px)</label>
+                                <input type="number" id="borderWidth" value="0" min="0" max="10" onchange="updateCardBorder()">
+                            </div>
+                            <div class="form-group">
+                                <label>Border Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="borderColor" value="#000000" onchange="updateCardBorder()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shadow Options -->
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e7ff;">
+                        <div class="form-group">
+                            <label>Card Shadow</label>
+                            <select id="shadowOption" onchange="updateCardShadow()">
+                                <option value="none">None</option>
+                                <option value="soft">Soft Shadow</option>
+                                <option value="medium" selected>Medium Shadow</option>
+                                <option value="hard">Hard Shadow</option>
+                                <option value="glow">Glow Effect</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INSTITUTION DETAILS -->
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>🏛️ Institution Details</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="form-group">
+                        <label>Institution Logo</label>
+                        <input type="file" id="institutionLogo" accept="image/*" onchange="updateInstitutionLogo()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Institution Name</label>
+                        <input type="text" id="institutionName" placeholder="Your University Name" onchange="updateCard()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subtitle (e.g., "Student ID", "Identity Card")</label>
+                        <input type="text" id="institutionSubtitle" placeholder="Student ID" onchange="updateCard()">
+                    </div>
+
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Institution Name Styling</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="instNameFont" onchange="updateCard()">
+                                    <option value="Playfair Display">Playfair Display</option>
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Montserrat">Montserrat</option>
+                                    <option value="Inter">Inter</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="instNameSize" value="14" min="8" max="30" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="instNameColor" value="#333333" onchange="updateCard()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox-group" style="margin-top: 20px;">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="instNameBold" onchange="updateCard()">
+                                        <label for="instNameBold">Bold</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="instNameItalic" onchange="updateCard()">
+                                        <label for="instNameItalic">Italic</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Subtitle Styling</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="subtitleFont" onchange="updateCard()">
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Lato">Lato</option>
+                                    <option value="Inter">Inter</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="subtitleSize" value="10" min="6" max="16" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="subtitleColor" value="#666666" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="checkbox-group" style="margin-top: 10px;">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="subtitleBold" onchange="updateCard()">
+                                <label for="subtitleBold">Bold</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="subtitleItalic" onchange="updateCard()">
+                                <label for="subtitleItalic">Italic</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUDENT INFORMATION (added Subject field) -->
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>👤 Student Information</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="form-group">
+                        <label>Student Photo (Optional)</label>
+                        <input type="file" id="studentPhoto" accept="image/*" onchange="updateStudentPhoto()">
+                        <small style="color: #999; display: block; margin-top: 5px;">Leave empty for default avatar</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="studentName" placeholder="John Doe" onchange="updateCard()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Student ID Number</label>
+                        <input type="text" id="studentID" placeholder="STU-2024-001" onchange="updateCard()">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="studentDOB" onchange="updateCard()">
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Group</label>
+                            <select id="studentBlood" onchange="updateCard()">
+                                <option value="">Select Blood Group</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- NEW Subject Field -->
+                    <div class="form-group">
+                        <label>Subject / Course</label>
+                        <input type="text" id="studentSubject" placeholder="e.g., Computer Science, BBA" onchange="updateCard()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea id="studentAddress" placeholder="Enter full address" onchange="updateCard()"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Issue Date</label>
+                            <input type="date" id="issueDate" onchange="updateCard()">
+                        </div>
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="date" id="expiryDate" onchange="updateCard()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Signature</label>
+                        <input type="text" id="signature" placeholder="Your Signature" onchange="updateCard()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- TYPOGRAPHY CUSTOMIZATION (added Outline Text) -->
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>✏️ Text Styling & Typography</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <!-- Student Name with Outline Text option -->
+                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Student Name</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="nameFont" onchange="updateCard()">
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Montserrat">Montserrat</option>
+                                    <option value="Inter">Inter</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="nameSize" value="13" min="8" max="20" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="nameColor" value="#000000" onchange="updateCard()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox-group" style="margin-top: 20px;">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="nameBold" checked onchange="updateCard()">
+                                        <label for="nameBold">Bold</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="nameItalic" onchange="updateCard()">
+                                        <label for="nameItalic">Italic</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Outline Text for Student Name -->
+                        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc;">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="nameOutlineEnable" onchange="updateOutlineText()">
+                                <label for="nameOutlineEnable">Enable Text Outline (Stroke)</label>
+                            </div>
+                            <div class="form-row" style="margin-top: 8px;">
+                                <div class="form-group">
+                                    <label>Outline Width (px)</label>
+                                    <input type="number" id="nameOutlineWidth" value="1" min="0" max="5" step="0.5" onchange="updateOutlineText()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Outline Color</label>
+                                    <div class="color-input-wrapper">
+                                        <input type="color" id="nameOutlineColor" value="#ffffff" onchange="updateOutlineText()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Field Labels & Values -->
+                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Field Labels (ID, DOB, etc.)</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="labelFont" onchange="updateCard()">
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Lato">Lato</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="labelSize" value="11" min="6" max="14" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="labelColor" value="#666666" onchange="updateCard()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox-group" style="margin-top: 20px;">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="labelBold" checked onchange="updateCard()">
+                                        <label for="labelBold">Bold</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Field Values -->
+                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Field Values</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="valueFont" onchange="updateCard()">
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Lato">Lato</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="valueSize" value="11" min="6" max="14" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="valueColor" value="#333333" onchange="updateCard()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address Section -->
+                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Address Section</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="addressFont" onchange="updateCard()">
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Lato">Lato</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="addressSize" value="9" min="6" max="12" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Text Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="addressColor" value="#555555" onchange="updateCard()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Background Color</label>
+                                <div class="color-input-wrapper">
+                                    <input type="color" id="addressBgColor" value="#d4af371a" onchange="updateCard()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Signature -->
+                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e0e7ff;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Signature</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="signatureFont" onchange="updateCard()">
+                                    <option value="Great Vibes">Great Vibes</option>
+                                    <option value="Pacifico">Pacifico</option>
+                                    <option value="Caveat">Caveat</option>
+                                    <option value="Dancing Script">Dancing Script</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="signatureSize" value="12" min="8" max="18" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="signatureColor" value="#333333" onchange="updateCard()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Dates -->
+                    <div>
+                        <label style="display: block; margin-bottom: 12px; font-weight: 700; color: #333;">Footer Dates</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Font Family</label>
+                                <select id="dateFont" onchange="updateCard()">
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Lato">Lato</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Size (px)</label>
+                                <input type="number" id="dateSize" value="8" min="6" max="12" onchange="updateCard()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Color</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="dateColor" value="#666666" onchange="updateCard()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREVIEW SECTION -->
+        <div class="preview-section">
+            <h2 class="preview-title">📋 Live Preview</h2>
+
+            <div class="card-container">
+                <div id="idCard">
+                    <div class="card-content">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <div class="header-left">
+                                <div class="institution-logo">
+                                    <img id="logoImg" src="" style="display:none;">
+                                    <span id="logoPlaceholder">📚</span>
+                                </div>
+                                <div class="institution-info">
+                                    <div class="institution-name" id="instNameDisplay">University Name</div>
+                                    <div class="institution-subtitle" id="subtitleDisplay">Student ID</div>
+                                </div>
+                            </div>
+                            <div class="status-badge">ACTIVE</div>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <div class="student-photo">
+                                <img id="photoImg" src="" style="display:none;">
+                                <span id="photoPlaceholder">👤</span>
+                            </div>
+                            <div class="student-details">
+                                <div class="student-name" id="nameDisplay">Student Name</div>
+                                <div class="detail-row">
+                                    <span class="detail-label">ID:</span>
+                                    <span class="detail-value" id="idDisplay">STU-001</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">DOB:</span>
+                                    <span class="detail-value" id="dobDisplay">--/--/----</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Blood:</span>
+                                    <span class="detail-value" id="bloodDisplay">--</span>
+                                </div>
+                                <!-- NEW Subject Row -->
+                                <div class="detail-row">
+                                    <span class="detail-label">Subject:</span>
+                                    <span class="detail-value" id="subjectDisplay">--</span>
+                                </div>
+                                <div class="address-section" id="addressDisplay">No address provided</div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="card-footer">
+                            <div class="footer-left">
+                                <div class="footer-dates" id="datesDisplay">
+                                    <div>Issued: --/--/----</div>
+                                    <div>Expires: --/--/----</div>
+                                </div>
+                            </div>
+                            <div class="signature-section" id="signatureDisplay">Signature</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXPORT SECTION -->
+            <div class="export-section">
+                <h3 class="export-title">💾 Export & Download</h3>
+                <div class="export-options">
+                    <select id="exportFormat">
+                        <option value="png">Format: PNG (Transparent)</option>
+                        <option value="jpeg">Format: JPEG (White BG)</option>
+                    </select>
+                    <select id="exportQuality">
+                        <option value="1">Quality: 1x Resolution</option>
+                        <option value="2" selected>Quality: 2x Resolution</option>
+                        <option value="3">Quality: 3x Resolution</option>
+                    </select>
+                </div>
+                <button class="export-button" onclick="downloadCard()">📥 Download ID Card</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cardExport"></div>
+
+    <script>
+        // Default placeholder avatar (SVG silhouette)
+        const DEFAULT_AVATAR = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="30" r="20" fill="%23ccc"/%3E%3Cpath d="M 20 100 Q 20 60 50 60 Q 80 60 80 100" fill="%23ccc"/%3E%3C/svg%3E';
+
+        // Accordion toggle
+        function toggleAccordion(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+
+        // Format date for display
+        function formatDate(dateStr) {
+            if (!dateStr) return '--/--/----';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        // Update card size
+        function updateCardSize() {
+            const width = document.getElementById('cardWidth').value;
+            const height = document.getElementById('cardHeight').value;
+            const card = document.getElementById('idCard');
+            card.style.width = width + 'px';
+            card.style.height = height + 'px';
+        }
+
+        // Apply size template
+        function applySizeTemplate() {
+            const template = document.getElementById('sizeTemplate').value;
+            const widthInput = document.getElementById('cardWidth');
+            const heightInput = document.getElementById('cardHeight');
+
+            const templates = {
+                cr80: { width: 340, height: 215 },
+                vertical: { width: 300, height: 450 },
+                horizontal: { width: 450, height: 300 },
+                custom: { width: 340, height: 215 }
+            };
+
+            if (templates[template]) {
+                widthInput.value = templates[template].width;
+                heightInput.value = templates[template].height;
+                updateCardSize();
+            }
+        }
+
+        // Update background type
+        function updateBackgroundType() {
+            const bgType = document.getElementById('bgType').value;
+            document.getElementById('solidBgOptions').style.display = bgType === 'solid' ? 'block' : 'none';
+            document.getElementById('gradientBgOptions').style.display = bgType === 'gradient' ? 'block' : 'none';
+            document.getElementById('imageBgOptions').style.display = bgType === 'image' ? 'block' : 'none';
+            updateCardBackground();
+        }
+
+        // Update card background
+        function updateCardBackground() {
+            const card = document.getElementById('idCard');
+            const bgType = document.getElementById('bgType').value;
+
+            if (bgType === 'solid') {
+                const color = document.getElementById('solidColor').value;
+                const opacity = document.getElementById('bgOpacity').value / 100;
+                const r = parseInt(color.slice(1, 3), 16);
+                const g = parseInt(color.slice(3, 5), 16);
+                const b = parseInt(color.slice(5, 7), 16);
+                card.style.background = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+            } else if (bgType === 'gradient') {
+                const direction = document.getElementById('gradientDirection').value;
+                const color1 = document.getElementById('gradColor1').value;
+                const color2 = document.getElementById('gradColor2').value;
+                card.style.background = `linear-gradient(${direction}, ${color1}, ${color2})`;
+            } else if (bgType === 'image') {
+                const fileInput = document.getElementById('bgImage');
+                if (fileInput.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const fit = document.getElementById('bgImageFit').value;
+                        card.style.backgroundImage = `url('${e.target.result}')`;
+                        card.style.backgroundSize = fit === 'cover' ? 'cover' : fit === 'contain' ? 'contain' : '100% 100%';
+                        card.style.backgroundPosition = 'center';
+                        card.style.backgroundRepeat = 'no-repeat';
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            }
+            updateBgTexture(); // re-apply texture after background change
+        }
+
+        // BG Texture function
+        function updateBgTexture() {
+            const pattern = document.getElementById('bgTexture').value;
+            const opacity = document.getElementById('textureOpacity').value / 100;
+            const color = document.getElementById('textureColor').value;
+            let bgImage = 'none';
+            
+            if (pattern !== 'none') {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 20;
+                canvas.height = 20;
+                ctx.fillStyle = color;
+                if (pattern === 'dots') {
+                    ctx.beginPath();
+                    ctx.arc(10, 10, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (pattern === 'grid') {
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(10, 0);
+                    ctx.lineTo(10, 20);
+                    ctx.moveTo(0, 10);
+                    ctx.lineTo(20, 10);
+                    ctx.stroke();
+                } else if (pattern === 'lines') {
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 1;
+                    for (let i = -20; i < 40; i += 10) {
+                        ctx.beginPath();
+                        ctx.moveTo(i, 0);
+                        ctx.lineTo(i + 20, 20);
+                        ctx.stroke();
+                    }
+                } else if (pattern === 'crosshatch') {
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 1;
+                    for (let i = -20; i < 40; i += 10) {
+                        ctx.beginPath();
+                        ctx.moveTo(i, 0);
+                        ctx.lineTo(i + 20, 20);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.moveTo(i + 20, 0);
+                        ctx.lineTo(i, 20);
+                        ctx.stroke();
+                    }
+                } else if (pattern === 'zigzag') {
+                    ctx.beginPath();
+                    ctx.moveTo(0, 10);
+                    ctx.lineTo(5, 5);
+                    ctx.lineTo(10, 10);
+                    ctx.lineTo(15, 5);
+                    ctx.lineTo(20, 10);
+                    ctx.stroke();
+                }
+                bgImage = `url(${canvas.toDataURL()})`;
+            }
+            const card = document.getElementById('idCard');
+            card.style.setProperty('--texture-opacity', opacity);
+            card.style.setProperty('--texture-image', bgImage);
+            // Apply via style to pseudo-element
+            card.style.setProperty('--texture-bg', bgImage);
+            card.style.setProperty('--texture-opacity-val', opacity);
+            const style = document.createElement('style');
+            style.id = 'texture-style';
+            const oldStyle = document.getElementById('texture-style');
+            if (oldStyle) oldStyle.remove();
+            style.id = 'texture-style';
+            style.textContent = `
+                #idCard::before {
+                    background-image: ${bgImage === 'none' ? 'none' : `var(--texture-image)`};
+                    opacity: ${opacity};
+                }
+            `;
+            if (bgImage !== 'none') {
+                document.head.appendChild(style);
+            } else {
+                const existing = document.getElementById('texture-style');
+                if (existing) existing.remove();
+                card.style.removeProperty('--texture-image');
+                card.style.setProperty('--texture-opacity-val', '0');
+                const noStyle = document.createElement('style');
+                noStyle.id = 'texture-style';
+                noStyle.textContent = `#idCard::before { background-image: none; opacity: 0; }`;
+                document.head.appendChild(noStyle);
+            }
+        }
+
+        // Update card border
+        function updateCardBorder() {
+            const card = document.getElementById('idCard');
+            const style = document.getElementById('borderStyle').value;
+            const width = document.getElementById('borderWidth').value;
+            const color = document.getElementById('borderColor').value;
+
+            if (style === 'none') {
+                card.style.border = 'none';
+            } else {
+                card.style.border = `${width}px ${style} ${color}`;
+            }
+        }
+
+        // Update card shadow
+        function updateCardShadow() {
+            const card = document.getElementById('idCard');
+            const option = document.getElementById('shadowOption').value;
+
+            const shadows = {
+                none: 'none',
+                soft: '0 5px 15px rgba(0, 0, 0, 0.1)',
+                medium: '0 10px 30px rgba(0, 0, 0, 0.2)',
+                hard: '0 15px 40px rgba(0, 0, 0, 0.4)',
+                glow: '0 0 20px rgba(102, 126, 234, 0.5)'
+            };
+
+            card.style.boxShadow = shadows[option];
+        }
+
+        // Update institution logo
+        function updateInstitutionLogo() {
+            const fileInput = document.getElementById('institutionLogo');
+            const logoImg = document.getElementById('logoImg');
+            const logoPlaceholder = document.getElementById('logoPlaceholder');
+
+            if (fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    logoImg.src = e.target.result;
+                    logoImg.style.display = 'block';
+                    logoPlaceholder.style.display = 'none';
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        // Update student photo
+        function updateStudentPhoto() {
+            const fileInput = document.getElementById('studentPhoto');
+            const photoImg = document.getElementById('photoImg');
+            const photoPlaceholder = document.getElementById('photoPlaceholder');
+
+            if (fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    photoImg.src = e.target.result;
+                    photoImg.style.display = 'block';
+                    photoPlaceholder.style.display = 'none';
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                photoImg.style.display = 'none';
+                photoPlaceholder.style.display = 'block';
+            }
+        }
+
+        // Outline text for student name
+        function updateOutlineText() {
+            const nameDisplay = document.getElementById('nameDisplay');
+            const enabled = document.getElementById('nameOutlineEnable').checked;
+            const width = document.getElementById('nameOutlineWidth').value;
+            const color = document.getElementById('nameOutlineColor').value;
+            if (enabled) {
+                nameDisplay.style.webkitTextStroke = `${width}px ${color}`;
+                nameDisplay.style.textStroke = `${width}px ${color}`;
+            } else {
+                nameDisplay.style.webkitTextStroke = 'none';
+                nameDisplay.style.textStroke = 'none';
+            }
+        }
+
+        // Update card - main function
+        function updateCard() {
+            updateInstitutionInfo();
+            updateStudentInfo();
+            updateTypography();
+            updateOutlineText();
+        }
+
+        function updateInstitutionInfo() {
+            const instName = document.getElementById('institutionName').value || 'University Name';
+            const subtitle = document.getElementById('institutionSubtitle').value || 'Student ID';
+            const instNameDisplay = document.getElementById('instNameDisplay');
+            const subtitleDisplay = document.getElementById('subtitleDisplay');
+
+            instNameDisplay.textContent = instName;
+            subtitleDisplay.textContent = subtitle;
+
+            // Styling
+            const nameFont = document.getElementById('instNameFont').value;
+            const nameSize = document.getElementById('instNameSize').value;
+            const nameColor = document.getElementById('instNameColor').value;
+            const nameBold = document.getElementById('instNameBold').checked;
+            const nameItalic = document.getElementById('instNameItalic').checked;
+
+            instNameDisplay.style.fontFamily = nameFont;
+            instNameDisplay.style.fontSize = nameSize + 'px';
+            instNameDisplay.style.color = nameColor;
+            instNameDisplay.style.fontWeight = nameBold ? '700' : '400';
+            instNameDisplay.style.fontStyle = nameItalic ? 'italic' : 'normal';
+
+            const subtitleFont = document.getElementById('subtitleFont').value;
+            const subtitleSize = document.getElementById('subtitleSize').value;
+            const subtitleColor = document.getElementById('subtitleColor').value;
+            const subtitleBold = document.getElementById('subtitleBold').checked;
+            const subtitleItalic = document.getElementById('subtitleItalic').checked;
+
+            subtitleDisplay.style.fontFamily = subtitleFont;
+            subtitleDisplay.style.fontSize = subtitleSize + 'px';
+            subtitleDisplay.style.color = subtitleColor;
+            subtitleDisplay.style.fontWeight = subtitleBold ? '700' : '400';
+            subtitleDisplay.style.fontStyle = subtitleItalic ? 'italic' : 'normal';
+        }
+
+        function updateStudentInfo() {
+            const name = document.getElementById('studentName').value || 'Student Name';
+            const id = document.getElementById('studentID').value || 'STU-001';
+            const dob = document.getElementById('studentDOB').value;
+            const blood = document.getElementById('studentBlood').value || '--';
+            const subject = document.getElementById('studentSubject').value || '--';
+            const address = document.getElementById('studentAddress').value || 'No address provided';
+            const issueDate = document.getElementById('issueDate').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const signature = document.getElementById('signature').value || 'Signature';
+
+            document.getElementById('nameDisplay').textContent = name;
+            document.getElementById('idDisplay').textContent = id;
+            document.getElementById('dobDisplay').textContent = formatDate(dob);
+            document.getElementById('bloodDisplay').textContent = blood;
+            document.getElementById('subjectDisplay').textContent = subject;
+            document.getElementById('addressDisplay').textContent = address;
+            document.getElementById('datesDisplay').innerHTML = `
+                <div>Issued: ${formatDate(issueDate)}</div>
+                <div>Expires: ${formatDate(expiryDate)}</div>
+            `;
+            document.getElementById('signatureDisplay').textContent = signature;
+        }
+
+        function updateTypography() {
+            // Student Name
+            const nameDisplay = document.getElementById('nameDisplay');
+            nameDisplay.style.fontFamily = document.getElementById('nameFont').value;
+            nameDisplay.style.fontSize = document.getElementById('nameSize').value + 'px';
+            nameDisplay.style.color = document.getElementById('nameColor').value;
+            nameDisplay.style.fontWeight = document.getElementById('nameBold').checked ? '700' : '400';
+            nameDisplay.style.fontStyle = document.getElementById('nameItalic').checked ? 'italic' : 'normal';
+
+            // Labels
+            const labels = document.querySelectorAll('.detail-label');
+            labels.forEach(label => {
+                label.style.fontFamily = document.getElementById('labelFont').value;
+                label.style.fontSize = document.getElementById('labelSize').value + 'px';
+                label.style.color = document.getElementById('labelColor').value;
+                label.style.fontWeight = document.getElementById('labelBold').checked ? '700' : '400';
+            });
+
+            // Values
+            const values = document.querySelectorAll('.detail-value');
+            values.forEach(value => {
+                value.style.fontFamily = document.getElementById('valueFont').value;
+                value.style.fontSize = document.getElementById('valueSize').value + 'px';
+                value.style.color = document.getElementById('valueColor').value;
+            });
+
+            // Address
+            const addressDisplay = document.getElementById('addressDisplay');
+            addressDisplay.style.fontFamily = document.getElementById('addressFont').value;
+            addressDisplay.style.fontSize = document.getElementById('addressSize').value + 'px';
+            addressDisplay.style.color = document.getElementById('addressColor').value;
+            addressDisplay.style.backgroundColor = document.getElementById('addressBgColor').value;
+
+            // Signature
+            const signatureDisplay = document.getElementById('signatureDisplay');
+            signatureDisplay.style.fontFamily = document.getElementById('signatureFont').value;
+            signatureDisplay.style.fontSize = document.getElementById('signatureSize').value + 'px';
+            signatureDisplay.style.color = document.getElementById('signatureColor').value;
+
+            // Dates
+            const datesDisplay = document.getElementById('datesDisplay');
+            datesDisplay.style.fontFamily = document.getElementById('dateFont').value;
+            datesDisplay.style.fontSize = document.getElementById('dateSize').value + 'px';
+            datesDisplay.style.color = document.getElementById('dateColor').value;
+        }
+
+        // Download card
+        async function downloadCard() {
+            const format = document.getElementById('exportFormat').value;
+            const quality = parseInt(document.getElementById('exportQuality').value);
+            const card = document.getElementById('idCard');
+            const scale = quality;
+
+            try {
+                const canvas = await html2canvas(card, {
+                    scale: scale,
+                    backgroundColor: format === 'jpeg' ? '#ffffff' : null,
+                    logging: false
+                });
+
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL(`image/${format}`);
+                link.download = `StudentIDCard_${new Date().getTime()}.${format}`;
+                link.click();
+
+                showNotification(`✅ ID Card downloaded successfully!`);
+            } catch (error) {
+                showNotification('❌ Error downloading card. Please try again.');
+                console.error(error);
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Color input sync
+        document.getElementById('solidColor')?.addEventListener('change', (e) => {
+            document.getElementById('solidColorHex').value = e.target.value;
+        });
+
+        document.getElementById('solidColorHex')?.addEventListener('change', (e) => {
+            document.getElementById('solidColor').value = e.target.value;
+        });
+
+        document.getElementById('gradColor1')?.addEventListener('change', (e) => {
+            document.getElementById('gradColor1Hex').value = e.target.value;
+        });
+
+        document.getElementById('gradColor1Hex')?.addEventListener('change', (e) => {
+            document.getElementById('gradColor1').value = e.target.value;
+        });
+
+        document.getElementById('gradColor2')?.addEventListener('change', (e) => {
+            document.getElementById('gradColor2Hex').value = e.target.value;
+        });
+
+        document.getElementById('gradColor2Hex')?.addEventListener('change', (e) => {
+            document.getElementById('gradColor2').value = e.target.value;
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCardShadow();
+            updateCard();
+            updateBgTexture();
+        });
+    </script>
+</body>
+</html>
             </xmp>
 
         <xmp id="tool-54-code">
